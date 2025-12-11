@@ -3,8 +3,23 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "description": {
-          "type": "description",
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
           "settings": {
           }
         },
@@ -12,11 +27,20 @@
           "type": "buy_buttons",
           "settings": {
           }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+          }
         }
       },
       "block_order": [
-        "description",
-        "buy_buttons"
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description"
       ],
       "settings": {
       }

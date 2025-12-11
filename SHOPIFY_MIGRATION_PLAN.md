@@ -113,16 +113,26 @@ To maintain the current design while adhering to Shopify standards:
 7.  **Cart Drawer Logic**: Update `cart-drawer.js` to add `CartDrawerItems` class extending cart functionality.
 8.  **Header Integration**: Update `header.liquid` to make cart icon open drawer instead of linking.
 
-### Phase 2: Enhancement (Should Fix)
-9.  **Schema Standardization**: Add standard schema properties to all sections (`tag`, `class`, `disabled_on`, `presets`).
-10. **Theme Editor Controls**: Add padding settings to section schemas for Theme Editor control.
-11. **Routes Configuration**: Create `assets/constants.js` for Shopify routes configuration.
-12. **Animation**: Add responsive drawer animation CSS.
+### Phase 2: Product & Collection Pages (Core Templates)
+9.  **Price Snippet**: Create `snippets/price.liquid` for consistent price formatting.
+10. **Product Media**: Create `snippets/product-media.liquid` for product gallery.
+11. **Buy Buttons**: Create `snippets/buy-buttons.liquid` wrapping the `product-form` custom element.
+12. **Product Section**: Create `sections/main-product.liquid` implementing the product detail view.
+13. **Product Template**: Create `templates/product.json` to link the section.
+14. **Product Card**: Create `snippets/card-product.liquid` for listing products.
+15. **Collection Grid**: Create `sections/main-collection-product-grid.liquid` for collection pages.
+16. **Collection Template**: Create `templates/collection.json`.
 
-### Phase 3: Polish (Nice to Have)
-13. **UI Polish**: Add quantity input custom element styling.
-14. **Feedback**: Add loading spinners for cart operations.
-15. **Error Handling**: Add error message display for cart errors.
+### Phase 3: Enhancement (Should Fix)
+17. **Schema Standardization**: Add standard schema properties to all sections (`tag`, `class`, `disabled_on`, `presets`).
+18. **Theme Editor Controls**: Add padding settings to section schemas for Theme Editor control.
+19. **Routes Configuration**: Create `assets/constants.js` for Shopify routes configuration.
+20. **Animation**: Add responsive drawer animation CSS.
+
+### Phase 4: Polish (Nice to Have)
+21. **UI Polish**: Add quantity input custom element styling.
+22. **Feedback**: Add loading spinners for cart operations.
+23. **Error Handling**: Add error message display for cart errors.
 
 ## 7. Next Actions
 

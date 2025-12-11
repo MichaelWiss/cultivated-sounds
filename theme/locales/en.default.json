@@ -11,6 +11,11 @@
     "search": {
       "search": "Search"
     },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next"
+    },
     "continue_shopping": "Continue Digging"
   },
   "accessibility": {

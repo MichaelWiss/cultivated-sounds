@@ -1,0 +1,53 @@
+{% comment %}
+  Renders product media gallery
+
+  Accepts:
+  - product: {Object} Product Liquid object
+  - variant_images: {Array} Variant images to show
+
+  Usage:
+  {% render 'product-media', product: product %}
+{% endcomment %}
+
+<div class="product-media-gallery flex flex-col gap-4">
+  {%- if product.media.size > 0 -%}
+    <div class="product-media-main border border-vinyl-blue bg-white p-4">
+      {%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+      <div class="aspect-square relative overflow-hidden">
+        <img
+          src="{{ featured_media | image_url: width: 1000 }}"
+          alt="{{ featured_media.alt | escape }}"
+          class="w-full h-full object-contain object-center"
+          width="1000"
+          height="{{ 1000 | divided_by: featured_media.aspect_ratio | ceil }}"
+          loading="eager"
+          id="ProductMedia-{{ featured_media.id }}"
+        >
+      </div>
+    </div>
+
+    {%- if product.media.size > 1 -%}
+      <div class="product-media-thumbnails grid grid-cols-4 gap-4">
+        {%- for media in product.media -%}
+          <button 
+            class="border border-vinyl-blue bg-white p-2 hover:border-vinyl-red transition-colors {% if media.id == featured_media.id %}border-vinyl-red{% endif %}"
+            onclick="document.getElementById('ProductMedia-{{ featured_media.id }}').src = '{{ media | image_url: width: 1000 }}'"
+          >
+            <img
+              src="{{ media | image_url: width: 200 }}"
+              alt="{{ media.alt | escape }}"
+              class="w-full h-full object-contain"
+              width="200"
+              height="{{ 200 | divided_by: media.aspect_ratio | ceil }}"
+              loading="lazy"
+            >
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    <div class="product-media-main border border-vinyl-blue bg-white p-4 aspect-square flex items-center justify-center bg-gray-50">
+      {{ 'product-1' | placeholder_svg_tag: 'w-full h-full text-gray-300' }}
+    </div>
+  {%- endif -%}
+</div>
