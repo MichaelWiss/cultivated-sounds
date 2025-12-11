@@ -13,6 +13,10 @@
     },
     "continue_shopping": "Continue Digging"
   },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "loading": "Loading..."
+  },
   "sections": {
     "header": {
       "announcement": "Announcement"
@@ -21,9 +25,13 @@
       "title": "Your Cart",
       "empty": "Your crate is empty",
       "remove_title": "Remove {{ title }}",
+      "remove": "Remove",
       "subtotal": "Subtotal",
       "taxes_and_shipping_at_checkout": "Shipping & taxes calculated at checkout",
-      "checkout": "Checkout"
+      "checkout": "Checkout",
+      "view_cart": "View Cart",
+      "cart_error": "There was an error updating your cart. Please try again.",
+      "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart."
     }
   },
   "products": {
@@ -32,6 +40,7 @@
       "on_sale": "Sale",
       "add_to_cart": "Add to Cart",
       "quantity": {
+        "input_label": "Quantity for {{ product }}",
         "decrease": "Decrease quantity for {{ product }}",
         "increase": "Increase quantity for {{ product }}"
       }

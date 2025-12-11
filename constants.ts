@@ -199,7 +199,7 @@ export const PREORDER_PRODUCTS: Product[] = [
 
 export const GIFT_CARD_PRODUCT: Product = {
   id: 'gc1',
-  artist: 'Finer Sounds',
+  artist: 'Cultivated Sounds',
   title: 'Digital Gift Card',
   price: 50.00,
   image: 'https://picsum.photos/seed/giftcard/800/800',

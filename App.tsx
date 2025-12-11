@@ -1,7 +1,7 @@
 /**
  * App Component
  * 
- * Main application component for Finer Sounds vinyl record store.
+ * Main application component for Cultivated Sounds vinyl record store.
  * Implements single-page application routing and state management.
  * 
  * Architecture:
@@ -119,7 +119,7 @@ const MainApp: React.FC = () => {
         case 'merch':
              return (
                 <CollectionPage 
-                    title="Finer Merch"
+                    title="Cultivated Merch"
                     subtitle="Goods & Accessories"
                     description="Apparel, slipmats, and storage solutions for the discerning listener."
                     products={MERCH_PRODUCTS}
@@ -163,7 +163,7 @@ const MainApp: React.FC = () => {
                         <li><strong>Merch:</strong> Apparel must be unworn and unwashed to be eligible for return.</li>
                      </ul>
                      <h3>How to Return</h3>
-                     <p>Please email support@finersounds.com with your order number and details about the product you would like to return. We will provide you with a return shipping label and instructions.</p>
+                     <p>Please email support@cultivatedsounds.com with your order number and details about the product you would like to return. We will provide you with a return shipping label and instructions.</p>
                 </TextPage>
             );
         case 'faq':
@@ -192,8 +192,8 @@ const MainApp: React.FC = () => {
                         </div>
                          <div className="bg-white p-6 border border-gray-200">
                             <h4 className="font-serif text-xl italic text-vinyl-blue mb-2">Email Us</h4>
-                            <p className="font-sans text-sm mb-4">General: hello@finersounds.com</p>
-                            <p className="font-sans text-sm mb-4">Orders: support@finersounds.com</p>
+                            <p className="font-sans text-sm mb-4">General: hello@cultivatedsounds.com</p>
+                            <p className="font-sans text-sm mb-4">Orders: support@cultivatedsounds.com</p>
                             <p className="font-mono text-xs uppercase text-gray-500">Response time: 24hrs</p>
                         </div>
                     </div>
@@ -210,7 +210,7 @@ const MainApp: React.FC = () => {
                         <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-400 pb-4">
                             <div>
                                 <h2 className="font-serif text-4xl sm:text-5xl mb-2 text-vinyl-blue">Staff Picks</h2>
-                                <p className="font-mono text-xs uppercase tracking-widest text-gray-600">Handpicked essentials for finer listening</p>
+                                <p className="font-mono text-xs uppercase tracking-widest text-gray-600">Handpicked essentials for cultivated listening</p>
                             </div>
                             <button onClick={() => handleNavigate('staff')} className="hidden md:block font-mono text-sm underline decoration-vinyl-blue underline-offset-4 hover:text-vinyl-blue hover:italic">
                                 View All Picks →
@@ -282,7 +282,7 @@ const MainApp: React.FC = () => {
                         <div className="absolute bottom-0 left-0 w-96 h-96 border border-white/10 rounded-full -translate-x-1/3 translate-y-1/3"></div>
                         
                         <div className="container mx-auto text-center relative z-10">
-                            <h2 className="font-serif text-5xl md:text-7xl italic mb-6">Finer Sounds<br/><span className="not-italic font-sans font-light tracking-tighter">Brooklyn</span></h2>
+                            <h2 className="font-serif text-5xl md:text-7xl italic mb-6">Cultivated Sounds<br/><span className="not-italic font-sans font-light tracking-tighter">Brooklyn</span></h2>
                             <p className="font-mono text-sm max-w-lg mx-auto mb-10 text-gray-400">
                                 We simplify music discovery with a curated selection of vinyl records and audio essentials.
                             </p>

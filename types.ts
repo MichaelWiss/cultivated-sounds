@@ -1,7 +1,7 @@
 /**
  * TypeScript Type Definitions
  * 
- * Core interfaces for the Finer Sounds application:
+ * Core interfaces for the Cultivated Sounds application:
  * - Product: Vinyl records and merchandise
  * - CartItem: Products with cart-specific metadata
  * - Track: Album tracklist information

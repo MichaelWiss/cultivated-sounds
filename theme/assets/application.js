@@ -1,2 +1,2 @@
 // Application JS
-console.log('Finer Sounds Theme Loaded');
+console.log('Cultivated Sounds Theme Loaded');

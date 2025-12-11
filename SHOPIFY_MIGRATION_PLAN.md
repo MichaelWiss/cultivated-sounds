@@ -101,23 +101,31 @@ To maintain the current design while adhering to Shopify standards:
     ```
 3.  **Build Process**: Use a simple build script to compile `tailwind.css` into `assets/application.css`.
 
-## 6. Migration Steps
+## 6. Migration Phases (Updated)
 
-1.  **Initialize Theme**: Create the folder structure and `layout/theme.liquid`.
-2.  **Migrate Static Assets**: Move images and fonts to `assets/`.
-3.  **Setup Tailwind**: Configure Tailwind to output to `assets/app.css`.
-4.  **Port Header & Footer**: Convert `Header.tsx` and `Footer.tsx` to Liquid sections.
-5.  **Port Homepage Sections**: Convert `Hero.tsx`, `Marquee.tsx` to dynamic sections.
-6.  **Implement Product Card**: Create `snippets/card-product.liquid`.
-7.  **Build Templates**:
-    - `index.json` (Home)
-    - `product.json` (Product Page)
-    - `collection.json` (Collection Page)
-8.  **Implement Cart**: Build the `cart-drawer` web component and connect it to the Ajax API.
-9.  **GSAP Integration**: Move GSAP animations into a `global.js` or section-specific JS files.
+### Phase 1: Critical Infrastructure (Must Fix)
+1.  ✅ **Global Utilities**: Create `assets/global.js` with `fetchConfig`, `trapFocus`, `debounce` utilities.
+2.  ✅ **SEO**: Create `snippets/meta-tags.liquid` for SEO.
+3.  ✅ **Cart Drawer Snippet**: Create `snippets/cart-drawer.liquid` following Dawn pattern (replacing section approach).
+4.  ✅ **Localization**: Update `locales/en.default.json` with missing keys (`skip_to_text`, `cart_error`, etc.).
+5.  ✅ **Theme Layout**: Update `layout/theme.liquid` with skip link, cart-drawer render, and proper script loading.
+6.  **Product Form Ajax**: Create `assets/product-form.js` for Ajax add-to-cart.
+7.  **Cart Drawer Logic**: Update `cart-drawer.js` to add `CartDrawerItems` class extending cart functionality.
+8.  **Header Integration**: Update `header.liquid` to make cart icon open drawer instead of linking.
+
+### Phase 2: Enhancement (Should Fix)
+9.  **Schema Standardization**: Add standard schema properties to all sections (`tag`, `class`, `disabled_on`, `presets`).
+10. **Theme Editor Controls**: Add padding settings to section schemas for Theme Editor control.
+11. **Routes Configuration**: Create `assets/constants.js` for Shopify routes configuration.
+12. **Animation**: Add responsive drawer animation CSS.
+
+### Phase 3: Polish (Nice to Have)
+13. **UI Polish**: Add quantity input custom element styling.
+14. **Feedback**: Add loading spinners for cart operations.
+15. **Error Handling**: Add error message display for cart errors.
 
 ## 7. Next Actions
 
-- [ ] Create the `theme` directory structure.
-- [ ] Set up `layout/theme.liquid` with the HTML shell.
-- [ ] Create `config/settings_schema.json` to define colors and fonts.
+- [ ] Create `assets/product-form.js` for Ajax add-to-cart.
+- [ ] Update `cart-drawer.js` to add `CartDrawerItems` class.
+- [ ] Update `header.liquid` to integrate cart drawer.

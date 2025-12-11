@@ -1,11 +1,11 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Finer Sounds",
+    "theme_name": "Cultivated Sounds",
     "theme_author": "Cultivated Sounds",
     "theme_version": "1.0.0",
-    "theme_documentation_url": "https://github.com/cultivated-sounds/finer-sounds",
-    "theme_support_url": "https://github.com/cultivated-sounds/finer-sounds/issues"
+    "theme_documentation_url": "https://github.com/cultivated-sounds/cultivated-sounds",
+    "theme_support_url": "https://github.com/cultivated-sounds/cultivated-sounds/issues"
   },
   {
     "name": "Colors",
