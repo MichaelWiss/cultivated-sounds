@@ -1,0 +1,84 @@
+<header class="sticky top-0 z-50 bg-vinyl-paper border-b border-vinyl-blue">
+  <div class="flex justify-between items-stretch h-16 sm:h-20">
+    
+    <!-- Logo Section -->
+    <div class="flex-shrink-0 flex items-center px-4 sm:px-8 border-r border-vinyl-blue cursor-pointer">
+      <a href="{{ routes.root_url }}" class="font-serif text-2xl sm:text-3xl italic font-bold tracking-tighter text-vinyl-blue decoration-0 no-underline">
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', width: section.settings.logo_width }}
+        {%- else -%}
+          {{ shop.name }}<span class="text-xs align-top not-italic font-sans">®</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex flex-1 items-center justify-center space-x-8 px-8">
+      {%- for link in section.settings.menu.links -%}
+        <a 
+          href="{{ link.url }}"
+          class="font-mono text-sm uppercase tracking-wide text-vinyl-black hover:text-vinyl-blue hover:underline decoration-vinyl-blue decoration-1 underline-offset-4 transition-all {% if link.active %}text-vinyl-blue underline{% endif %}"
+        >
+          {{ link.title }}
+        </a>
+      {%- endfor -%}
+    </nav>
+
+    <!-- Icons / Actions -->
+    <div class="flex items-stretch">
+      <button 
+          class="px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center"
+          aria-label="{{ 'general.search.search' | t }}"
+      >
+        {% render 'icon-search' %}
+      </button>
+      <a 
+          href="{{ routes.cart_url }}"
+          class="px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center group relative"
+          id="cart-icon-bubble"
+      >
+        {% render 'icon-cart' %}
+        {%- if cart.item_count > 0 -%}
+          <span class="absolute top-4 right-3 w-4 h-4 bg-vinyl-red rounded-full text-[10px] text-white flex items-center justify-center font-mono">
+            {{ cart.item_count }}
+          </span>
+        {%- endif -%}
+      </a>
+      <button 
+        class="md:hidden px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center"
+        aria-label="{{ 'general.accessibility.menu' | t }}"
+      >
+        {% render 'icon-menu' %}
+      </button>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 10,
+      "default": 100,
+      "unit": "px",
+      "label": "Logo width"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    }
+  ]
+}
+{% endschema %}

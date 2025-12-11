@@ -1,0 +1,48 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Finer Sounds",
+    "theme_author": "Cultivated Sounds",
+    "theme_version": "1.0.0",
+    "theme_documentation_url": "https://github.com/cultivated-sounds/finer-sounds",
+    "theme_support_url": "https://github.com/cultivated-sounds/finer-sounds/issues"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "colors_background",
+        "label": "Background",
+        "default": "#f2f0e9"
+      },
+      {
+        "type": "color",
+        "id": "colors_text",
+        "label": "Text",
+        "default": "#111111"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent_1",
+        "label": "Accent 1 (Blue)",
+        "default": "#1a23db"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent_2",
+        "label": "Accent 2 (Red)",
+        "default": "#e63946"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Fonts are currently hardcoded to Google Fonts in theme.liquid"
+      }
+    ]
+  }
+]

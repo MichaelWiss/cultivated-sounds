@@ -41,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <div className="mb-6">
                  <Disc size={48} className="text-vinyl-blue animate-spin-slow" style={{ animationDuration: '10s' }} />
               </div>
-              <h2 className="font-serif text-4xl italic text-vinyl-blue mb-4">Finer Sounds</h2>
+              <h2 className="font-serif text-4xl italic text-vinyl-blue mb-4">Cultivated Sounds</h2>
               <p className="font-sans text-sm leading-relaxed max-w-xs text-gray-600">
                 We simplify music discovery with a curated selection of vinyl records and audio essentials. 
                 Based in Brooklyn, shipping worldwide.
@@ -106,7 +106,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center text-[10px] font-mono uppercase tracking-wider text-gray-500 gap-4">
-          <p>© 2025 Finer Sounds Brooklyn.</p>
+          <p>© 2025 Cultivated Sounds Brooklyn.</p>
           <div className="flex gap-6">
             <Instagram size={16} className="hover:text-vinyl-blue cursor-pointer" />
             <Facebook size={16} className="hover:text-vinyl-blue cursor-pointer" />

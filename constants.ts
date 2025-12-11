@@ -121,18 +121,18 @@ export const PRODUCTS: Product[] = [
 export const MERCH_PRODUCTS: Product[] = [
   {
     id: 'm1',
-    artist: 'Finer Sounds',
+    artist: 'Cultivated Sounds',
     title: 'Heavyweight Shop Tee',
     price: 45.00,
     image: 'https://picsum.photos/seed/merch1/800/800',
     tags: ['Apparel'],
     format: 'Size: L',
-    label: 'Finer Merch',
+    label: 'Cultivated Merch',
     description: "6.5oz garment dyed cotton t-shirt with screen printed graphics on front and back."
   },
   {
     id: 'm2',
-    artist: 'Finer Sounds',
+    artist: 'Cultivated Sounds',
     title: 'Canvas Record Tote',
     price: 30.00,
     image: 'https://picsum.photos/seed/merch2/800/800',
@@ -143,7 +143,7 @@ export const MERCH_PRODUCTS: Product[] = [
   {
     id: 'm3',
     artist: 'Technics',
-    title: 'Slipmat Pair (Finer Ed.)',
+    title: 'Slipmat Pair (Cultivated Ed.)',
     price: 25.00,
     image: 'https://picsum.photos/seed/merch3/800/800',
     tags: ['Accessories'],
@@ -152,7 +152,7 @@ export const MERCH_PRODUCTS: Product[] = [
   },
     {
     id: 'm4',
-    artist: 'Finer Sounds',
+    artist: 'Cultivated Sounds',
     title: 'Nalgene Water Bottle',
     price: 22.00,
     image: 'https://picsum.photos/seed/merch4/800/800',

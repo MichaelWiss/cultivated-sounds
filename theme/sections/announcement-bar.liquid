@@ -1,0 +1,53 @@
+{%- if section.settings.text != blank -%}
+  <div class="marquee-container w-full overflow-hidden border-b border-vinyl-blue bg-vinyl-paper" role="region" aria-label="{{ 'sections.header.announcement' | t }}">
+    <div class="marquee-content py-2 font-mono text-sm uppercase tracking-widest text-vinyl-blue whitespace-nowrap inline-block" style="animation: marquee {{ section.settings.speed }}s linear infinite;">
+      {%- for i in (1..10) -%}
+        <span class="mx-4">{{ section.settings.text }}</span>
+        <span class="mx-4">✦</span>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+<style>
+  .marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-content {
+    display: inline-block;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "default": "Free shipping on all domestic orders over $50",
+      "label": "Text"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "unit": "s",
+      "label": "Speed",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}

@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
           {/* Logo Section */}
           <div className="flex-shrink-0 flex items-center px-4 sm:px-8 border-r border-vinyl-blue cursor-pointer" onClick={(e) => handleNavClick(e, 'home')}>
             <h1 className="font-serif text-2xl sm:text-3xl italic font-bold tracking-tighter text-vinyl-blue">
-              Finer Sounds<span className="text-xs align-top not-italic font-sans">®</span>
+              Cultivated Sounds<span className="text-xs align-top not-italic font-sans">®</span>
             </h1>
           </div>
 

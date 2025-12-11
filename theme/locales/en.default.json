@@ -1,0 +1,40 @@
+{
+  "general": {
+    "accessibility": {
+      "menu": "Menu",
+      "close": "Close",
+      "refresh_page": "Refresh page",
+      "link_messages": {
+        "new_window": "Opens in a new window"
+      }
+    },
+    "search": {
+      "search": "Search"
+    },
+    "continue_shopping": "Continue Digging"
+  },
+  "sections": {
+    "header": {
+      "announcement": "Announcement"
+    },
+    "cart": {
+      "title": "Your Cart",
+      "empty": "Your crate is empty",
+      "remove_title": "Remove {{ title }}",
+      "subtotal": "Subtotal",
+      "taxes_and_shipping_at_checkout": "Shipping & taxes calculated at checkout",
+      "checkout": "Checkout"
+    }
+  },
+  "products": {
+    "product": {
+      "sold_out": "Sold Out",
+      "on_sale": "Sale",
+      "add_to_cart": "Add to Cart",
+      "quantity": {
+        "decrease": "Decrease quantity for {{ product }}",
+        "increase": "Increase quantity for {{ product }}"
+      }
+    }
+  }
+}

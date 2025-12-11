@@ -1,0 +1,81 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    <!-- Fonts: Playfair Display (Headings), Space Mono (Data/Tech), Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    {{ content_for_header }}
+
+    <!-- CSS Variables based on Theme Settings -->
+    {% style %}
+      :root {
+        --color-vinyl-paper: {{ settings.colors_background }};
+        --color-vinyl-blue: {{ settings.colors_accent_1 }};
+        --color-vinyl-black: {{ settings.colors_text }};
+        --color-vinyl-red: {{ settings.colors_accent_2 }};
+        
+        --font-heading-family: 'Playfair Display', serif;
+        --font-body-family: 'Inter', sans-serif;
+        --font-mono-family: 'Space Mono', monospace;
+      }
+
+      body {
+        background-color: var(--color-vinyl-paper);
+        color: var(--color-vinyl-black);
+        font-family: var(--font-body-family);
+      }
+    {% endstyle %}
+
+    {{ 'application.css' | asset_url | stylesheet_tag }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="{{ 'application.js' | asset_url }}" defer></script>
+    <script src="{{ 'animations.js' | asset_url }}" defer></script>
+  </head>
+
+  <body class="gradient">
+    {% section 'header' %}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'general.accessibility.refresh_page' | t }}</li>
+    </ul>
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+    </script>
+  </body>
+</html>

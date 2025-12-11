@@ -1,0 +1,79 @@
+<div class="min-h-screen bg-vinyl-paper">
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    <!-- Header Section -->
+    <div class="border-b border-vinyl-blue py-16 sm:py-24 px-4 sm:px-8 bg-vinyl-paper relative overflow-hidden">
+      <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+          <h1 class="text-9xl font-serif italic text-vinyl-blue opacity-20">{{ collection.title | truncatewords: 1, '' }}</h1>
+      </div>
+      
+      <div class="max-w-4xl relative z-10">
+          <p class="font-mono text-xs uppercase tracking-widest text-vinyl-blue mb-4">
+              Collection
+          </p>
+          <h1 class="font-serif text-5xl sm:text-7xl text-vinyl-black italic mb-6 leading-[0.9]">
+              {{ collection.title }}
+          </h1>
+          {%- if collection.description != blank -%}
+              <div class="font-sans text-lg text-gray-600 max-w-xl leading-relaxed">
+                  {{ collection.description }}
+              </div>
+          {%- endif -%}
+      </div>
+    </div>
+
+    <!-- Filter / Sort Bar Stub -->
+    <div class="sticky top-[64px] sm:top-[80px] z-30 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center">
+       <span class="font-mono text-xs uppercase text-gray-500">{{ collection.products_count }} Items</span>
+       <div class="flex items-center gap-2">
+          <span class="font-mono text-xs uppercase text-gray-500">Sort:</span>
+          <select id="SortBy" class="font-mono text-xs uppercase text-vinyl-blue font-bold cursor-pointer bg-transparent border-none focus:ring-0 p-0" onchange="location.href=this.value">
+            {%- for option in collection.sort_options -%}
+              <option value="{{ collection.url }}?sort_by={{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+            {%- endfor -%}
+          </select>
+       </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue min-h-[50vh]">
+      {%- for product in collection.products -%}
+          <div class="collection-item">
+              {% render 'card-product', card_product: product, show_vendor: section.settings.show_vendor %}
+          </div>
+      {%- else -%}
+          <div class="col-span-full py-24 text-center">
+              <p className="font-mono text-gray-400">No items found in this collection.</p>
+          </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <div class="py-12 flex justify-center border-t border-vinyl-blue">
+        {{ paginate | default_pagination }}
+      </div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Product Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 24,
+      "step": 4,
+      "default": 16,
+      "label": "Products per page"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": true,
+      "label": "Show vendor"
+    }
+  ]
+}
+{% endschema %}

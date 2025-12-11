@@ -1,0 +1,79 @@
+{% comment %}
+  Renders a product card
+
+  Accepts:
+  - card_product: {Object} Product Liquid object (optional)
+  - show_vendor: {Boolean} Show the product vendor. Default: false
+  - show_rating: {Boolean} Show the product rating. Default: false
+  - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
+  - section_id: {String} The ID of the section that contains this card.
+  - horizontal_class: {Boolean} Add a card--horizontal class if set to true. Default: false (optional)
+  - horizontal_quick_add: {Boolean} Changes the quick add button styles when set to true. Default: false (optional)
+  - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
+
+  Usage:
+  {% render 'card-product', show_vendor: section.settings.show_vendor %}
+{% endcomment %}
+
+{%- if card_product and card_product != empty -%}
+  <div class="group relative flex flex-col h-full border-r border-b border-vinyl-blue bg-vinyl-paper hover:bg-white transition-colors duration-300 p-4 sm:p-6 cursor-pointer">
+    
+    <a href="{{ card_product.url }}" class="absolute inset-0 z-0"><span class="visually-hidden">{{ card_product.title }}</span></a>
+
+    <!-- Badges -->
+    <div class="absolute top-4 left-4 z-10 flex flex-col gap-2 pointer-events-none">
+      {%- unless card_product.available -%}
+        <span class="bg-vinyl-black text-white text-[10px] font-mono uppercase px-2 py-1 tracking-widest border border-transparent shadow-sm">
+          {{ 'products.product.sold_out' | t }}
+        </span>
+      {%- endunless -%}
+      {%- if card_product.compare_at_price > card_product.price and card_product.available -%}
+        <span class="bg-vinyl-red text-white text-[10px] font-mono uppercase px-2 py-1 tracking-widest rounded-full">
+          {{ 'products.product.on_sale' | t }}
+        </span>
+      {%- endif -%}
+      {%- if card_product.tags contains 'New' -%}
+         <span class="bg-vinyl-blue text-white text-[10px] font-mono uppercase px-2 py-1 tracking-widest rounded-full">
+            New
+          </span>
+      {%- endif -%}
+    </div>
+
+    <!-- Image Container -->
+    <div class="relative aspect-square w-full mb-6 overflow-hidden border border-gray-200 shadow-[4px_4px_0px_0px_rgba(26,35,219,0.1)] group-hover:shadow-[6px_6px_0px_0px_rgba(26,35,219,0.2)] transition-shadow duration-300">
+      {%- if card_product.featured_media -%}
+        {{ card_product.featured_media | image_url: width: 533 | image_tag:
+          loading: 'lazy',
+          class: 'w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500 ease-out',
+          sizes: '(min-width: 1200px) 267px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)'
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500 ease-out' }}
+      {%- endif -%}
+      
+      <!-- Quick Add Overlay -->
+      {%- if card_product.available -%}
+        <div class="absolute inset-0 bg-vinyl-blue/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+          <span class="bg-vinyl-blue text-white font-mono text-xs uppercase px-6 py-3 rounded-full translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-vinyl-black">
+            View Item
+          </span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Details -->
+    <div class="flex-1 flex flex-col items-center text-center space-y-2 pointer-events-none">
+      {%- if show_vendor -%}
+        <h3 class="font-mono text-xs uppercase tracking-wider text-gray-500">{{ card_product.vendor }}</h3>
+      {%- endif -%}
+      <h2 class="font-serif text-lg leading-tight group-hover:text-vinyl-blue transition-colors">{{ card_product.title }}</h2>
+      <p class="font-sans text-xs text-gray-400 mt-1">{{ card_product.type }}</p>
+      
+      <div class="mt-auto pt-4 border-t border-gray-200 w-full">
+        <span class="font-mono text-sm {% unless card_product.available %}text-gray-400 line-through{% else %}text-vinyl-black{% endunless %}">
+          {{ card_product.price | money }}
+        </span>
+      </div>
+    </div>
+  </div>
+{%- endif -%}

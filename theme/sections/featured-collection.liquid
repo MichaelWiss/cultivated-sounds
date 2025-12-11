@@ -1,0 +1,98 @@
+<div class="bg-vinyl-paper py-16 border-b border-vinyl-blue">
+  <div class="page-width px-4 sm:px-8">
+    {%- if section.settings.title != blank -%}
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-300 pb-6">
+        <div>
+          {%- if section.settings.subtitle != blank -%}
+            <p class="font-mono text-xs uppercase tracking-widest text-vinyl-blue mb-4">{{ section.settings.subtitle }}</p>
+          {%- endif -%}
+          <h2 class="font-serif text-4xl md:text-5xl italic text-vinyl-black">{{ section.settings.title }}</h2>
+        </div>
+        
+        {%- if section.settings.show_view_all -%}
+          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="hidden md:block font-mono text-xs uppercase tracking-widest hover:text-vinyl-blue transition-colors mt-4 md:mt-0">
+            View All {{ section.settings.collection.title }} →
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-vinyl-blue border border-vinyl-blue">
+      {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+        <div class="bg-vinyl-paper">
+          {% render 'card-product',
+            card_product: product,
+            show_vendor: section.settings.show_vendor
+          %}
+        </div>
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="bg-vinyl-paper">
+            {% render 'card-product', show_vendor: section.settings.show_vendor %}
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.show_view_all -%}
+      <div class="mt-12 text-center md:hidden">
+        <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="inline-block border border-vinyl-black px-8 py-3 rounded-full font-mono text-xs uppercase tracking-widest hover:bg-vinyl-black hover:text-white transition-colors">
+          View All
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Latest Drops",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "default": "Fresh in the bins",
+      "label": "Subtitle"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Maximum products to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": true,
+      "label": "Enable \"View all\" button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": true,
+      "label": "Show vendor"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

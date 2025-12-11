@@ -1,0 +1,16 @@
+{
+  "current": {
+    "colors_background": "#f2f0e9",
+    "colors_text": "#111111",
+    "colors_accent_1": "#1a23db",
+    "colors_accent_2": "#e63946"
+  },
+  "presets": {
+    "Default": {
+      "colors_background": "#f2f0e9",
+      "colors_text": "#111111",
+      "colors_accent_1": "#1a23db",
+      "colors_accent_2": "#e63946"
+    }
+  }
+}

@@ -150,9 +150,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product, onBack }) => {
                     </div>
                 )}
                 
-                {/* Finer Sounds Extras Upsell */}
+                {/* Cultivated Sounds Extras Upsell */}
                 <div className="pdp-animate-up bg-[#e8e6df] p-6 border border-vinyl-blue mt-8">
-                     <h4 className="font-serif text-xl italic text-vinyl-blue mb-4">Finer Sounds Extras</h4>
+                     <h4 className="font-serif text-xl italic text-vinyl-blue mb-4">Cultivated Sounds Extras</h4>
                      <div className="flex gap-4">
                         <div className="w-16 h-16 bg-white border border-gray-300 flex items-center justify-center flex-shrink-0">
                             <span className="font-mono text-[8px]">OUTER<br/>SLEEVE</span>

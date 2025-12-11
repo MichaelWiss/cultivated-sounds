@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "banner": {
+      "type": "image-banner",
+      "settings": {
+        "image": "shopify:\/\/shop_images\/hero.jpg",
+        "badge_text": "Featured Release",
+        "subheading": "Just Arrived",
+        "heading": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem <span style=\"font-weight: 300;\">De Amor</span></p>",
+        "text": "A stunning exploration of tropicalia infused textures and intimate songwriting. Pressed on 180g limited edition clear vinyl.",
+        "button_label": "Shop Now",
+        "button_link": "shopify:\/\/collections\/all"
+      }
+    },
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Free shipping on all domestic orders over $50",
+        "speed": 20
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Latest Drops",
+        "subtitle": "Fresh in the bins",
+        "collection": "all",
+        "products_to_show": 8,
+        "show_view_all": true,
+        "show_vendor": true
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "announcement",
+    "featured_collection"
+  ]
+}

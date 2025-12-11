@@ -1,0 +1,102 @@
+<section id="MainProduct-{{ section.id }}" class="bg-vinyl-paper min-h-screen" data-section="{{ section.id }}">
+  
+  <!-- Breadcrumb / Back -->
+  <div class="border-b border-vinyl-blue px-4 sm:px-8 py-4 flex items-center justify-between sticky top-[64px] sm:top-[80px] z-30 bg-vinyl-paper/95 backdrop-blur-sm">
+    <a href="{{ routes.all_products_collection_url }}" class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-vinyl-blue hover:underline decoration-vinyl-blue underline-offset-4">
+        ← Back to Shop
+    </a>
+    <div class="hidden sm:flex gap-4 font-mono text-xs text-gray-400 uppercase">
+         {%- if product.metafields.custom.catalog_number -%}
+           <span>Catalog #{{ product.metafields.custom.catalog_number }}</span>
+           <span>/</span>
+         {%- endif -%}
+         <span>{{ product.vendor }}</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-140px)]">
+    
+    <!-- Left Column: Media (Sticky) -->
+    <div class="lg:col-span-7 border-b lg:border-b-0 lg:border-r border-vinyl-blue relative">
+        <div class="lg:sticky lg:top-[140px] h-auto lg:h-[calc(100vh-140px)] overflow-hidden flex flex-col">
+            <div class="flex-1 bg-gray-100 relative group overflow-hidden border-b border-vinyl-blue">
+                {%- if product.featured_media -%}
+                  {{ product.featured_media | image_url: width: 1500 | image_tag: class: 'pdp-image w-full h-full object-cover', loading: 'eager' }}
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'pdp-image w-full h-full object-cover' }}
+                {%- endif -%}
+            </div>
+            <!-- Secondary Images Strip -->
+            {%- if product.media.size > 1 -%}
+              <div class="h-32 bg-white flex overflow-x-auto divide-x divide-vinyl-blue no-scrollbar">
+                 {%- for media in product.media -%}
+                   <div class="w-32 flex-shrink-0 relative cursor-pointer opacity-50 hover:opacity-100 transition-opacity">
+                      {{ media | image_url: width: 200 | image_tag: class: 'w-full h-full object-cover' }}
+                   </div>
+                 {%- endfor -%}
+              </div>
+            {%- endif -%}
+        </div>
+    </div>
+
+    <!-- Right Column: Details (Scrollable) -->
+    <div class="lg:col-span-5 bg-vinyl-paper">
+        <div class="p-6 sm:p-10 lg:p-12 flex flex-col gap-10">
+            
+            <!-- Header Info -->
+            <div class="pdp-animate-up">
+                <div class="flex flex-wrap gap-x-6 gap-y-2 mb-4 font-mono text-xs uppercase tracking-widest text-gray-500">
+                    <span class="text-vinyl-blue">Label: {{ product.vendor }}</span>
+                    {%- if product.tags.size > 0 -%}
+                      <span>File Under: {{ product.tags | join: ' / ' }}</span>
+                    {%- endif -%}
+                </div>
+                
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-vinyl-blue leading-[0.9] mb-2">
+                    <span class="block text-vinyl-black mb-2 text-2xl sm:text-3xl font-sans font-normal tracking-wide">{{ product.title }}</span>
+                </h1>
+                
+                <div class="mt-6 flex items-center gap-4">
+                    <span class="font-mono text-2xl text-vinyl-black">{{ product.price | money }}</span>
+                </div>
+            </div>
+
+            <!-- Blocks -->
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when '@app' -%}
+                  {% render block %}
+                {%- when 'description' -%}
+                  <div class="prose prose-sm font-sans text-gray-600 leading-relaxed max-w-none" {{ block.shopify_attributes }}>
+                    {{ product.description }}
+                  </div>
+                {%- when 'buy_buttons' -%}
+                  {% render 'buy-buttons', block: block, product: product, product_form_id: 'product-form-' | append: section.id, section_id: section.id %}
+              {%- endcase -%}
+            {%- endfor -%}
+
+        </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Information",
+  "tag": "section",
+  "class": "section",
+  "blocks": [
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy Buttons",
+      "limit": 1
+    }
+  ],
+  "settings": []
+}
+{% endschema %}
