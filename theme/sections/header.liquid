@@ -32,10 +32,12 @@
       >
         {% render 'icon-search' %}
       </button>
-      <a 
-          href="{{ routes.cart_url }}"
+      <button 
+          onclick="document.querySelector('cart-drawer').open()"
           class="px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center group relative"
           id="cart-icon-bubble"
+          aria-label="{{ 'sections.cart.title' | t }}"
+          aria-haspopup="dialog"
       >
         {% render 'icon-cart' %}
         {%- if cart.item_count > 0 -%}
@@ -43,7 +45,7 @@
             {{ cart.item_count }}
           </span>
         {%- endif -%}
-      </a>
+      </button>
       <button 
         class="md:hidden px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center"
         aria-label="{{ 'general.accessibility.menu' | t }}"
