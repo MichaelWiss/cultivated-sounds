@@ -18,6 +18,9 @@
 
 import { Product, NavItem } from './types';
 
+// Using a reliable sample MP3 for demonstration purposes
+const DEMO_AUDIO = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+
 export const PRODUCTS: Product[] = [
   {
     id: '1',
@@ -33,10 +36,10 @@ export const PRODUCTS: Product[] = [
     catalogNumber: 'YAR-092',
     description: "Rochelle Jordan is stepping into her diva era. The Los Angeles-based, British-Canadian singer and songwriter has long been an underground force, quietly threading together alt-R&B and pulse-pounding electronic music. With longtime collaborator and producer KLSH, Jordan has forged a sound all her own: a seductive mix of house energy, drum-and-bass intensity, hip-hop swagger, and experimental daring that has moved from niche circles into the mainstream spotlight.",
     tracklist: [
-      { number: 'A1', title: 'Love You Good', duration: '3:45' },
-      { number: 'A2', title: 'Got Em', duration: '2:55' },
-      { number: 'A3', title: 'Next 2 You', duration: '4:12' },
-      { number: 'B1', title: 'All Along', duration: '3:30' },
+      { number: 'A1', title: 'Love You Good', duration: '3:45', audioUrl: DEMO_AUDIO },
+      { number: 'A2', title: 'Got Em', duration: '2:55', audioUrl: DEMO_AUDIO },
+      { number: 'A3', title: 'Next 2 You', duration: '4:12', audioUrl: DEMO_AUDIO },
+      { number: 'B1', title: 'All Along', duration: '3:30', audioUrl: DEMO_AUDIO },
       { number: 'B2', title: 'Broken Steel', duration: '3:15' },
       { number: 'C1', title: 'Count It', duration: '2:50' },
       { number: 'C2', title: 'Already', duration: '3:55' },

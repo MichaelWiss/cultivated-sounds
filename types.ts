@@ -13,6 +13,7 @@ export interface Track {
   number: string;
   title: string;
   duration: string;
+  audioUrl?: string;
 }
 
 // Base product interface for vinyl records and merchandise

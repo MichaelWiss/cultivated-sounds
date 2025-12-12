@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  Shopify-specific overrides and Dawn base styles can go here
+  if not covered by Tailwind config.
+*/
