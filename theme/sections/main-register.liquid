@@ -1,0 +1,73 @@
+<div class="min-h-screen bg-vinyl-paper flex items-center justify-center py-24 px-4 sm:px-8">
+  <div class="w-full max-w-md bg-white border border-vinyl-blue p-8 shadow-lg">
+    <h1 class="font-serif text-3xl italic text-vinyl-blue mb-6 text-center">Create Account</h1>
+    
+    {% form 'create_customer' %}
+      {{ form.errors | default_errors }}
+
+      <div class="mb-4">
+        <label for="FirstName" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">First Name</label>
+        <input 
+          type="text" 
+          name="customer[first_name]" 
+          id="FirstName" 
+          autocomplete="given-name" 
+          class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
+          placeholder="First Name"
+        >
+      </div>
+
+      <div class="mb-4">
+        <label for="LastName" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">Last Name</label>
+        <input 
+          type="text" 
+          name="customer[last_name]" 
+          id="LastName" 
+          autocomplete="family-name" 
+          class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
+          placeholder="Last Name"
+        >
+      </div>
+
+      <div class="mb-4">
+        <label for="Email" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">Email</label>
+        <input 
+          type="email" 
+          name="customer[email]" 
+          id="Email" 
+          autocomplete="email" 
+          autocorrect="off" 
+          autocapitalize="off" 
+          class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
+          placeholder="email@example.com"
+        >
+      </div>
+
+      <div class="mb-6">
+        <label for="CreatePassword" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">Password</label>
+        <input 
+          type="password" 
+          name="customer[password]" 
+          id="CreatePassword" 
+          class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
+          placeholder="password"
+        >
+      </div>
+
+      <button class="w-full bg-vinyl-blue text-white font-mono text-sm uppercase py-4 hover:bg-vinyl-black transition-colors tracking-widest mb-4">
+        Create
+      </button>
+
+      <div class="text-center font-mono text-xs text-gray-500">
+        <a href="{{ routes.account_login_url }}" class="hover:text-vinyl-blue underline">Already have an account?</a>
+      </div>
+    {% endform %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Register",
+  "settings": []
+}
+{% endschema %}

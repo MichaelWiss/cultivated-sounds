@@ -1,0 +1,53 @@
+<div class="min-h-screen bg-vinyl-paper flex items-center justify-center py-24 px-4 sm:px-8">
+  <div class="w-full max-w-md bg-white border border-vinyl-blue p-8 shadow-lg">
+    <h1 class="font-serif text-3xl italic text-vinyl-blue mb-6 text-center">Login</h1>
+    
+    {% form 'customer_login' %}
+      {{ form.errors | default_errors }}
+
+      <div class="mb-4">
+        <label for="CustomerEmail" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">Email</label>
+        <input 
+          type="email" 
+          name="customer[email]" 
+          id="CustomerEmail" 
+          autocomplete="email" 
+          autocorrect="off" 
+          autocapitalize="off" 
+          class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
+          placeholder="email@example.com"
+        >
+      </div>
+
+      {% if form.password_needed %}
+        <div class="mb-6">
+          <label for="CustomerPassword" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">Password</label>
+          <input 
+            type="password" 
+            name="customer[password]" 
+            id="CustomerPassword" 
+            class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
+            placeholder="password"
+          >
+        </div>
+      {% endif %}
+
+      <button class="w-full bg-vinyl-blue text-white font-mono text-sm uppercase py-4 hover:bg-vinyl-black transition-colors tracking-widest mb-4">
+        Sign In
+      </button>
+
+      <div class="text-center font-mono text-xs text-gray-500">
+        <a href="{{ routes.account_register_url }}" class="hover:text-vinyl-blue underline">Create Account</a>
+        <span class="mx-2">|</span>
+        <a href="#recover" class="hover:text-vinyl-blue underline">Forgot Password?</a>
+      </div>
+    {% endform %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Login",
+  "settings": []
+}
+{% endschema %}
