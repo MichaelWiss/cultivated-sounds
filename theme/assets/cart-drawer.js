@@ -1,135 +1,141 @@
 class CartDrawer extends HTMLElement {
   constructor() {
     super();
-
-    this.addEventListener('keyup', (evt) => evt.code === 'Escape' && this.close());
-    this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
-    this.setHeaderCartIconAccessibility();
+    this.overlay = this.querySelector('#cart-overlay');
+    this.container = this.querySelector('#cart-container');
+    this.closeBtn = this.querySelector('#cart-close');
+    this.continueBtn = this.querySelector('#cart-continue');
+    
+    this.init();
   }
 
-  setHeaderCartIconAccessibility() {
-    const cartLink = document.querySelector('#cart-icon-bubble');
-    cartLink.setAttribute('role', 'button');
-    cartLink.setAttribute('aria-haspopup', 'dialog');
-    cartLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      this.open(cartLink);
+  init() {
+    if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
+    if (this.overlay) this.overlay.addEventListener('click', () => this.close());
+    if (this.continueBtn) this.continueBtn.addEventListener('click', () => this.close());
+
+    // Listen for global cart update events
+    document.addEventListener('cart:updated', (e) => {
+      // e.detail.cart contains the JSON, but we prefer fetching fresh HTML via Section API
+      this.fetchSectionMarkup();
+      this.open();
     });
-    cartLink.addEventListener('keydown', (event) => {
-      if (event.code.toUpperCase() === 'SPACE') {
-        event.preventDefault();
-        this.open(cartLink);
-      }
+
+    // Delegate item events (increase, decrease, remove)
+    this.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        
+        const action = btn.dataset.action;
+        const key = btn.dataset.key;
+        
+        if (action === 'increase') this.updateQuantity(key, 1);
+        if (action === 'decrease') this.updateQuantity(key, -1);
+        if (action === 'remove') this.updateQuantity(key, 0);
     });
   }
 
-  open(triggeredBy) {
-    if (triggeredBy) this.setActiveElement(triggeredBy);
-    const cartDrawerNote = this.querySelector('[id^="Details-"] summary');
-    if (cartDrawerNote && !cartDrawerNote.hasAttribute('role')) this.setSummaryAccessibility(cartDrawerNote);
-    // here the animation doesn't seem to always get triggered. A timeout seem to help
-    setTimeout(() => {
-      this.classList.add('animate', 'active');
+  open() {
+    this.hidden = false;
+    // Animate in
+    requestAnimationFrame(() => {
+        if(this.overlay) this.overlay.classList.remove('opacity-0', 'pointer-events-none');
+        if(this.container) this.container.classList.remove('translate-x-full');
     });
-
-    this.addEventListener(
-      'transitionend',
-      () => {
-        const containerToTrapFocusOn = this.classList.contains('is-empty')
-          ? this.querySelector('.drawer__inner-empty')
-          : document.getElementById('CartDrawer');
-        const focusElement = this.querySelector('.drawer__inner') || this.querySelector('.drawer__close');
-        trapFocus(containerToTrapFocusOn, focusElement);
-      },
-      { once: true }
-    );
-
     document.body.classList.add('overflow-hidden');
   }
 
   close() {
-    this.classList.remove('active');
-    removeTrapFocus(this.activeElement);
+    if(this.overlay) this.overlay.classList.add('opacity-0', 'pointer-events-none');
+    if(this.container) this.container.classList.add('translate-x-full');
     document.body.classList.remove('overflow-hidden');
+    
+    setTimeout(() => {
+        this.hidden = true;
+    }, 500); // Match transition duration
   }
 
-  setSummaryAccessibility(cartDrawerNote) {
-    cartDrawerNote.setAttribute('role', 'button');
-    cartDrawerNote.setAttribute('aria-expanded', 'false');
+  async updateQuantity(key, delta) {
+    const itemRow = this.querySelector(`[data-key="${key}"]`);
+    if (!itemRow && delta !== 0) return; 
 
-    if (cartDrawerNote.nextElementSibling.getAttribute('id')) {
-      cartDrawerNote.setAttribute('aria-controls', cartDrawerNote.nextElementSibling.id);
+    let currentQty = 0;
+    if (itemRow) {
+        // Find the input or span containing quantity
+        const qtyDisplay = itemRow.querySelector('.text-center');
+        if (qtyDisplay) currentQty = parseInt(qtyDisplay.textContent.trim());
     }
 
-    cartDrawerNote.addEventListener('click', (event) => {
-      event.currentTarget.setAttribute('aria-expanded', !event.currentTarget.closest('details').hasAttribute('open'));
+    // For Remove, delta is 0 implies set to 0. For others it's relative.
+    // My logic above: if action is remove, I called updateQuantity(key, 0)
+    // But delta 0 usually means "add 0". Let's handle explicit 0 properly.
+    
+    let newQty;
+    if (delta === 0) {
+        newQty = 0; // Explicit remove
+    } else {
+        newQty = currentQty + delta;
+    }
+    
+    const res = await fetch(window.routes.cart_change_url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            id: key,
+            quantity: newQty
+        })
     });
 
-    cartDrawerNote.parentElement.addEventListener('keyup', onKeyUpEscape);
+    const cart = await res.json();
+    this.fetchSectionMarkup();
   }
 
-  renderContents(parsedState) {
-    this.querySelector('.drawer__inner').classList.contains('is-empty') &&
-      this.querySelector('.drawer__inner').classList.remove('is-empty');
-    this.productId = parsedState.id;
-    this.getSectionsToRender().forEach((section) => {
-      const sectionElement = section.selector
-        ? document.querySelector(section.selector)
-        : document.getElementById(section.id);
-      sectionElement.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.section], section.selector);
-    });
-
-    setTimeout(() => {
-      this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
-      this.open();
-    });
-  }
-
-  getSectionInnerHTML(html, selector = '.shopify-section') {
-    return new DOMParser().parseFromString(html, 'text/html').querySelector(selector).innerHTML;
-  }
-
-  getSectionsToRender() {
-    return [
-      {
-        id: 'cart-drawer',
-        section: 'cart-drawer',
-        selector: '.drawer__inner',
-      },
-      {
-        id: 'cart-icon-bubble',
-        section: 'header',
-        selector: '#cart-icon-bubblee',
-      },
-    ];
-  }
-
-  getSectionDOM(html, selector = '.shopify-section') {
-    return new DOMParser().parseFromString(html, 'text/html').querySelector(selector);
-  }
-
-  setActiveElement(element) {
-    this.activeElement = element;
+  async fetchSectionMarkup() {
+    // We need to fetch a section that RENDERS the 'cart-drawer' snippet.
+    // If 'cart-drawer' is just a snippet included in layout, we can't fetch it directly via ?section_id=cart-drawer
+    // unless there is a registered SECTION called 'cart-drawer'.
+    // 
+    // Correction: In Phase 2, I created snippets/cart-drawer.liquid. 
+    // To use Section Rendering API, I need a SECTION that renders this snippet.
+    // 
+    // For now, I will assume we create a dummy section or use 'cart-drawer' if it was a section.
+    // Plan correction: I should convert snippets/cart-drawer.liquid to sections/cart-drawer.liquid 
+    // OR create sections/cart-drawer.liquid that renders the snippet.
+    // 
+    // Let's rely on the fact that I haven't created sections/cart-drawer.liquid yet. 
+    // I will modify this JS to assume 'cart-drawer' section exists.
+    
+    const res = await fetch(`${window.routes.cart_url}?section_id=cart-drawer`);
+    const text = await res.text();
+    
+    // Parse HTML to get the inner content of the drawer
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    
+    // The response will look like <div id="shopify-section-cart-drawer"> ... content ... </div>
+    // We want the content inside <cart-drawer>
+    const newDrawerContent = doc.querySelector('cart-drawer');
+    
+    if (newDrawerContent) {
+        this.innerHTML = newDrawerContent.innerHTML;
+        // Re-bind elements because we wiped innerHTML
+        this.overlay = this.querySelector('#cart-overlay');
+        this.container = this.querySelector('#cart-container');
+        this.closeBtn = this.querySelector('#cart-close');
+        this.continueBtn = this.querySelector('#cart-continue');
+        
+        if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
+        if (this.overlay) this.overlay.addEventListener('click', () => this.close());
+        if (this.continueBtn) this.continueBtn.addEventListener('click', () => this.close());
+        
+        // Ensure it stays open visually
+        this.overlay.classList.remove('opacity-0', 'pointer-events-none');
+        this.container.classList.remove('translate-x-full');
+    }
   }
 }
 
 customElements.define('cart-drawer', CartDrawer);
-
-class CartDrawerItems extends CartItems {
-  getSectionsToRender() {
-    return [
-      {
-        id: 'CartDrawer',
-        section: 'cart-drawer',
-        selector: '.drawer__inner',
-      },
-      {
-        id: 'cart-icon-bubble',
-        section: 'cart-icon-bubble',
-        selector: '.shopify-section',
-      },
-    ];
-  }
-}
-
-customElements.define('cart-drawer-items', CartDrawerItems);

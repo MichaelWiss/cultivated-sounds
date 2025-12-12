@@ -1,0 +1,72 @@
+{% comment %}
+  Audio Player Bar Snippet
+  - Ported from ProductDetail.tsx (sticky player)
+  - Uses Tailwind CSS
+{% endcomment %}
+
+<audio-player-bar id="global-player" class="fixed bottom-0 left-0 w-full z-50 bg-vinyl-blue text-white shadow-[0_-4px_10px_rgba(0,0,0,0.1)] translate-y-full transition-transform duration-500 ease-out" hidden>
+  <div class="flex flex-col">
+      {% comment %} Progress Bar {% endcomment %}
+      <div 
+          id="player-progress-container"
+          class="w-full h-1 bg-white/20 cursor-pointer group relative"
+      >
+          <div 
+              id="player-progress-bar"
+              class="h-full bg-vinyl-red absolute top-0 left-0 transition-all duration-100 ease-linear"
+              style="width: 0%"
+          ></div>
+          <div 
+              id="player-progress-handle"
+              class="h-4 w-4 bg-vinyl-red rounded-full absolute top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"
+              style="left: 0%; margin-left: -8px;"
+          ></div>
+      </div>
+
+      <div class="flex items-center justify-between px-4 sm:px-8 py-4 h-20">
+          
+          {% comment %} Left: Track Info {% endcomment %}
+          <div class="flex items-center gap-4 w-1/3">
+              <div class="w-12 h-12 bg-white/10 flex-shrink-0 border border-white/20">
+                  <img id="player-image" src="" class="w-full h-full object-cover">
+              </div>
+              <div class="hidden sm:block overflow-hidden">
+                   <div class="font-mono text-[10px] uppercase tracking-widest text-white/60 mb-1">Now Playing</div>
+                   <div id="player-title" class="font-serif italic text-lg leading-none truncate w-48"></div>
+              </div>
+          </div>
+
+          {% comment %} Center: Controls {% endcomment %}
+          <div class="flex items-center gap-6 justify-center w-1/3">
+              <button id="player-prev" class="text-white/70 hover:text-white transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+              <button 
+                  id="player-play-pause"
+                  class="w-12 h-12 rounded-full border border-white flex items-center justify-center hover:bg-white hover:text-vinyl-blue transition-colors"
+              >
+                  {% comment %} Play Icon {% endcomment %}
+                  <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="ml-1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  {% comment %} Pause Icon {% endcomment %}
+                  <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="hidden"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              </button>
+              <button id="player-next" class="text-white/70 hover:text-white transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></svg>
+              </button>
+          </div>
+
+          {% comment %} Right: Time / Close {% endcomment %}
+          <div class="flex items-center justify-end gap-6 w-1/3">
+              <div class="hidden sm:flex items-center gap-2 font-mono text-xs">
+                  <span id="player-time">0:00</span>
+                  <span class="text-white/40">/</span>
+                  <span id="player-duration">0:00</span>
+              </div>
+              <button id="player-close" class="text-white/60 hover:text-white transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 18 12"/></svg>
+              </button>
+          </div>
+
+      </div>
+  </div>
+</audio-player-bar>
