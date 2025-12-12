@@ -26,6 +26,8 @@
 {% schema %}
 {
   "name": "Announcement Bar",
+  "tag": "div",
+  "class": "section-announcement-bar",
   "settings": [
     {
       "type": "text",
@@ -44,6 +46,9 @@
       "default": 20
     }
   ],
+  "enabled_on": {
+    "groups": ["header"]
+  },
   "presets": [
     {
       "name": "Announcement Bar"

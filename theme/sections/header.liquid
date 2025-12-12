@@ -59,6 +59,8 @@
 {% schema %}
 {
   "name": "Header",
+  "tag": "header",
+  "class": "section-header",
   "settings": [
     {
       "type": "image_picker",
@@ -81,6 +83,9 @@
       "default": "main-menu",
       "label": "Menu"
     }
-  ]
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
 }
 {% endschema %}

@@ -89,6 +89,8 @@
 {% schema %}
 {
   "name": "Collection Grid",
+  "tag": "section",
+  "class": "section-collection",
   "settings": [
     {
       "type": "range",
@@ -106,6 +108,9 @@
       "label": "Show Subtitle (Metafield)"
     }
   ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "presets": [
     {
       "name": "Collection Grid"

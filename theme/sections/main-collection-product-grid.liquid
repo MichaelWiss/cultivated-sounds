@@ -88,6 +88,8 @@
 {% schema %}
 {
   "name": "Product Grid",
+  "tag": "div",
+  "class": "section-collection-grid",
   "settings": [
     {
       "type": "range",
@@ -104,6 +106,9 @@
       "default": true,
       "label": "Show vendor"
     }
-  ]
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
 }
 {% endschema %}

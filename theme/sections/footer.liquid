@@ -87,6 +87,8 @@
 {% schema %}
 {
   "name": "Footer",
+  "tag": "footer",
+  "class": "section-footer",
   "settings": [
     {
       "type": "textarea",
@@ -123,6 +125,22 @@
           "id": "menu",
           "default": "footer",
           "label": "Menu"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        {
+          "type": "link_list"
+        },
+        {
+          "type": "link_list"
         }
       ]
     }
