@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-vinyl-paper py-24 px-4 sm:px-8">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="font-serif text-5xl italic text-vinyl-blue mb-12 border-b border-vinyl-blue pb-4">Collections</h1>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for collection in collections %}
+        {% unless collection.handle == 'all' %}
+          <a href="{{ collection.url }}" class="group block">
+            <div class="aspect-square bg-gray-100 border border-vinyl-blue overflow-hidden mb-4">
+              {% if collection.image %}
+                <img 
+                  src="{{ collection.image | image_url: width: 600 }}" 
+                  alt="{{ collection.title | escape }}"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  width="600"
+                  height="600"
+                  loading="lazy"
+                >
+              {% else %}
+                <div class="w-full h-full flex items-center justify-center">
+                  <span class="font-mono text-gray-400 uppercase">{{ collection.title | truncate: 1, '' }}</span>
+                </div>
+              {% endif %}
+            </div>
+            <h2 class="font-serif text-2xl italic group-hover:text-vinyl-blue transition-colors">{{ collection.title }}</h2>
+            <p class="font-mono text-sm text-gray-500">{{ collection.products_count }} items</p>
+          </a>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collections List",
+  "settings": []
+}
+{% endschema %}

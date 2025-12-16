@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-vinyl-paper py-24 px-4 sm:px-8">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="font-serif text-5xl italic text-vinyl-blue mb-4">Search</h1>
+    
+    <form action="{{ routes.search_url }}" method="get" class="mb-12">
+      <div class="flex border border-vinyl-blue">
+        <input 
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="Search for records..."
+          class="flex-1 p-4 font-mono bg-transparent focus:outline-none"
+        >
+        <button type="submit" class="px-8 bg-vinyl-blue text-white font-mono text-sm uppercase tracking-widest hover:bg-vinyl-black transition-colors">
+          Search
+        </button>
+      </div>
+    </form>
+
+    {% if search.performed %}
+      <p class="font-mono text-sm text-gray-500 mb-8">
+        {{ search.results_count }} results for "{{ search.terms }}"
+      </p>
+      
+      {% if search.results_count > 0 %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-vinyl-blue border border-vinyl-blue">
+          {% for item in search.results %}
+            {% if item.object_type == 'product' %}
+              <div class="bg-vinyl-paper">
+                {% render 'card-product', card_product: item, show_vendor: true %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        
+        {% if search.results_count > search.results.size %}
+          {% paginate search.results by 16 %}
+            {% if paginate.pages > 1 %}
+              <div class="mt-12">
+                {% render 'pagination', paginate: paginate %}
+              </div>
+            {% endif %}
+          {% endpaginate %}
+        {% endif %}
+      {% else %}
+        <div class="text-center py-24">
+          <p class="font-serif text-2xl italic text-gray-400 mb-8">No records found</p>
+          <a href="{{ routes.all_products_collection_url }}" class="inline-block border border-vinyl-blue px-8 py-4 rounded-full font-mono text-sm uppercase tracking-widest text-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors">
+            Browse All
+          </a>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search Results",
+  "settings": []
+}
+{% endschema %}

@@ -18,18 +18,19 @@ The target architecture is a **Shopify 2.0 Online Store Theme** using Liquid, HT
 
 ## 2. Directory Structure
 
-We will adopt the standard Shopify theme directory structure:
+We will adopt the standard Shopify theme directory structure, following patterns from Dawn and Horizon:
 
 ```text
 theme/
 ├── assets/             # Compiled CSS, JS, Images
-├── config/             # settings_schema.json (Theme settings)
-├── layout/             # theme.liquid (Master layout)
-├── locales/            # en.default.json (Translations)
+├── config/             # settings_schema.json, settings_data.json
+│   └── section-groups/ # header-group.json, footer-group.json (modular sections)
+├── layout/             # theme.liquid, password.liquid
+├── locales/            # en.default.json (Translations with t: keys)
 ├── sections/           # Liquid sections (Header, Hero, Product, etc.)
 ├── snippets/           # Reusable Liquid snippets (Product Card, Icons)
-├── templates/          # JSON templates (index.json, product.json)
-│   └── customers/      # Customer account templates
+├── templates/          # JSON templates (index.json, product.json, etc.)
+│   └── customers/      # Customer account templates (login, register, account, etc.)
 └── package.json        # Build scripts for Tailwind
 ```
 
@@ -113,7 +114,7 @@ To maintain the current design while adhering to Shopify standards:
 7.  ✅ **Cart Drawer Logic**: Update `cart-drawer.js` to add `CartDrawerItems` class extending cart functionality.
 8.  ✅ **Header Integration**: Update `header.liquid` to make cart icon open drawer instead of linking.
 
-### Phase 2: Product & Collection Pages (Core Templates) ✅ COMPLETE
+### Phase 2: Product & Collection Pages ✅ COMPLETE
 9.  ✅ **Price Snippet**: Create `snippets/price.liquid` for consistent price formatting.
 10. ✅ **Product Media**: Create `snippets/product-media.liquid` for product gallery.
 11. ✅ **Buy Buttons**: Create `snippets/buy-buttons.liquid` wrapping the `product-form` custom element.
@@ -123,33 +124,128 @@ To maintain the current design while adhering to Shopify standards:
 15. ✅ **Collection Grid**: Create `sections/main-collection-product-grid.liquid` for collection pages.
 16. ✅ **Collection Template**: Create `templates/collection.json`.
 
-### Phase 3: Enhancement (Should Fix) ✅ COMPLETE
-17. ✅ **Schema Standardization**: Add standard schema properties to all sections (`tag`, `class`, `disabled_on`, `presets`).
-18. ✅ **Theme Editor Controls**: Add padding settings to section schemas for Theme Editor control.
-19. ✅ **Routes Configuration**: Create `assets/constants.js` for Shopify routes configuration.
-20. ✅ **Animation**: Add responsive drawer animation CSS.
+### Phase 3: Core Templates ✅ COMPLETE
+_Required templates for Shopify theme preview and basic store functionality._
 
-### Phase 4: Polish (Nice to Have) ⚠️ PARTIAL
-21. ✅ **UI Polish**: Add quantity input custom element styling.
-22. ✅ **Feedback**: Add loading spinners for cart operations.
-23. ✅ **Error Handling**: Add error message display for cart errors.
+17. ✅ **404 Page**: Create `templates/404.json` and `sections/main-404.liquid` for "page not found" handling.
+18. ✅ **Cart Page**: Create `templates/cart.json` and `sections/main-cart.liquid` for standalone cart view.
+19. ✅ **Search Page**: Create `templates/search.json` and `sections/main-search.liquid` for search results.
+20. ✅ **Collections List**: Create `templates/list-collections.json` and `sections/main-list-collections.liquid`.
+21. ✅ **Static Pages**: Create `templates/page.json` and `sections/main-page.liquid` for CMS pages.
+22. ✅ **Pagination Snippet**: Create `snippets/pagination.liquid` for paginated lists.
+23. ✅ **Customer Account**: Create `templates/customers/account.json` and `sections/main-account.liquid`.
+24. ✅ **Customer Login**: Create `templates/customers/login.json` and `sections/main-login.liquid`.
+25. ✅ **Customer Register**: Create `templates/customers/register.json` and `sections/main-register.liquid`.
+26. ✅ **Customer Addresses**: Create `templates/customers/addresses.json` for address management.
+27. ✅ **Customer Order**: Create `templates/customers/order.json` for order history details.
+28. ✅ **Password Reset**: Create `templates/customers/reset_password.json` for password recovery.
+29. ✅ **Account Activation**: Create `templates/customers/activate_account.json` for new account activation.
+
+### Phase 4: Schema & Enhancement ✅ COMPLETE
+_Previously "Phase 3: Enhancement"_
+
+30. ✅ **Schema Standardization**: Add standard schema properties to all sections (`tag`, `class`, `disabled_on`, `presets`).
+31. ✅ **Theme Editor Controls**: Add padding settings to section schemas for Theme Editor control.
+32. ✅ **Routes Configuration**: Create `assets/constants.js` for Shopify routes configuration.
+33. ✅ **Animation**: Add responsive drawer animation CSS.
+
+### Phase 5: Polish ✅ COMPLETE
+_Previously "Phase 4: Polish"_
+
+34. ✅ **UI Polish**: Add quantity input custom element styling.
+35. ✅ **Feedback**: Add loading spinners for cart operations.
+36. ✅ **Error Handling**: Add error message display for cart errors.
+
+### Phase 6: Blog & Content ✅ COMPLETE
+_Blog, article, password, and gift card templates._
+
+37. ✅ **Password Layout**: Create `layout/password.liquid` for store password page.
+38. ✅ **Password Template**: Create `templates/password.json`.
+39. ✅ **Blog Template**: Create `templates/blog.json`.
+40. ✅ **Article Template**: Create `templates/article.json`.
+41. ✅ **Blog Section**: Create `sections/main-blog.liquid` for blog listing.
+42. ✅ **Article Section**: Create `sections/main-article.liquid` for blog posts.
+43. ✅ **Gift Card Template**: Create `templates/gift_card.liquid` for digital gift cards.
+
+### Phase 7: Best Practices Upgrade 🔄 IN PROGRESS
+_Based on Dawn/Horizon audit findings._
+
+44. ✅ **Section Groups**: Create `config/section-groups/header-group.json` and `footer-group.json`.
+45. ✅ **Expanded Settings Schema**: Add logo, social links, cart type, animations, favicon to `settings_schema.json`.
+46. ⏳ **Section Padding Controls**: Add `padding_top`/`padding_bottom` settings to all section schemas.
+47. ⏳ **Localization Keys**: Replace hardcoded strings with `t:` translation keys.
+48. ⏳ **Bundle External Scripts**: Move GSAP, Howler.js to theme assets (remove CDN dependencies).
+49. ⏳ **Responsive Images**: Implement `srcset` and `sizes` for product and collection images.
+50. ⏳ **Missing Snippets**: Create `loading-spinner.liquid`, `social-icons.liquid`, `facets.liquid`.
+51. ⏳ **Accessibility**: Add focus management, ARIA labels, `prefers-reduced-motion` support.
+
+---
 
 ## 7. Migration Status
 
-**✅ ALL PHASES COMPLETE!**
+| Phase | Status | Progress |
+|-------|--------|----------|
+| Phase 1: Critical Infrastructure | ✅ Complete | 8/8 |
+| Phase 2: Product & Collection | ✅ Complete | 8/8 |
+| Phase 3: Core Templates | ✅ Complete | 13/13 |
+| Phase 4: Schema & Enhancement | ✅ Complete | 4/4 |
+| Phase 5: Polish | ✅ Complete | 3/3 |
+| Phase 6: Blog & Content | ✅ Complete | 7/7 |
+| Phase 7: Best Practices | ⏳ Not Started | 0/8 |
 
-The Shopify theme migration is now **100% complete** with all critical infrastructure, product pages, enhancements, and polish items implemented.
+**Overall Progress: ~86% Complete (43/51 tasks)**
 
-### Completed:
-- ✅ Phase 1: Critical Infrastructure (8/8 tasks)
-- ✅ Phase 2: Product & Collection Pages (8/8 tasks)
-- ✅ Phase 3: Enhancement (4/4 tasks)
-- ✅ Phase 4: Polish (3/3 tasks)
+---
 
-### Next Steps for Production:
-1. **Test on Shopify Dev Store** - Upload theme and test all functionality
-2. **Verify Cart Operations** - Test add to cart, update quantity, remove items
-3. **Check Theme Editor** - Verify all section settings work correctly
-4. **Performance Audit** - Run Lighthouse and optimize if needed
-5. **Cross-browser Testing** - Test on Chrome, Safari, Firefox, Edge
-6. **Mobile Testing** - Verify responsive design on various devices
+## 8. Audit Findings (Dawn/Horizon Comparison)
+
+### Missing Critical Items
+| Item | Priority | Status |
+|------|----------|--------|
+| `layout/password.liquid` | HIGH | ✅ Created |
+| `templates/blog.json` | MEDIUM | ✅ Created |
+| `templates/article.json` | MEDIUM | ✅ Created |
+| `sections/main-blog.liquid` | MEDIUM | ✅ Created |
+| `sections/main-article.liquid` | MEDIUM | ✅ Created |
+| `templates/gift_card.liquid` | MEDIUM | ✅ Created |
+| Section Groups (header/footer) | MEDIUM | ⏳ Pending |
+
+### Schema & Settings Issues
+- ❌ No translation keys (`t:`) - hardcoded English strings throughout
+- ❌ No section padding controls in most schemas
+- ❌ Limited `settings_schema.json` - missing logo, social links, cart type settings
+
+### JavaScript Architecture
+- ❌ External CDN dependencies (GSAP, Howler.js, Google Fonts)
+- ❌ Missing PubSub pattern for component communication (Dawn uses this extensively)
+- ✅ Web Components pattern implemented correctly
+
+### Accessibility Gaps
+- ❌ Limited `.visually-hidden` usage for screen readers
+- ❌ Inconsistent ARIA labels across interactive elements
+- ❌ No `prefers-reduced-motion` media query support for animations
+
+### Performance Concerns
+- ❌ No critical CSS preloading strategy
+- ❌ Single image sizes instead of responsive `srcset`
+- ❌ External fonts block rendering (no font-display: swap)
+
+---
+
+## 9. Next Steps
+
+### Immediate (Complete Phase 6)
+1. Create `sections/main-blog.liquid` for blog listing page
+2. Create `sections/main-article.liquid` for individual blog posts
+3. Create `templates/gift_card.liquid` for gift card pages
+
+### Short-term (Phase 7)
+1. Implement section groups for modular header/footer
+2. Expand `settings_schema.json` with full Dawn-like settings
+3. Add responsive images with `srcset` attributes
+
+### Long-term (Production Ready)
+1. Bundle external scripts into theme assets
+2. Full accessibility audit and fixes
+3. Performance optimization (critical CSS, lazy loading)
+4. Cross-browser and mobile testing

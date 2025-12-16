@@ -1,0 +1,359 @@
+<article class="min-h-screen bg-vinyl-paper" itemscope itemtype="http://schema.org/BlogPosting">
+  <!-- Article Header -->
+  <header class="border-b border-vinyl-blue py-16 sm:py-24 px-4 sm:px-8 bg-vinyl-paper relative overflow-hidden">
+    <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+      <span class="text-9xl font-serif italic text-vinyl-blue opacity-20">{{ article.title | truncatewords: 1, '' }}</span>
+    </div>
+    
+    <div class="max-w-3xl mx-auto relative z-10">
+      {%- if blog -%}
+        <a href="{{ blog.url }}" class="inline-flex items-center font-mono text-xs uppercase tracking-widest text-vinyl-blue hover:underline mb-6">
+          <span class="mr-2">←</span>
+          Back to {{ blog.title }}
+        </a>
+      {%- endif -%}
+
+      <h1 class="font-serif text-4xl sm:text-6xl text-vinyl-black italic mb-6 leading-[0.95]" itemprop="headline">
+        {{ article.title }}
+      </h1>
+
+      {%- if section.settings.show_date or section.settings.show_author -%}
+        <div class="flex flex-wrap items-center gap-3 text-gray-500">
+          {%- if section.settings.show_date -%}
+            <time 
+              datetime="{{ article.published_at | date: '%Y-%m-%d' }}" 
+              class="font-mono text-sm uppercase"
+              itemprop="datePublished"
+            >
+              {{ article.published_at | date: '%B %d, %Y' }}
+            </time>
+          {%- endif -%}
+          {%- if section.settings.show_date and section.settings.show_author -%}
+            <span class="text-gray-300">•</span>
+          {%- endif -%}
+          {%- if section.settings.show_author -%}
+            <span class="font-mono text-sm uppercase" itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">{{ article.author }}</span>
+            </span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if article.tags.size > 0 -%}
+        <div class="flex flex-wrap gap-2 mt-4">
+          {%- for tag in article.tags -%}
+            <a 
+              href="{{ blog.url }}/tagged/{{ tag | handle }}" 
+              class="font-mono text-xs uppercase px-2 py-1 border border-vinyl-blue text-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors"
+            >
+              {{ tag }}
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </header>
+
+  <!-- Featured Image -->
+  {%- if section.settings.show_featured_image and article.image -%}
+    <div class="border-b border-vinyl-blue">
+      <figure class="max-w-5xl mx-auto">
+        <img
+          src="{{ article.image | image_url: width: 1600 }}"
+          alt="{{ article.image.alt | escape }}"
+          width="{{ article.image.width }}"
+          height="{{ article.image.height }}"
+          loading="eager"
+          class="w-full h-auto"
+          itemprop="image"
+        >
+        {%- if article.image.alt != blank -%}
+          <figcaption class="font-mono text-xs text-gray-500 text-center py-3 px-4">
+            {{ article.image.alt }}
+          </figcaption>
+        {%- endif -%}
+      </figure>
+    </div>
+  {%- endif -%}
+
+  <!-- Article Content -->
+  <div class="py-12 sm:py-16 px-4 sm:px-8">
+    <div class="max-w-3xl mx-auto">
+      <div class="article-content prose prose-lg prose-gray max-w-none" itemprop="articleBody">
+        {{ article.content }}
+      </div>
+
+      {%- if section.settings.show_share -%}
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <p class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-4">Share this article</p>
+          <div class="flex gap-4">
+            <a 
+              href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&url={{ shop.url }}{{ article.url }}" 
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-mono text-sm uppercase text-vinyl-blue hover:underline"
+              aria-label="Share on Twitter"
+            >
+              Twitter
+            </a>
+            <a 
+              href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}" 
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-mono text-sm uppercase text-vinyl-blue hover:underline"
+              aria-label="Share on Facebook"
+            >
+              Facebook
+            </a>
+            <a 
+              href="mailto:?subject={{ article.title | url_encode }}&body={{ shop.url }}{{ article.url }}" 
+              class="font-mono text-sm uppercase text-vinyl-blue hover:underline"
+              aria-label="Share via Email"
+            >
+              Email
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- Comments Section -->
+  {%- if blog.comments_enabled? -%}
+    <div class="border-t border-vinyl-blue py-12 sm:py-16 px-4 sm:px-8">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="font-serif text-3xl text-vinyl-black italic mb-8">
+          Comments ({{ article.comments_count }})
+        </h2>
+
+        {%- if article.comments_count > 0 -%}
+          <div class="space-y-8 mb-12">
+            {%- paginate article.comments by 10 -%}
+              {%- for comment in article.comments -%}
+                <div class="border-l-2 border-vinyl-blue pl-6">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="font-mono text-sm font-bold">{{ comment.author }}</span>
+                    <span class="text-gray-300">•</span>
+                    <time class="font-mono text-xs text-gray-500">
+                      {{ comment.created_at | date: '%B %d, %Y' }}
+                    </time>
+                  </div>
+                  <div class="text-gray-700">
+                    {{ comment.content }}
+                  </div>
+                </div>
+              {%- endfor -%}
+
+              {%- if paginate.pages > 1 -%}
+                <div class="py-8">
+                  {% render 'pagination', paginate: paginate %}
+                </div>
+              {%- endif -%}
+            {%- endpaginate -%}
+          </div>
+        {%- endif -%}
+
+        <!-- Comment Form -->
+        <div class="bg-gray-50 p-6 sm:p-8">
+          <h3 class="font-serif text-xl text-vinyl-black italic mb-6">Leave a comment</h3>
+          
+          {% form 'new_comment', article %}
+            {%- if form.errors -%}
+              <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            {%- if form.posted_successfully? -%}
+              <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700">
+                {%- if blog.moderated? -%}
+                  Your comment has been submitted and is awaiting moderation.
+                {%- else -%}
+                  Your comment has been posted successfully!
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="comment-author" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">
+                  Name *
+                </label>
+                <input 
+                  type="text" 
+                  name="comment[author]" 
+                  id="comment-author"
+                  value="{{ form.author }}"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 focus:border-vinyl-blue focus:ring-1 focus:ring-vinyl-blue outline-none transition-colors"
+                >
+              </div>
+              <div>
+                <label for="comment-email" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">
+                  Email *
+                </label>
+                <input 
+                  type="email" 
+                  name="comment[email]" 
+                  id="comment-email"
+                  value="{{ form.email }}"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 focus:border-vinyl-blue focus:ring-1 focus:ring-vinyl-blue outline-none transition-colors"
+                >
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="comment-body" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">
+                Comment *
+              </label>
+              <textarea 
+                name="comment[body]" 
+                id="comment-body"
+                rows="5"
+                required
+                class="w-full px-4 py-3 border border-gray-300 focus:border-vinyl-blue focus:ring-1 focus:ring-vinyl-blue outline-none transition-colors resize-none"
+              >{{ form.body }}</textarea>
+            </div>
+            <button 
+              type="submit" 
+              class="w-full sm:w-auto px-8 py-3 bg-vinyl-blue text-white font-mono text-sm uppercase tracking-widest hover:bg-vinyl-black transition-colors"
+            >
+              Post Comment
+            </button>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <!-- Navigation -->
+  <nav class="border-t border-vinyl-blue" aria-label="Article navigation">
+    <div class="grid grid-cols-2">
+      {%- if blog.previous_article -%}
+        <a href="{{ blog.previous_article.url }}" class="p-6 sm:p-8 border-r border-vinyl-blue hover:bg-gray-50 transition-colors group">
+          <span class="font-mono text-xs uppercase text-gray-500 block mb-2">← Previous</span>
+          <span class="font-serif text-lg text-vinyl-black italic group-hover:text-vinyl-blue transition-colors line-clamp-2">
+            {{ blog.previous_article.title }}
+          </span>
+        </a>
+      {%- else -%}
+        <div class="border-r border-vinyl-blue"></div>
+      {%- endif -%}
+
+      {%- if blog.next_article -%}
+        <a href="{{ blog.next_article.url }}" class="p-6 sm:p-8 hover:bg-gray-50 transition-colors group text-right">
+          <span class="font-mono text-xs uppercase text-gray-500 block mb-2">Next →</span>
+          <span class="font-serif text-lg text-vinyl-black italic group-hover:text-vinyl-blue transition-colors line-clamp-2">
+            {{ blog.next_article.title }}
+          </span>
+        </a>
+      {%- else -%}
+        <div></div>
+      {%- endif -%}
+    </div>
+  </nav>
+</article>
+
+<style>
+  .article-content h2 {
+    @apply font-serif text-2xl sm:text-3xl text-vinyl-black italic mt-10 mb-4;
+  }
+  .article-content h3 {
+    @apply font-serif text-xl sm:text-2xl text-vinyl-black italic mt-8 mb-3;
+  }
+  .article-content p {
+    @apply mb-6 leading-relaxed;
+  }
+  .article-content a {
+    @apply text-vinyl-blue underline hover:no-underline;
+  }
+  .article-content ul,
+  .article-content ol {
+    @apply mb-6 pl-6;
+  }
+  .article-content li {
+    @apply mb-2;
+  }
+  .article-content ul li {
+    @apply list-disc;
+  }
+  .article-content ol li {
+    @apply list-decimal;
+  }
+  .article-content blockquote {
+    @apply border-l-4 border-vinyl-blue pl-6 py-2 my-8 italic text-gray-600;
+  }
+  .article-content img {
+    @apply w-full h-auto my-8;
+  }
+  .article-content pre {
+    @apply bg-gray-100 p-4 overflow-x-auto my-6 font-mono text-sm;
+  }
+  .article-content code {
+    @apply bg-gray-100 px-1 py-0.5 font-mono text-sm;
+  }
+  .article-content pre code {
+    @apply bg-transparent p-0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Article",
+  "tag": "div",
+  "class": "section-main-article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_featured_image",
+      "default": true,
+      "label": "Show featured image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "Show date"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": true,
+      "label": "Show author"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "default": true,
+      "label": "Show share buttons"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

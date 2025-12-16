@@ -1,0 +1,17 @@
+<div class="min-h-screen bg-vinyl-paper flex items-center justify-center py-24 px-4 sm:px-8">
+  <div class="text-center max-w-lg">
+    <h1 class="font-serif text-8xl italic text-vinyl-blue mb-6">404</h1>
+    <p class="font-mono text-xl uppercase tracking-widest text-gray-500 mb-8">Page Not Found</p>
+    <p class="font-sans text-lg text-gray-600 mb-12">The record you're looking for has been pulled from the bin.</p>
+    <a href="{{ routes.root_url }}" class="inline-block border border-vinyl-blue px-8 py-4 rounded-full font-mono text-sm uppercase tracking-widest text-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors">
+      Back to Home
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 Page",
+  "settings": []
+}
+{% endschema %}
