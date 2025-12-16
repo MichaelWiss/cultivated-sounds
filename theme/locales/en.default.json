@@ -44,6 +44,10 @@
       "label": "Email address",
       "button_label": "Subscribe",
       "success": "Thanks for subscribing!"
+    },
+    "footer": {
+      "copyright": "© {{ year }} {{ shop_name }}.",
+      "designed_by": "Designed by MW. Powered by Code."
     }
   },
   "accessibility": {
