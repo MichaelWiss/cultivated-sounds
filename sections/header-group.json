@@ -20,18 +20,6 @@
         "padding_bottom": 0
       }
     },
-    "store_info_pX498B": {
-      "type": "store-info",
-      "name": "Store Info",
-      "settings": {
-        "heading": "We simplify music discovery with a curated selection of vinyl records and audio essentials.",
-        "location": "Brooklyn",
-        "link_text": "Visit Our Brooklyn Store",
-        "link": "",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "announcement_bar_zp8HWi": {
       "type": "announcement-bar",
       "name": "Announcement Bar",
@@ -43,7 +31,6 @@
   },
   "order": [
     "header",
-    "store_info_pX498B",
     "announcement_bar_zp8HWi"
   ]
 }

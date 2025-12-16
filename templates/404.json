@@ -39,11 +39,24 @@
         "text": "New Arrivals • Restocks • Rare Finds • Pre-Orders",
         "speed": 25
       }
+    },
+    "store_info_3pBcaY": {
+      "type": "store-info",
+      "name": "Store Info",
+      "settings": {
+        "heading": "We simplify music discovery with a curated selection of vinyl records and audio essentials.",
+        "location": "Brooklyn",
+        "link_text": "Visit Our Brooklyn Store",
+        "link": "",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
     "featured_collection_VxCKXL",
-    "scrolling_text_RhtFg3"
+    "scrolling_text_RhtFg3",
+    "store_info_3pBcaY"
   ]
 }
