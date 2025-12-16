@@ -20,13 +20,32 @@
       "subtext": "Page Not Found",
       "description": "The record you're looking for has been pulled from the bin.",
       "link": "Back to Home"
-    },    "pagination": {
+    },
+    "password_page": {
+      "login_form_password_label": "Password",
+      "login_form_password_placeholder": "Enter store password",
+      "login_form_submit": "Enter",
+      "admin_link_html": "Are you the store owner? <a href=\"/admin\" class=\"text-vinyl-blue hover:underline\">Log in here</a>"
+    },
+    "pagination": {
       "label": "Pagination",
       "previous": "Previous",
       "next": "Next",
       "page": "Page {{ current }} of {{ total }}"
     },
     "continue_shopping": "Continue Digging",
+    "gift_cards": {
+      "issued": {
+        "title": "Here's your gift card!",
+        "subtext": "Your gift card balance is {{ value }}",
+        "disabled": "Disabled",
+        "expired": "Expired on {{ expiry }}",
+        "active": "Expires on {{ expiry }}",
+        "redeem": "Use this code at checkout to redeem your gift card",
+        "shop_link": "Start Shopping",
+        "print": "Print"
+      }
+    },
     "social": {
       "links": {
         "twitter": "Twitter",
@@ -96,6 +115,9 @@
       "title": "Your Cart",
       "empty": "Your crate is empty",
       "remove_title": "Remove {{ title }}",
+      "remove": "Remove",
+      "continue_shopping": "Continue Shopping",
+      "checkout": "Checkout",
       "subtotal": "Subtotal",
       "update": "Update Cart",
       "checkout": "Checkout",

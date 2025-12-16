@@ -12,13 +12,6 @@
         "button_link": "shopify:\/\/collections\/all"
       }
     },
-    "announcement": {
-      "type": "announcement-bar",
-      "settings": {
-        "text": "Free shipping on all domestic orders over $50",
-        "speed": 20
-      }
-    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -33,7 +26,6 @@
   },
   "order": [
     "banner",
-    "announcement",
     "featured_collection"
   ]
 }
