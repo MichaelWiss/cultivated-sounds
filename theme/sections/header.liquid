@@ -6,6 +6,8 @@
       <a href="{{ routes.root_url }}" class="font-serif text-2xl sm:text-3xl italic font-bold tracking-tighter text-vinyl-blue decoration-0 no-underline">
         {%- if section.settings.logo != blank -%}
           {{ section.settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', width: section.settings.logo_width }}
+        {%- elsif settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', width: settings.logo_width }}
         {%- else -%}
           {{ shop.name }}<span class="text-xs align-top not-italic font-sans">®</span>
         {%- endif -%}

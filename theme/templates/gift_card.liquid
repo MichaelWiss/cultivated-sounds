@@ -17,9 +17,9 @@
 
   <style>
     :root {
-      --color-vinyl-paper: #F5F0E8;
-      --color-vinyl-blue: #1A3A5C;
-      --color-vinyl-black: #1A1A1A;
+      --color-vinyl-paper: {{ settings.colors_background.red }} {{ settings.colors_background.green }} {{ settings.colors_background.blue }};
+      --color-vinyl-blue: {{ settings.colors_accent_1.red }} {{ settings.colors_accent_1.green }} {{ settings.colors_accent_1.blue }};
+      --color-vinyl-black: {{ settings.colors_text.red }} {{ settings.colors_text.green }} {{ settings.colors_text.blue }};
     }
     
     body {

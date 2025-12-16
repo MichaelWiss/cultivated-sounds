@@ -1,4 +1,4 @@
-import Swup from './swup.umd.js';
+// import Swup from './swup.umd.js';
 
 const swup = new Swup({
   containers: ['#MainContent'],
