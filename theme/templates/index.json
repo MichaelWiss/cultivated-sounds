@@ -2,14 +2,7 @@
   "sections": {
     "banner": {
       "type": "image-banner",
-      "settings": {
-        "badge_text": "Featured Release",
-        "subheading": "Just Arrived",
-        "heading": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem <span style=\"font-weight: 300;\">De Amor</span></p>",
-        "text": "A stunning exploration of tropicalia infused textures and intimate songwriting. Pressed on 180g limited edition clear vinyl.",
-        "button_label": "Shop Now",
-        "button_link": ""
-      }
+      "settings": {}
     },
     "staff_picks": {
       "type": "featured-collection",
@@ -18,34 +11,22 @@
         "subtitle": "Handpicked essentials for cultivated listening",
         "products_to_show": 4,
         "show_view_all": true,
-        "show_vendor": true,
-        "use_alt_background": true,
-        "padding_top": 80,
-        "padding_bottom": 80
+        "use_alt_background": true
       }
     },
     "marquee": {
       "type": "scrolling-text",
-      "settings": {
-        "text": "New Arrivals • Restocks • Rare Finds • Pre-Orders •"
-      }
+      "settings": {}
     },
     "main_grid": {
       "type": "homepage-grid",
       "settings": {
-        "products_to_show": 16,
-        "filter_tags": "Ambient, Jazz, Rock, Electronic",
-        "show_vendor": true
+        "products_to_show": 16
       }
     },
     "store_info": {
       "type": "store-info",
-      "settings": {
-        "heading": "We simplify music discovery with a curated selection of vinyl records and audio essentials.",
-        "link_text": "Visit Our Brooklyn Store",
-        "padding_top": 96,
-        "padding_bottom": 96
-      }
+      "settings": {}
     }
   },
   "order": [

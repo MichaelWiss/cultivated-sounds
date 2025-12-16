@@ -3,7 +3,7 @@
   <div class="absolute bottom-0 left-0 w-96 h-96 border border-white/10 rounded-full -translate-x-1/3 translate-y-1/3"></div>
   
   <div class="container mx-auto text-center relative z-10">
-    <h2 class="font-serif text-5xl md:text-7xl italic mb-6">Cultivated Sounds<br/><span class="not-italic font-sans font-light tracking-tighter">Brooklyn</span></h2>
+    <h2 class="font-serif text-5xl md:text-7xl italic mb-6">{{ shop.name }}<br/><span class="not-italic font-sans font-light tracking-tighter">{{ section.settings.location }}</span></h2>
     <p class="font-mono text-sm max-w-lg mx-auto mb-10 text-gray-400">
       {{ section.settings.heading }}
     </p>
@@ -23,6 +23,12 @@
       "id": "heading",
       "label": "Heading",
       "default": "We simplify music discovery with a curated selection of vinyl records and audio essentials."
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Location",
+      "default": "Brooklyn"
     },
     {
       "type": "text",
