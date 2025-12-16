@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "Header Group",
   "type": "header",
@@ -5,10 +14,27 @@
     "header": {
       "type": "header",
       "settings": {
+        "logo_width": 100,
+        "menu": "main-menu",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "store_info_pX498B": {
+      "type": "store-info",
+      "name": "Store Info",
+      "settings": {
+        "heading": "We simplify music discovery with a curated selection of vinyl records and audio essentials.",
+        "location": "Brooklyn",
+        "link_text": "Visit Our Brooklyn Store",
+        "link": "",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     }
   },
   "order": [
-    "header"
+    "header",
+    "store_info_pX498B"
   ]
 }
