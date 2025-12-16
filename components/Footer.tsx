@@ -112,7 +112,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <Facebook size={16} className="hover:text-vinyl-blue cursor-pointer" />
             <Twitter size={16} className="hover:text-vinyl-blue cursor-pointer" />
           </div>
-          <p>Designed by AI. Powered by Code.</p>
+          <p>Designed by MW. Powered by Code.</p>
         </div>
 
       </div>

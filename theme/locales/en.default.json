@@ -9,14 +9,42 @@
       }
     },
     "search": {
-      "search": "Search"
-    },
-    "pagination": {
+      "search": "Search",
+      "placeholder": "Search for records...",
+      "submit": "Search",
+      "results_with_count": "{{ count }} results for \"{{ terms }}\"",
+      "no_results": "No records found",
+      "browse_all": "Browse All"
+    },    "404": {
+      "title": "404",
+      "subtext": "Page Not Found",
+      "description": "The record you're looking for has been pulled from the bin.",
+      "link": "Back to Home"
+    },    "pagination": {
       "label": "Pagination",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "page": "Page {{ current }} of {{ total }}"
     },
-    "continue_shopping": "Continue Digging"
+    "continue_shopping": "Continue Digging",
+    "social": {
+      "links": {
+        "twitter": "Twitter",
+        "facebook": "Facebook",
+        "pinterest": "Pinterest",
+        "instagram": "Instagram",
+        "tiktok": "TikTok",
+        "tumblr": "Tumblr",
+        "snapchat": "Snapchat",
+        "youtube": "YouTube",
+        "vimeo": "Vimeo"
+      }
+    },
+    "newsletter": {
+      "label": "Email address",
+      "button_label": "Subscribe",
+      "success": "Thanks for subscribing!"
+    }
   },
   "accessibility": {
     "skip_to_text": "Skip to content",
@@ -26,14 +54,50 @@
     "header": {
       "announcement": "Announcement"
     },
+    "featured_collection": {
+      "view_all": "View All",
+      "view_all_label": "View All {{ collection_name }}"
+    },
+    "collection_template": {
+      "title": "Collection",
+      "items": "Items",
+      "sort_by_label": "Sort:",
+      "empty": "No items found in this collection."
+    },
+    "collection_list": {
+      "title": "Collections",
+      "items": "items"
+    },
+    "blog": {
+      "title": "Blog",
+      "filter_label": "Filter:",
+      "all_tags": "All",
+      "read_more": "Read More"
+    },
+    "article": {
+      "back_to": "Back to {{ blog_title }}",
+      "share_label": "Share this article",
+      "share_twitter": "Twitter",
+      "share_facebook": "Facebook",
+      "share_pinterest": "Pinterest",
+      "share_email": "Email",
+      "comments": "Comments ({{ count }})",
+      "leave_comment": "Leave a comment",
+      "name": "Name *",
+      "email": "Email *",
+      "comment": "Comment *",
+      "post_comment": "Post Comment"
+    },
     "cart": {
       "title": "Your Cart",
       "empty": "Your crate is empty",
       "remove_title": "Remove {{ title }}",
-      "remove": "Remove",
       "subtotal": "Subtotal",
-      "taxes_and_shipping_at_checkout": "Shipping & taxes calculated at checkout",
+      "update": "Update Cart",
       "checkout": "Checkout",
+      "continue_shopping": "Start Digging",
+      "remove": "Remove",
+      "taxes_and_shipping_at_checkout": "Shipping & taxes calculated at checkout",
       "view_cart": "View Cart",
       "cart_error": "There was an error updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add {{ quantity }} of this item to your cart."
@@ -49,6 +113,96 @@
         "decrease": "Decrease quantity for {{ product }}",
         "increase": "Increase quantity for {{ product }}"
       }
+    }
+  },
+  "customer": {
+    "login_page": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "sign_in": "Sign In",
+      "create_account": "Create Account",
+      "forgot_password": "Forgot Password?"
+    },
+    "register": {
+      "title": "Create Account",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create",
+      "login": "Already have an account?"
+    },
+    "account": {
+      "title": "My Account",
+      "log_out": "Log out",
+      "order_history": "Order History",
+      "order": "Order",
+      "date": "Date",
+      "payment_status": "Payment",
+      "fulfillment_status": "Status",
+      "total": "Total",
+      "no_orders": "You haven't placed any orders yet.",
+      "start_shopping": "Start Digging",
+      "details": "Account Details",
+      "default_address": "Default Address",
+      "view_addresses": "View Addresses"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "add_new": "Add New Address",
+      "edit": "Edit",
+      "delete": "Delete",
+      "default": "Default",
+      "cancel": "Cancel",
+      "save": "Save",
+      "update": "Update",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "company": "Company",
+      "address1": "Address 1",
+      "address2": "Address 2",
+      "city": "City",
+      "country": "Country",
+      "province": "Province",
+      "zip": "Postal/Zip Code",
+      "phone": "Phone",
+      "set_default": "Set as default address"
+    },
+    "order": {
+      "title": "Order",
+      "date": "Date",
+      "cancelled": "Order Cancelled",
+      "cancelled_reason": "Reason",
+      "billing_address": "Billing Address",
+      "payment_status": "Payment Status",
+      "shipping_address": "Shipping Address",
+      "fulfillment_status": "Fulfillment Status",
+      "product": "Product",
+      "sku": "SKU",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total_price": "Total Price"
+    },
+    "activate_account": {
+      "title": "Activate Account",
+      "subtext": "Create your password to activate your account.",
+      "password": "Password",
+      "password_confirm": "Confirm Password",
+      "submit": "Activate Account",
+      "cancel": "Decline Invitation"
+    },
+    "reset_password": {
+      "title": "Reset Account Password",
+      "subtext": "Enter a new password for {{ email }}",
+      "password": "Password",
+      "password_confirm": "Confirm Password",
+      "submit": "Reset Password"
     }
   }
 }

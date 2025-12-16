@@ -1,36 +1,36 @@
-<div class="min-h-screen bg-vinyl-paper flex items-center justify-center py-24 px-4 sm:px-8">
+<div class="min-h-screen bg-vinyl-paper flex items-center justify-center px-4 sm:px-8" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="w-full max-w-md bg-white border border-vinyl-blue p-8 shadow-lg">
-    <h1 class="font-serif text-3xl italic text-vinyl-blue mb-6 text-center">Create Account</h1>
+    <h1 class="font-serif text-3xl italic text-vinyl-blue mb-6 text-center">{{ 'customer.register.title' | t }}</h1>
     
     {% form 'create_customer' %}
       {{ form.errors | default_errors }}
 
       <div class="mb-4">
-        <label for="FirstName" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">First Name</label>
+        <label for="FirstName" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.register.first_name' | t }}</label>
         <input 
           type="text" 
           name="customer[first_name]" 
           id="FirstName" 
           autocomplete="given-name" 
           class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
-          placeholder="First Name"
+          placeholder="{{ 'customer.register.first_name' | t }}"
         >
       </div>
 
       <div class="mb-4">
-        <label for="LastName" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">Last Name</label>
+        <label for="LastName" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.register.last_name' | t }}</label>
         <input 
           type="text" 
           name="customer[last_name]" 
           id="LastName" 
           autocomplete="family-name" 
           class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
-          placeholder="Last Name"
+          placeholder="{{ 'customer.register.last_name' | t }}"
         >
       </div>
 
       <div class="mb-4">
-        <label for="Email" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">Email</label>
+        <label for="Email" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.register.email' | t }}</label>
         <input 
           type="email" 
           name="customer[email]" 
@@ -44,22 +44,22 @@
       </div>
 
       <div class="mb-6">
-        <label for="CreatePassword" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">Password</label>
+        <label for="CreatePassword" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.register.password' | t }}</label>
         <input 
           type="password" 
           name="customer[password]" 
           id="CreatePassword" 
           class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none"
-          placeholder="password"
+          placeholder="{{ 'customer.register.password' | t }}"
         >
       </div>
 
       <button class="w-full bg-vinyl-blue text-white font-mono text-sm uppercase py-4 hover:bg-vinyl-black transition-colors tracking-widest mb-4">
-        Create
+        {{ 'customer.register.submit' | t }}
       </button>
 
       <div class="text-center font-mono text-xs text-gray-500">
-        <a href="{{ routes.account_login_url }}" class="hover:text-vinyl-blue underline">Already have an account?</a>
+        <a href="{{ routes.account_login_url }}" class="hover:text-vinyl-blue underline">{{ 'customer.register.login' | t }}</a>
       </div>
     {% endform %}
   </div>
@@ -68,6 +68,33 @@
 {% schema %}
 {
   "name": "Register",
-  "settings": []
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 96
+    }
+  ]
 }
 {% endschema %}

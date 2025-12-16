@@ -1,0 +1,190 @@
+<div class="min-h-screen bg-vinyl-paper px-4 sm:px-8" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="max-w-4xl mx-auto">
+    
+    <div class="flex justify-between items-center mb-12 border-b border-vinyl-blue pb-4">
+      <h1 class="font-serif text-4xl italic text-vinyl-blue">{{ 'customer.addresses.title' | t }}</h1>
+      <a href="{{ routes.account_url }}" class="font-mono text-xs uppercase tracking-widest text-gray-500 hover:text-vinyl-blue">{{ 'customer.account.title' | t }}</a>
+    </div>
+
+    <div class="mb-12 text-center">
+      <button type="button" onclick="document.getElementById('AddAddress').classList.toggle('hidden')" class="bg-vinyl-blue text-white font-mono text-sm uppercase px-8 py-4 hover:bg-vinyl-black transition-colors tracking-widest">
+        {{ 'customer.addresses.add_new' | t }}
+      </button>
+    </div>
+
+    <div id="AddAddress" class="hidden mb-12 bg-white border border-vinyl-blue p-8">
+      <h2 class="font-serif text-2xl mb-6">{{ 'customer.addresses.add_new' | t }}</h2>
+      {% form 'customer_address', customer.new_address %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label for="AddressFirstNameNew" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.first_name' | t }}</label>
+            <input type="text" id="AddressFirstNameNew" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+          </div>
+          <div>
+            <label for="AddressLastNameNew" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.last_name' | t }}</label>
+            <input type="text" id="AddressLastNameNew" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="AddressCompanyNew" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.company' | t }}</label>
+          <input type="text" id="AddressCompanyNew" name="address[company]" value="{{ form.company }}" autocomplete="organization" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label for="AddressAddress1New" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.address1' | t }}</label>
+          <input type="text" id="AddressAddress1New" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label for="AddressAddress2New" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.address2' | t }}</label>
+          <input type="text" id="AddressAddress2New" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label for="AddressCityNew" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.city' | t }}</label>
+            <input type="text" id="AddressCityNew" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+          </div>
+          <div>
+            <label for="AddressCountryNew" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.country' | t }}</label>
+            <select id="AddressCountryNew" name="address[country]" data-default="{{ form.country }}" autocomplete="country" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+              {{ all_country_option_tags }}
+            </select>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="AddressZipNew" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.zip' | t }}</label>
+          <input type="text" id="AddressZipNew" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label for="AddressPhoneNew" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.phone' | t }}</label>
+          <input type="tel" id="AddressPhoneNew" name="address[phone]" value="{{ form.phone }}" autocomplete="tel" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+        </div>
+        <div class="mb-6">
+          {{ form.set_as_default_checkbox }}
+          <label for="address_default_address_new" class="font-sans text-sm text-gray-600 ml-2">{{ 'customer.addresses.set_default' | t }}</label>
+        </div>
+        <div class="flex gap-4">
+          <button class="bg-vinyl-blue text-white font-mono text-sm uppercase px-6 py-3 hover:bg-vinyl-black transition-colors tracking-widest">{{ 'customer.addresses.save' | t }}</button>
+          <button type="button" onclick="document.getElementById('AddAddress').classList.add('hidden')" class="text-gray-500 font-mono text-sm uppercase px-6 py-3 hover:text-vinyl-blue transition-colors tracking-widest">{{ 'customer.addresses.cancel' | t }}</button>
+        </div>
+      {% endform %}
+    </div>
+
+    <ul role="list" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {% for address in customer.addresses %}
+        <li class="bg-white border border-gray-200 p-6 relative">
+          {% if address == customer.default_address %}
+            <span class="absolute top-4 right-4 bg-vinyl-blue text-white font-mono text-[10px] uppercase px-2 py-1 tracking-widest">{{ 'customer.addresses.default' | t }}</span>
+          {% endif %}
+          
+          <div class="mb-6 font-sans text-gray-600">
+            {{ address | format_address }}
+          </div>
+
+          <div class="flex gap-4">
+            <button type="button" id="EditFormButton_{{ address.id }}" onclick="document.getElementById('EditAddress_{{ address.id }}').classList.toggle('hidden')" class="font-mono text-xs uppercase text-vinyl-blue hover:text-vinyl-black underline">{{ 'customer.addresses.edit' | t }}</button>
+            <form method="post" action="/account/addresses/{{ address.id }}">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="font-mono text-xs uppercase text-red-500 hover:text-red-700 underline">{{ 'customer.addresses.delete' | t }}</button>
+            </form>
+          </div>
+
+          <div id="EditAddress_{{ address.id }}" class="hidden mt-8 border-t border-gray-100 pt-8">
+            <h2 class="font-serif text-xl mb-6">{{ 'customer.addresses.edit' | t }}</h2>
+            {% form 'customer_address', address %}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label for="AddressFirstName_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.first_name' | t }}</label>
+                  <input type="text" id="AddressFirstName_{{ form.id }}" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+                </div>
+                <div>
+                  <label for="AddressLastName_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.last_name' | t }}</label>
+                  <input type="text" id="AddressLastName_{{ form.id }}" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+                </div>
+              </div>
+              <div class="mb-4">
+                <label for="AddressCompany_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.company' | t }}</label>
+                <input type="text" id="AddressCompany_{{ form.id }}" name="address[company]" value="{{ form.company }}" autocomplete="organization" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+              </div>
+              <div class="mb-4">
+                <label for="AddressAddress1_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.address1' | t }}</label>
+                <input type="text" id="AddressAddress1_{{ form.id }}" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+              </div>
+              <div class="mb-4">
+                <label for="AddressAddress2_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.address2' | t }}</label>
+                <input type="text" id="AddressAddress2_{{ form.id }}" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label for="AddressCity_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.city' | t }}</label>
+                  <input type="text" id="AddressCity_{{ form.id }}" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+                </div>
+                <div>
+                  <label for="AddressCountry_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.country' | t }}</label>
+                  <select id="AddressCountry_{{ form.id }}" name="address[country]" data-default="{{ form.country }}" autocomplete="country" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+                    {{ all_country_option_tags }}
+                  </select>
+                </div>
+              </div>
+              <div class="mb-4">
+                <label for="AddressZip_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.zip' | t }}</label>
+                <input type="text" id="AddressZip_{{ form.id }}" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+              </div>
+              <div class="mb-4">
+                <label for="AddressPhone_{{ form.id }}" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">{{ 'customer.addresses.phone' | t }}</label>
+                <input type="tel" id="AddressPhone_{{ form.id }}" name="address[phone]" value="{{ form.phone }}" autocomplete="tel" class="w-full border border-gray-300 p-3 font-sans focus:border-vinyl-blue focus:outline-none">
+              </div>
+              <div class="mb-6">
+                {{ form.set_as_default_checkbox }}
+                <label for="address_default_address_{{ form.id }}" class="font-sans text-sm text-gray-600 ml-2">{{ 'customer.addresses.set_default' | t }}</label>
+              </div>
+              <div class="flex gap-4">
+                <button class="bg-vinyl-blue text-white font-mono text-sm uppercase px-6 py-3 hover:bg-vinyl-black transition-colors tracking-widest">{{ 'customer.addresses.update' | t }}</button>
+                <button type="button" onclick="document.getElementById('EditAddress_{{ address.id }}').classList.add('hidden')" class="text-gray-500 font-mono text-sm uppercase px-6 py-3 hover:text-vinyl-blue transition-colors tracking-widest">{{ 'customer.addresses.cancel' | t }}</button>
+              </div>
+            {% endform %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+</div>
+
+<script>
+  window.onload = () => {
+    typeof CustomerAddresses !== 'undefined' && new CustomerAddresses();
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Addresses",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 96
+    }
+  ]
+}
+{% endschema %}

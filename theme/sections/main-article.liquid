@@ -1,6 +1,6 @@
 <article class="min-h-screen bg-vinyl-paper" itemscope itemtype="http://schema.org/BlogPosting">
   <!-- Article Header -->
-  <header class="border-b border-vinyl-blue py-16 sm:py-24 px-4 sm:px-8 bg-vinyl-paper relative overflow-hidden">
+  <header class="border-b border-vinyl-blue px-4 sm:px-8 bg-vinyl-paper relative overflow-hidden" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
     <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
       <span class="text-9xl font-serif italic text-vinyl-blue opacity-20">{{ article.title | truncatewords: 1, '' }}</span>
     </div>
@@ -9,7 +9,7 @@
       {%- if blog -%}
         <a href="{{ blog.url }}" class="inline-flex items-center font-mono text-xs uppercase tracking-widest text-vinyl-blue hover:underline mb-6">
           <span class="mr-2">←</span>
-          Back to {{ blog.title }}
+          {{ 'sections.article.back_to' | t: blog_title: blog.title }}
         </a>
       {%- endif -%}
 
@@ -85,32 +85,32 @@
 
       {%- if section.settings.show_share -%}
         <div class="mt-12 pt-8 border-t border-gray-200">
-          <p class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-4">Share this article</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-gray-500 mb-4">{{ 'sections.article.share_label' | t }}</p>
           <div class="flex gap-4">
             <a 
               href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&url={{ shop.url }}{{ article.url }}" 
               target="_blank"
               rel="noopener noreferrer"
               class="font-mono text-sm uppercase text-vinyl-blue hover:underline"
-              aria-label="Share on Twitter"
+              aria-label="{{ 'sections.article.share_twitter' | t }}"
             >
-              Twitter
+              {{ 'sections.article.share_twitter' | t }}
             </a>
             <a 
               href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}" 
               target="_blank"
               rel="noopener noreferrer"
               class="font-mono text-sm uppercase text-vinyl-blue hover:underline"
-              aria-label="Share on Facebook"
+              aria-label="{{ 'sections.article.share_facebook' | t }}"
             >
-              Facebook
+              {{ 'sections.article.share_facebook' | t }}
             </a>
             <a 
               href="mailto:?subject={{ article.title | url_encode }}&body={{ shop.url }}{{ article.url }}" 
               class="font-mono text-sm uppercase text-vinyl-blue hover:underline"
-              aria-label="Share via Email"
+              aria-label="{{ 'sections.article.share_email' | t }}"
             >
-              Email
+              {{ 'sections.article.share_email' | t }}
             </a>
           </div>
         </div>
@@ -123,7 +123,7 @@
     <div class="border-t border-vinyl-blue py-12 sm:py-16 px-4 sm:px-8">
       <div class="max-w-3xl mx-auto">
         <h2 class="font-serif text-3xl text-vinyl-black italic mb-8">
-          Comments ({{ article.comments_count }})
+          {{ 'sections.article.comments' | t: count: article.comments_count }}
         </h2>
 
         {%- if article.comments_count > 0 -%}
@@ -155,7 +155,7 @@
 
         <!-- Comment Form -->
         <div class="bg-gray-50 p-6 sm:p-8">
-          <h3 class="font-serif text-xl text-vinyl-black italic mb-6">Leave a comment</h3>
+          <h3 class="font-serif text-xl text-vinyl-black italic mb-6">{{ 'sections.article.leave_comment' | t }}</h3>
           
           {% form 'new_comment', article %}
             {%- if form.errors -%}
@@ -177,7 +177,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
                 <label for="comment-author" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">
-                  Name *
+                  {{ 'sections.article.name' | t }}
                 </label>
                 <input 
                   type="text" 
@@ -190,7 +190,7 @@
               </div>
               <div>
                 <label for="comment-email" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">
-                  Email *
+                  {{ 'sections.article.email' | t }}
                 </label>
                 <input 
                   type="email" 
@@ -204,7 +204,7 @@
             </div>
             <div class="mb-4">
               <label for="comment-body" class="block font-mono text-xs uppercase tracking-widest text-gray-500 mb-2">
-                Comment *
+                {{ 'sections.article.comment' | t }}
               </label>
               <textarea 
                 name="comment[body]" 
@@ -218,7 +218,7 @@
               type="submit" 
               class="w-full sm:w-auto px-8 py-3 bg-vinyl-blue text-white font-mono text-sm uppercase tracking-widest hover:bg-vinyl-black transition-colors"
             >
-              Post Comment
+              {{ 'sections.article.post_comment' | t }}
             </button>
           {% endform %}
         </div>
@@ -231,7 +231,7 @@
     <div class="grid grid-cols-2">
       {%- if blog.previous_article -%}
         <a href="{{ blog.previous_article.url }}" class="p-6 sm:p-8 border-r border-vinyl-blue hover:bg-gray-50 transition-colors group">
-          <span class="font-mono text-xs uppercase text-gray-500 block mb-2">← Previous</span>
+          <span class="font-mono text-xs uppercase text-gray-500 block mb-2">← {{ 'general.pagination.previous' | t }}</span>
           <span class="font-serif text-lg text-vinyl-black italic group-hover:text-vinyl-blue transition-colors line-clamp-2">
             {{ blog.previous_article.title }}
           </span>
@@ -242,7 +242,7 @@
 
       {%- if blog.next_article -%}
         <a href="{{ blog.next_article.url }}" class="p-6 sm:p-8 hover:bg-gray-50 transition-colors group text-right">
-          <span class="font-mono text-xs uppercase text-gray-500 block mb-2">Next →</span>
+          <span class="font-mono text-xs uppercase text-gray-500 block mb-2">{{ 'general.pagination.next' | t }} →</span>
           <span class="font-serif text-lg text-vinyl-black italic group-hover:text-vinyl-blue transition-colors line-clamp-2">
             {{ blog.next_article.title }}
           </span>
@@ -339,7 +339,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding top",
-      "default": 0
+      "default": 64
     },
     {
       "type": "range",
@@ -349,7 +349,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding bottom",
-      "default": 0
+      "default": 64
     }
   ],
   "disabled_on": {

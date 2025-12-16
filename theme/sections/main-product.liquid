@@ -4,12 +4,12 @@
   - Uses Tailwind CSS for styling
 {% endcomment %}
 
-<section class="bg-vinyl-paper min-h-screen pb-32">
+<section class="bg-vinyl-paper min-h-screen pb-32" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   
   {% comment %} Breadcrumb / Back {% endcomment %}
   <div class="border-b border-vinyl-blue px-4 sm:px-8 py-4 flex items-center justify-between sticky top-[64px] sm:top-[80px] z-30 bg-vinyl-paper/95 backdrop-blur-sm">
     <a href="{{ routes.all_products_collection_url }}" class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-vinyl-blue hover:underline decoration-vinyl-blue underline-offset-4">
-      ← Back to Shop
+      ← {{ 'general.continue_shopping' | t }}
     </a>
     <div class="hidden sm:flex gap-4 font-mono text-xs text-gray-400 uppercase">
        <span>Catalog #{{ product.metafields.my_fields.catalog_number | default: 'N/A' }}</span>
@@ -80,7 +80,7 @@
                 <div class="mt-6 flex items-center gap-4">
                     <span class="font-mono text-2xl text-vinyl-black">{{ product.price | money }}</span>
                     {% if product.available == false %}
-                       <span class="px-3 py-1 rounded-full border border-gray-400 text-gray-400 text-[10px] font-mono uppercase">Sold Out</span>
+                       <span class="px-3 py-1 rounded-full border border-gray-400 text-gray-400 text-[10px] font-mono uppercase">{{ 'products.product.sold_out' | t }}</span>
                     {% elsif product.tags contains 'New' %}
                        <span class="px-3 py-1 rounded-full border border-vinyl-blue text-vinyl-blue text-[10px] font-mono uppercase">New Arrival</span>
                     {% endif %}
@@ -147,7 +147,7 @@
                           class="flex-1 text-white transition-all h-12 flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] border border-transparent
                           {% unless product.available %}bg-gray-400 cursor-not-allowed{% else %}bg-vinyl-blue hover:bg-vinyl-black{% endunless %}"
                       >
-                          <span>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
+                          <span>{% if product.available %}{{ 'products.product.add_to_cart' | t }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
                           {% if product.available %}
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                           {% endif %}
@@ -236,7 +236,32 @@
   "name": "Product Information",
   "tag": "section",
   "class": "section-product",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   },

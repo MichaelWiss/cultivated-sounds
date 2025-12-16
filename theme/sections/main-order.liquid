@@ -1,0 +1,182 @@
+<div class="min-h-screen bg-vinyl-paper px-4 sm:px-8" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="max-w-6xl mx-auto">
+    
+    <div class="flex justify-between items-center mb-12 border-b border-vinyl-blue pb-4">
+      <h1 class="font-serif text-4xl italic text-vinyl-blue">{{ 'customer.order.title' | t }} {{ order.name }}</h1>
+      <a href="{{ routes.account_url }}" class="font-mono text-xs uppercase tracking-widest text-gray-500 hover:text-vinyl-blue">{{ 'customer.account.title' | t }}</a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      
+      <div class="lg:col-span-2">
+        <div class="mb-8">
+          <p class="font-sans text-gray-600 mb-2">
+            <span class="font-bold">{{ 'customer.order.date' | t }}:</span> {{ order.created_at | time_tag: format: 'date' }}
+          </p>
+          {% if order.cancelled %}
+            <div class="bg-red-50 border border-red-200 p-4 mt-4">
+              <p class="font-mono text-xs uppercase text-red-600 font-bold mb-1">{{ 'customer.order.cancelled' | t }}</p>
+              <p class="font-sans text-sm text-red-600">{{ 'customer.order.cancelled_reason' | t }}: {{ order.cancelled_at | time_tag: format: 'date_at_time' }}</p>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="border border-gray-200 bg-white overflow-x-auto">
+          <table role="table" class="w-full text-left border-collapse">
+            <thead role="rowgroup" class="bg-gray-50 border-b border-gray-200">
+              <tr role="row">
+                <th id="ColumnProduct" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">{{ 'customer.order.product' | t }}</th>
+                <th id="ColumnSku" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">{{ 'customer.order.sku' | t }}</th>
+                <th id="ColumnPrice" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">{{ 'customer.order.price' | t }}</th>
+                <th id="ColumnQuantity" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">{{ 'customer.order.quantity' | t }}</th>
+                <th id="ColumnTotal" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">{{ 'customer.order.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody role="rowgroup" class="divide-y divide-gray-100">
+              {% for line_item in order.line_items %}
+                <tr role="row" class="hover:bg-gray-50 transition-colors">
+                  <td headers="ColumnProduct" role="cell" class="p-4 font-sans text-sm text-gray-800">
+                    <div>
+                      {% if line_item.url != blank %}
+                        <a href="{{ line_item.url }}" class="hover:text-vinyl-blue underline">{{ line_item.title }}</a>
+                      {% else %}
+                        <p>{{ line_item.title }}</p>
+                      {% endif %}
+                      {%- if line_item.original_line_price != line_item.final_line_price -%}
+                        <dl>
+                          <dt>
+                            <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+                          </dt>
+                          <dd>
+                            <s>{{ line_item.original_line_price | money }}</s>
+                          </dd>
+                          <dt>
+                            <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+                          </dt>
+                          <dd>
+                            <span>{{ line_item.final_line_price | money }}</span>
+                          </dd>
+                        </dl>
+                      {%- endif -%}
+                    </div>
+                  </td>
+                  <td headers="ColumnSku" role="cell" class="p-4 font-mono text-xs text-gray-500">
+                    {{ line_item.sku }}
+                  </td>
+                  <td headers="ColumnPrice" role="cell" class="p-4 font-mono text-sm text-right text-gray-600">
+                    {%- if line_item.original_price != line_item.final_price -%}
+                      <dl>
+                        <dt>
+                          <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+                        </dt>
+                        <dd>
+                          <s>{{ line_item.original_price | money }}</s>
+                        </dd>
+                        <dt>
+                          <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+                        </dt>
+                        <dd>
+                          <span>{{ line_item.final_price | money }}</span>
+                        </dd>
+                      </dl>
+                    {%- else -%}
+                      {{ line_item.original_price | money }}
+                    {%- endif -%}
+                  </td>
+                  <td headers="ColumnQuantity" role="cell" class="p-4 font-mono text-sm text-right text-gray-600">
+                    {{ line_item.quantity }}
+                  </td>
+                  <td headers="ColumnTotal" role="cell" class="p-4 font-mono text-sm text-right text-gray-800 font-bold">
+                    {{ line_item.final_line_price | money }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot role="rowgroup" class="bg-gray-50 border-t border-gray-200">
+              <tr role="row">
+                <td headers="ColumnProduct" role="rowheader" scope="row" colspan="4" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">{{ 'customer.order.subtotal' | t }}</td>
+                <td headers="ColumnTotal" role="cell" class="p-4 font-mono text-sm text-right text-gray-800">{{ order.line_items_subtotal_price | money }}</td>
+              </tr>
+              {%- if order.cart_level_discount_applications != blank -%}
+                <tr role="row">
+                  {%- for discount_application in order.cart_level_discount_applications -%}
+                    <td headers="ColumnProduct" role="rowheader" scope="row" colspan="4" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">
+                      {{ 'customer.order.discount' | t }}
+                      <span class="block text-[10px] text-gray-400">({{ discount_application.title }})</span>
+                    </td>
+                    <td headers="ColumnTotal" role="cell" class="p-4 font-mono text-sm text-right text-gray-800">-{{ discount_application.total_allocated_amount | money }}</td>
+                  {%- endfor -%}
+                </tr>
+              {%- endif -%}
+              {%- for shipping_method in order.shipping_methods -%}
+                <tr role="row">
+                  <td headers="ColumnProduct" role="rowheader" scope="row" colspan="4" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</td>
+                  <td headers="ColumnTotal" role="cell" class="p-4 font-mono text-sm text-right text-gray-800">{{ shipping_method.price | money }}</td>
+                </tr>
+              {%- endfor -%}
+              {%- for tax_line in order.tax_lines -%}
+                <tr role="row">
+                  <td headers="ColumnProduct" role="rowheader" scope="row" colspan="4" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</td>
+                  <td headers="ColumnTotal" role="cell" class="p-4 font-mono text-sm text-right text-gray-800">{{ tax_line.price | money }}</td>
+                </tr>
+              {%- endfor -%}
+              <tr role="row" class="border-t border-gray-200">
+                <td headers="ColumnProduct" role="rowheader" scope="row" colspan="4" class="p-4 font-mono text-sm uppercase text-vinyl-blue font-bold text-right">{{ 'customer.order.total_price' | t }}</td>
+                <td headers="ColumnTotal" role="cell" class="p-4 font-mono text-lg text-right text-vinyl-blue font-bold">{{ order.total_price | money_with_currency }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="font-serif text-2xl mb-6">{{ 'customer.order.billing_address' | t }}</h2>
+        <div class="bg-white border border-gray-200 p-6 mb-8">
+          <p class="font-mono text-xs uppercase text-gray-500 mb-2">{{ 'customer.order.payment_status' | t }}: <span class="text-vinyl-blue">{{ order.financial_status_label }}</span></p>
+          {{ order.billing_address | format_address }}
+        </div>
+
+        <h2 class="font-serif text-2xl mb-6">{{ 'customer.order.shipping_address' | t }}</h2>
+        <div class="bg-white border border-gray-200 p-6">
+          <p class="font-mono text-xs uppercase text-gray-500 mb-2">{{ 'customer.order.fulfillment_status' | t }}: <span class="text-vinyl-blue">{{ order.fulfillment_status_label }}</span></p>
+          {{ order.shipping_address | format_address }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Order",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 96
+    }
+  ]
+}
+{% endschema %}

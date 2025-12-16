@@ -1,16 +1,16 @@
-<div class="min-h-screen bg-vinyl-paper py-24 px-4 sm:px-8">
+<div class="min-h-screen bg-vinyl-paper px-4 sm:px-8" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="max-w-6xl mx-auto">
     
     <div class="flex justify-between items-center mb-12 border-b border-vinyl-blue pb-4">
-      <h1 class="font-serif text-4xl italic text-vinyl-blue">My Account</h1>
-      <a href="{{ routes.account_logout_url }}" class="font-mono text-xs uppercase tracking-widest text-gray-500 hover:text-vinyl-blue">Log out</a>
+      <h1 class="font-serif text-4xl italic text-vinyl-blue">{{ 'customer.account.title' | t }}</h1>
+      <a href="{{ routes.account_logout_url }}" class="font-mono text-xs uppercase tracking-widest text-gray-500 hover:text-vinyl-blue">{{ 'customer.account.log_out' | t }}</a>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
       
       {% comment %} Order History {% endcomment %}
       <div class="lg:col-span-2">
-        <h2 class="font-serif text-2xl mb-6">Order History</h2>
+        <h2 class="font-serif text-2xl mb-6">{{ 'customer.account.order_history' | t }}</h2>
         
         {% paginate customer.orders by 20 %}
           {% if customer.orders.size > 0 %}
@@ -18,11 +18,11 @@
               <table role="table" class="w-full text-left border-collapse">
                 <thead role="rowgroup" class="bg-gray-50 border-b border-gray-200">
                   <tr role="row">
-                    <th id="ColumnOrder" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">Order</th>
-                    <th id="ColumnDate" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">Date</th>
-                    <th id="ColumnPayment" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">Payment</th>
-                    <th id="ColumnFulfillment" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">Status</th>
-                    <th id="ColumnTotal" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">Total</th>
+                    <th id="ColumnOrder" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">{{ 'customer.account.order' | t }}</th>
+                    <th id="ColumnDate" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">{{ 'customer.account.date' | t }}</th>
+                    <th id="ColumnPayment" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">{{ 'customer.account.payment_status' | t }}</th>
+                    <th id="ColumnFulfillment" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500">{{ 'customer.account.fulfillment_status' | t }}</th>
+                    <th id="ColumnTotal" scope="col" role="columnheader" class="p-4 font-mono text-xs uppercase text-gray-500 text-right">{{ 'customer.account.total' | t }}</th>
                   </tr>
                 </thead>
                 <tbody role="rowgroup" class="divide-y divide-gray-100">
@@ -57,8 +57,8 @@
           
           {% else %}
             <div class="bg-gray-50 border border-gray-200 p-8 text-center">
-              <p class="font-sans text-gray-500 mb-4">You haven't placed any orders yet.</p>
-              <a href="{{ routes.all_products_collection_url }}" class="font-mono text-xs uppercase bg-vinyl-blue text-white px-6 py-3 hover:bg-vinyl-black transition-colors">Start Digging</a>
+              <p class="font-sans text-gray-500 mb-4">{{ 'customer.account.no_orders' | t }}</p>
+              <a href="{{ routes.all_products_collection_url }}" class="font-mono text-xs uppercase bg-vinyl-blue text-white px-6 py-3 hover:bg-vinyl-black transition-colors">{{ 'customer.account.start_shopping' | t }}</a>
             </div>
           {% endif %}
         {% endpaginate %}
@@ -66,11 +66,11 @@
 
       {% comment %} Account Details {% endcomment %}
       <div>
-        <h2 class="font-serif text-2xl mb-6">Account Details</h2>
+        <h2 class="font-serif text-2xl mb-6">{{ 'customer.account.details' | t }}</h2>
         <div class="bg-white border border-gray-200 p-6">
-          <h3 class="font-mono text-sm font-bold uppercase mb-2 text-vinyl-blue">Default Address</h3>
+          <h3 class="font-mono text-sm font-bold uppercase mb-2 text-vinyl-blue">{{ 'customer.account.default_address' | t }}</h3>
           {{ customer.default_address | format_address }}
-          <a href="{{ routes.account_addresses_url }}" class="block mt-4 font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue underline">View Addresses ({{ customer.addresses_count }})</a>
+          <a href="{{ routes.account_addresses_url }}" class="block mt-4 font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue underline">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a>
         </div>
       </div>
 
@@ -81,6 +81,33 @@
 {% schema %}
 {
   "name": "Account",
-  "settings": []
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 96
+    }
+  ]
 }
 {% endschema %}

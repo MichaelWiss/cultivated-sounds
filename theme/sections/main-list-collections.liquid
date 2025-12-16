@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-vinyl-paper py-24 px-4 sm:px-8">
+<div class="min-h-screen bg-vinyl-paper px-4 sm:px-8" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="max-w-6xl mx-auto">
-    <h1 class="font-serif text-5xl italic text-vinyl-blue mb-12 border-b border-vinyl-blue pb-4">Collections</h1>
+    <h1 class="font-serif text-5xl italic text-vinyl-blue mb-12 border-b border-vinyl-blue pb-4">{{ 'sections.collection_list.title' | t }}</h1>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for collection in collections %}
@@ -23,7 +23,7 @@
               {% endif %}
             </div>
             <h2 class="font-serif text-2xl italic group-hover:text-vinyl-blue transition-colors">{{ collection.title }}</h2>
-            <p class="font-mono text-sm text-gray-500">{{ collection.products_count }} items</p>
+            <p class="font-mono text-sm text-gray-500">{{ collection.products_count }} {{ 'sections.collection_list.items' | t }}</p>
           </a>
         {% endunless %}
       {% endfor %}
@@ -34,6 +34,31 @@
 {% schema %}
 {
   "name": "Collections List",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 96
+    }
+  ]
 }
 {% endschema %}

@@ -18,7 +18,7 @@
   >
     <div class="flex justify-between items-center p-6 border-b border-vinyl-blue">
       <h2 class="font-serif text-2xl italic text-vinyl-blue">
-        Your Cart (<span data-cart-count>{{ cart.item_count }}</span>)
+        {{ 'sections.cart.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
       </h2>
       <button id="cart-close" class="hover:rotate-90 transition-transform duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-vinyl-blue"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -28,8 +28,8 @@
     <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6">
       {% if cart.empty? %}
         <div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
-          <span class="font-serif text-xl italic">Your crate is empty</span>
-          <button id="cart-continue" class="font-mono text-xs uppercase underline hover:text-vinyl-blue">Continue Digging</button>
+          <span class="font-serif text-xl italic">{{ 'sections.cart.empty' | t }}</span>
+          <button id="cart-continue" class="font-mono text-xs uppercase underline hover:text-vinyl-blue">{{ 'sections.cart.continue_shopping' | t }}</button>
         </div>
       {% else %}
         {% for item in cart.items %}
@@ -73,13 +73,13 @@
 
     <div id="cart-footer" class="border-t border-vinyl-blue p-6 bg-white {% if cart.empty? %}hidden{% endif %}">
       <div class="flex justify-between items-center mb-4">
-        <span class="font-mono text-sm uppercase tracking-widest text-gray-500">Subtotal</span>
+        <span class="font-mono text-sm uppercase tracking-widest text-gray-500">{{ 'sections.cart.subtotal' | t }}</span>
         <span class="font-mono text-xl text-vinyl-black" data-cart-total>{{ cart.total_price | money }}</span>
       </div>
-      <p class="font-sans text-xs text-gray-500 mb-6 text-center">Shipping & taxes calculated at checkout</p>
+      <p class="font-sans text-xs text-gray-500 mb-6 text-center">{{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}</p>
       <form action="{{ routes.cart_url }}" method="post">
         <button type="submit" name="checkout" class="w-full bg-vinyl-blue text-white font-mono text-sm uppercase py-4 hover:bg-vinyl-black transition-colors tracking-widest">
-          Checkout
+          {{ 'sections.cart.checkout' | t }}
         </button>
       </form>
     </div>

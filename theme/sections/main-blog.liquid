@@ -1,14 +1,14 @@
 <div class="min-h-screen bg-vinyl-paper">
   {%- paginate blog.articles by section.settings.posts_per_page -%}
     <!-- Header Section -->
-    <div class="border-b border-vinyl-blue py-16 sm:py-24 px-4 sm:px-8 bg-vinyl-paper relative overflow-hidden">
+    <div class="border-b border-vinyl-blue px-4 sm:px-8 bg-vinyl-paper relative overflow-hidden" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
       <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
         <h1 class="text-9xl font-serif italic text-vinyl-blue opacity-20">{{ blog.title | truncatewords: 1, '' }}</h1>
       </div>
       
       <div class="max-w-4xl relative z-10">
         <p class="font-mono text-xs uppercase tracking-widest text-vinyl-blue mb-4">
-          Blog
+          {{ 'sections.blog.title' | t }}
         </p>
         <h1 class="font-serif text-5xl sm:text-7xl text-vinyl-black italic mb-6 leading-[0.9]">
           {{ blog.title }}
@@ -24,12 +24,12 @@
     <!-- Tag Filter Bar -->
     {%- if blog.all_tags.size > 0 -%}
       <div class="sticky top-[64px] sm:top-[80px] z-30 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex flex-wrap gap-2 items-center">
-        <span class="font-mono text-xs uppercase text-gray-500 mr-2">Filter:</span>
+        <span class="font-mono text-xs uppercase text-gray-500 mr-2">{{ 'sections.blog.filter_label' | t }}</span>
         <a 
           href="{{ blog.url }}" 
           class="font-mono text-xs uppercase px-3 py-1 border transition-colors {% if current_tags == blank %}bg-vinyl-blue text-white border-vinyl-blue{% else %}border-vinyl-blue text-vinyl-blue hover:bg-vinyl-blue hover:text-white{% endif %}"
         >
-          All
+          {{ 'sections.blog.all_tags' | t }}
         </a>
         {%- for tag in blog.all_tags -%}
           <a 
@@ -97,7 +97,8 @@
               href="{{ article.url }}" 
               class="inline-flex items-center font-mono text-xs uppercase tracking-widest text-vinyl-blue hover:underline"
             >
-              Read More
+              {{ 'sections.blog.read_more' | t }}
+
               <span class="ml-2">→</span>
             </a>
           </div>
@@ -168,7 +169,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding top",
-      "default": 0
+      "default": 64
     },
     {
       "type": "range",
@@ -178,7 +179,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding bottom",
-      "default": 0
+      "default": 64
     }
   ],
   "disabled_on": {

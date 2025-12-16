@@ -1,4 +1,4 @@
-<footer class="bg-[#e5e4de] border-t border-vinyl-blue pt-16 pb-8">
+<footer class="bg-[#e5e4de] border-t border-vinyl-blue" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="page-width px-4 sm:px-8">
     
     <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-16 border-b border-gray-400 pb-12">
@@ -15,6 +15,9 @@
           <p class="font-sans text-sm leading-relaxed max-w-xs text-gray-600">
             {{ section.settings.brand_description }}
           </p>
+          <div class="mt-8">
+            {% render 'social-icons' %}
+          </div>
         </div>
       </div>
 
@@ -58,13 +61,13 @@
               autocorrect="off"
               autocapitalize="off"
               autocomplete="email"
-              placeholder="EMAIL ADDRESS" 
+              placeholder="{{ 'general.newsletter.label' | t }}" 
               class="w-full bg-transparent border-b border-gray-400 py-2 font-mono text-sm focus:outline-none focus:border-vinyl-blue placeholder:text-gray-400"
               required
             >
           </div>
           <button type="submit" class="mt-2 w-full bg-vinyl-black text-white font-mono text-xs uppercase py-3 hover:bg-vinyl-blue transition-colors flex justify-between px-4 cursor-pointer">
-            <span>Subscribe</span>
+            <span>{{ 'general.newsletter.button_label' | t }}</span>
             <span>→</span>
           </button>
           {%- if form.errors -%}
@@ -74,7 +77,7 @@
           {%- endif -%}
           {%- if form.posted_successfully? -%}
             <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="Newsletter-success--{{ section.id }}" tabindex="-1" autofocus>
-              Thanks for subscribing!
+              {{ 'general.newsletter.success' | t }}
             </h3>
           {%- endif -%}
         {% endform %}
@@ -107,6 +110,30 @@
       "id": "newsletter_text",
       "label": "Newsletter Text",
       "default": "Get early access to drops and exclusive content."
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 32
     }
   ],
   "blocks": [
