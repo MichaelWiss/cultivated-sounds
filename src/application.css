@@ -6,3 +6,46 @@
   Shopify-specific overrides and Dawn base styles can go here
   if not covered by Tailwind config.
 */
+/* Accessibility - Skip to content link */
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal !important;
+}
+
+/* Animation keyframes */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 10s linear infinite;
+}
+
+/* Remove default link styles for Shopify */
+.full-unstyled-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.full-unstyled-link:hover {
+  text-decoration: none;
+}
+
+/* List reset */
+.list-unstyled {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
