@@ -1,0 +1,35 @@
+{% comment %}
+  Pagination Snippet
+{% endcomment %}
+
+{%- if paginate.pages > 1 -%}
+  <nav class="pagination flex gap-2 justify-center" role="navigation" aria-label="Pagination">
+    {%- if paginate.previous -%}
+      <a href="{{ paginate.previous.url }}" class="pagination__item p-2 border border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors font-mono text-sm">
+        ←
+      </a>
+    {%- endif -%}
+
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+        <a href="{{ part.url }}" class="pagination__item p-2 w-10 h-10 flex items-center justify-center border border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors font-mono text-sm">
+          {{ part.title }}
+        </a>
+      {%- else -%}
+        {%- if part.title == paginate.current_page -%}
+          <span class="pagination__item pagination__item--current p-2 w-10 h-10 flex items-center justify-center bg-vinyl-blue text-white font-mono text-sm">
+            {{ part.title }}
+          </span>
+        {%- else -%}
+          <span class="pagination__item p-2 w-10 h-10 flex items-center justify-center font-mono text-sm text-gray-400">{{ part.title }}</span>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if paginate.next -%}
+      <a href="{{ paginate.next.url }}" class="pagination__item p-2 border border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors font-mono text-sm">
+        →
+      </a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}
