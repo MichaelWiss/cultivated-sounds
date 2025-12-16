@@ -1,6 +1,6 @@
 {%- if section.settings.text != blank -%}
-  <div class="marquee-container w-full overflow-hidden border-b border-vinyl-blue bg-vinyl-paper" role="region" aria-label="{{ 'sections.header.announcement' | t }}">
-    <div class="marquee-content py-2 font-mono text-sm uppercase tracking-widest text-vinyl-blue whitespace-nowrap inline-block" style="animation: marquee {{ section.settings.speed }}s linear infinite;">
+  <div class="marquee-container w-full overflow-hidden bg-vinyl-blue border-none" role="region" aria-label="{{ 'sections.header.announcement' | t }}">
+    <div class="marquee-content py-2 font-mono text-sm uppercase tracking-widest text-white whitespace-nowrap inline-block" style="animation: marquee {{ section.settings.speed }}s linear infinite;">
       {%- for i in (1..10) -%}
         <span class="mx-4">{{ section.settings.text }}</span>
         <span class="mx-4">✦</span>
