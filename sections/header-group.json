@@ -31,10 +31,19 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "announcement_bar_zp8HWi": {
+      "type": "announcement-bar",
+      "name": "Announcement Bar",
+      "settings": {
+        "text": "Free shipping on all domestic orders over $50",
+        "speed": 20
+      }
     }
   },
   "order": [
     "header",
-    "store_info_pX498B"
+    "store_info_pX498B",
+    "announcement_bar_zp8HWi"
   ]
 }
