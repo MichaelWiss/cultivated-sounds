@@ -1,14 +1,41 @@
 {
   "sections": {
     "banner": {
-      "type": "featured-release",
+      "type": "hero-banner",
+      "blocks": {
+        "subheading": {
+          "type": "subheading",
+          "settings": {
+            "text": "Just Arrived"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem De Amor</p>"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "A stunning exploration of tropicalia infused textures and intimate songwriting. Pressed on 180g limited edition clear vinyl."
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "label": "Shop Now"
+          }
+        }
+      },
+      "block_order": [
+        "subheading",
+        "heading",
+        "text",
+        "button"
+      ],
       "settings": {
-        "badge_text": "FEATURED RELEASE",
-        "subheading": "Just Arrived",
-        "heading": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem <span style=\"font-weight: 300;\">De Amor</span></p>",
-        "text": "A stunning exploration of tropicalia infused textures and intimate songwriting. Pressed on 180g limited edition clear vinyl.",
-        "button_label": "Shop Now",
-        "button_link": "shopify://collections/all"
+        "badge_text": "FEATURED RELEASE"
       }
     },
     "staff_picks": {
@@ -30,18 +57,17 @@
       }
     },
     "homepage_grid": {
-      "type": "homepage-grid",
+      "type": "product-grid-main",
       "settings": {
-        "title": "Deep Digs",
         "products_to_show": 8,
         "show_vendor": true
       }
     },
     "journal_cta": {
-      "type": "journal-cta",
+      "type": "cta-journal-big",
       "settings": {
-        "heading": "Refinement Rotation®",
-        "text": "Weekly essentials, collection arrivals and sonic observations.",
+        "subheading": "Refinement Rotation®",
+        "heading": "Weekly essentials, collection arrivals and sonic observations.",
         "button_label": "Join the Club"
       }
     },
