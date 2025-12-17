@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "Header Group",
   "type": "header",
@@ -5,10 +14,23 @@
     "header": {
       "type": "header",
       "settings": {
+        "logo_width": 100,
+        "menu": "main-menu",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "announcement_bar_zp8HWi": {
+      "type": "announcement-bar",
+      "name": "Announcement Bar",
+      "settings": {
+        "text": "Free shipping on all domestic orders over $50",
+        "speed": 20
       }
     }
   },
   "order": [
-    "header"
+    "header",
+    "announcement_bar_zp8HWi"
   ]
 }
