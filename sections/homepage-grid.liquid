@@ -4,47 +4,53 @@
   - Includes filter bar and Load More button
 {% endcomment %}
 
-<section id="shop" class="border-b border-vinyl-blue">
-  {%- comment -%} Sticky Filter Bar {%- endcomment -%}
-  <div class="sticky top-16 sm:top-20 z-40 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto">
-    <div class="flex space-x-6">
-      <button class="font-mono text-xs uppercase font-bold text-vinyl-blue" data-filter="all">All</button>
-      {%- for tag in section.settings.filter_tags | split: ',' -%}
-        <button class="font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue" data-filter="{{ tag | strip | handleize }}">{{ tag | strip }}</button>
-      {%- endfor -%}
-    </div>
-    <div class="flex items-center space-x-2 font-mono text-xs uppercase">
-      <span class="text-gray-500">Sort By:</span>
-      <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue">
-        <option>Newest</option>
-        <option>Price: Low to High</option>
-        <option>Price: High to Low</option>
-      </select>
-    </div>
-  </div>
-
-  {%- comment -%} Product Grid {%- endcomment -%}
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue">
-    {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-      <div class="product-grid-item">
-        {% render 'card-product', product: product, show_vendor: section.settings.show_vendor %}
+<product-filters>
+  <section id="shop" class="border-b border-vinyl-blue">
+    {%- comment -%} Sticky Filter Bar {%- endcomment -%}
+    <div class="sticky top-16 sm:top-20 z-40 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto">
+      <div class="flex space-x-6">
+        <button class="font-mono text-xs uppercase font-bold text-vinyl-blue" data-filter="all">All</button>
+        {%- for tag in section.settings.filter_tags | split: ',' -%}
+          <button class="font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue transition-colors" data-filter="{{ tag | strip | handleize }}">{{ tag | strip }}</button>
+        {%- endfor -%}
       </div>
-    {%- else -%}
-      {%- for i in (1..8) -%}
-        <div class="product-grid-item">
-          {% render 'card-product', show_vendor: section.settings.show_vendor %}
+      <div class="flex items-center space-x-2 font-mono text-xs uppercase">
+        <span class="text-gray-500">Sort By:</span>
+        <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue">
+          <option>Newest</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    {%- comment -%} Product Grid {%- endcomment -%}
+    <div class="product-grid-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue">
+      {%- assign collection_to_use = section.settings.collection | default: collections.all -%}
+      {%- for product in collection_to_use.products limit: section.settings.products_to_show -%}
+        <div class="product-grid-item" 
+             data-tags="{{ product.tags | join: ',' | downcase }}"
+             data-price="{{ product.price | money_without_currency | remove: ',' }}"
+             data-date="{{ product.published_at }}">
+          {% render 'card-product', card_product: product, show_vendor: section.settings.show_vendor %}
         </div>
+      {%- else -%}
+        {%- for i in (1..8) -%}
+          <div class="product-grid-item" data-tags="placeholder" data-price="0" data-date="">
+            {% render 'card-product', show_vendor: section.settings.show_vendor %}
+          </div>
+        {%- endfor -%}
       {%- endfor -%}
-    {%- endfor -%}
-  </div>
-  
-  {%- comment -%} Load More Button {%- endcomment -%}
-  <div class="py-12 flex justify-center bg-vinyl-paper">
-    <button class="px-8 py-3 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-xs uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-all">
-      Load More
-    </button>
-  </div>
-</section>
+    </div>
+    
+    {%- comment -%} Load More Button {%- endcomment -%}
+    <div class="py-12 flex justify-center bg-vinyl-paper">
+      <button class="px-8 py-3 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-xs uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-all" data-load-more>
+        Load More
+      </button>
+    </div>
+  </section>
+</product-filters>
 
 {% schema %}
 {
