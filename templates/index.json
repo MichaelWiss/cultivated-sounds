@@ -10,7 +10,7 @@
       }
     },
     "staff_picks": {
-      "type": "featured-collection",
+      "type": "staff-picks",
       "settings": {
         "title": "Staff Picks",
         "subtitle": "HANDPICKED ESSENTIALS FOR CULTIVATED LISTENING",

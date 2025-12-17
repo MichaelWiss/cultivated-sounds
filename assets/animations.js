@@ -4,7 +4,37 @@
 function initAnimations() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    console.log('Animations disabled: User prefers reduced motion');
+    return;
+  }
+
   gsap.registerPlugin(ScrollTrigger);
+
+  // Featured Release / Hero Animations
+  const heroText = document.querySelector('.hero-text');
+  if (heroText) {
+    gsap.from(heroText, {
+      y: 100,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power4.out",
+      delay: 0.2
+    });
+  }
+
+  const heroBtn = document.querySelectorAll('.hero-btn');
+  if (heroBtn.length > 0) {
+    gsap.from(heroBtn, {
+      y: 20,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      delay: 0.8
+    });
+  }
 
   // Product Page Animations (.pdp-animate-up, .pdp-image)
   const pdpElements = document.querySelectorAll('.pdp-animate-up');
