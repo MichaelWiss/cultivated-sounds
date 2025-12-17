@@ -25,7 +25,7 @@
     </div>
 
     {%- comment -%} Product Grid {%- endcomment -%}
-    <div class="product-grid-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue">
+    <div class="product-grid-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-8 py-8">
       {%- assign collection_to_use = section.settings.collection | default: collections.all -%}
       {%- for product in collection_to_use.products limit: section.settings.products_to_show -%}
         <div class="product-grid-item" 

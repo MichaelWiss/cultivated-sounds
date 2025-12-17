@@ -17,19 +17,15 @@
       </div>
     {%- endif -%}
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-vinyl-blue border border-vinyl-blue">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-        <div class="bg-white">
-          {% render 'card-product',
-            card_product: product,
-            show_vendor: section.settings.show_vendor
-          %}
-        </div>
+        {% render 'card-product',
+          card_product: product,
+          show_vendor: section.settings.show_vendor
+        %}
       {%- else -%}
         {%- for i in (1..4) -%}
-          <div class="bg-white">
-            {% render 'card-product', show_vendor: section.settings.show_vendor %}
-          </div>
+          {% render 'card-product', show_vendor: section.settings.show_vendor %}
         {%- endfor -%}
       {%- endfor -%}
     </div>
