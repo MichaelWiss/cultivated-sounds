@@ -10,7 +10,8 @@
     <div class="sticky top-16 sm:top-20 z-40 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto">
       <div class="flex space-x-6">
         <button class="font-mono text-xs uppercase font-bold text-vinyl-blue" data-filter="all">All</button>
-        {%- for tag in section.settings.filter_tags | split: ',' -%}
+        {%- assign filter_tags_array = section.settings.filter_tags | split: ',' -%}
+        {%- for tag in filter_tags_array -%}
           <button class="font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue transition-colors" data-filter="{{ tag | strip | handleize }}">{{ tag | strip }}</button>
         {%- endfor -%}
       </div>
