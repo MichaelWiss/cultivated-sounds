@@ -3,30 +3,35 @@
   - Brutalist design with large text and circular graphic
 {% endcomment %}
 
-<section class="bg-black text-white py-24 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-20 pointer-events-none">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/20 rounded-full"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/20 rounded-full"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-white/20 rounded-full"></div>
+<section class="bg-black text-white py-40 relative overflow-hidden">
+  {% comment %} Graphic Background {% endcomment %}
+  <div class="absolute right-[-5%] top-[-10%] opacity-20 pointer-events-none">
+    <div class="w-[800px] h-[800px] border border-white/40 rounded-full flex items-center justify-center">
+      <div class="w-[600px] h-[600px] border border-white/30 rounded-full flex items-center justify-center">
+        <div class="w-[400px] h-[400px] border border-white/20 rounded-full"></div>
+      </div>
+    </div>
   </div>
 
-  <div class="container mx-auto px-4 sm:px-8 relative z-10 text-center">
-    <h2 class="font-mono text-xs uppercase tracking-[0.4em] mb-12 text-gray-400">
-      {{ section.settings.subheading }}
-    </h2>
-    
-    <div class="max-w-4xl mx-auto mb-16">
-      <p class="font-serif text-3xl sm:text-5xl lg:text-6xl italic leading-tight text-white mb-4">
-        {{ section.settings.heading }}
-      </p>
-    </div>
+  <div class="px-6 sm:px-10 lg:px-20 relative z-10">
+    <div class="max-w-6xl">
+        <h2 class="font-mono text-[10px] uppercase tracking-[0.5em] mb-12 text-gray-400 font-bold">
+            {{ section.settings.subheading }}
+        </h2>
+        
+        <div class="mb-20">
+            <p class="font-serif text-5xl sm:text-7xl lg:text-[100px] italic leading-[0.85] text-white">
+                {{ section.settings.heading }}
+            </p>
+        </div>
 
-    <a href="{{ section.settings.button_link }}" class="inline-flex items-center gap-4 font-mono text-xs uppercase tracking-[0.2em] group">
-      <span class="border-b border-white pb-1 group-hover:border-vinyl-blue group-hover:text-vinyl-blue transition-colors">
-        {{ section.settings.button_label }}
-      </span>
-      <span class="group-hover:translate-x-2 transition-transform duration-300">→</span>
-    </a>
+        <a href="{{ section.settings.button_link }}" class="inline-flex items-center gap-8 group no-underline text-white">
+            <span class="font-mono text-[10px] uppercase tracking-[0.3em] font-bold border-b-2 border-white pb-1 group-hover:border-vinyl-blue group-hover:text-vinyl-blue transition-colors">
+                {{ section.settings.button_label }}
+            </span>
+            <span class="text-3xl transition-transform duration-300 group-hover:translate-x-4">→</span>
+        </a>
+    </div>
   </div>
 </section>
 

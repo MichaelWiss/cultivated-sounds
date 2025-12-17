@@ -6,26 +6,18 @@
 
 <product-filters>
   <section id="shop" class="border-t border-vinyl-blue">
-    {%- comment -%} Navigation / Filter Bar {%- endcomment -%}
-    <div class="bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex items-center overflow-x-auto no-scrollbar">
-      <div class="flex items-center space-x-12">
-        <button class="font-mono text-xs uppercase font-bold text-vinyl-blue whitespace-nowrap" data-filter="all">Shop All</button>
-        {%- assign filter_tags_array = section.settings.filter_tags | split: ',' -%}
-        {%- for tag in filter_tags_array -%}
-          <button class="font-mono text-xs uppercase text-gray-400 hover:text-vinyl-blue transition-colors whitespace-nowrap" data-filter="{{ tag | strip | handleize }}">{{ tag | strip }}</button>
-        {%- endfor -%}
-      </div>
-    </div>
+    {%- comment -%} Navigation / Filter logic moved to collection-bar or combined below {%- endcomment -%}
+
 
     {%- comment -%} Status Bar {%- endcomment -%}
-    <div class="sticky top-[64px] sm:top-[80px] z-40 bg-vinyl-paper border-b border-vinyl-blue py-2 px-4 sm:px-8 flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <span class="font-mono text-[10px] uppercase text-gray-400">Shop All</span>
-        <span class="font-mono text-[10px] uppercase text-vinyl-blue">({{ collection_to_use.products_count | default: 0 }} Items)</span>
+    <div class="sticky top-[64px] sm:top-[80px] z-40 bg-vinyl-paper border-b border-vinyl-blue py-3 px-6 sm:px-10 flex justify-between items-center">
+      <div class="flex items-center gap-6">
+        <span class="font-mono text-[10px] uppercase font-bold text-vinyl-black tracking-[0.2em]">Shop All</span>
+        <span class="font-mono text-[9px] uppercase text-vinyl-blue font-bold tracking-[0.2em]">({{ section.settings.collection.products_count | default: 56 }} Items)</span>
       </div>
-      <div class="flex items-center space-x-2 font-mono text-[10px] uppercase">
+      <div class="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.2em] font-bold">
         <span class="text-gray-400">Sort By:</span>
-        <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue p-0">
+        <select class="bg-transparent border-none focus:ring-0 cursor-pointer text-vinyl-blue p-0 font-bold uppercase text-[10px] tracking-[0.2em]">
           <option>Newest</option>
           <option>Price: Low to High</option>
           <option>Price: High to Low</option>
@@ -34,10 +26,10 @@
     </div>
 
     {%- comment -%} Product Grid {%- endcomment -%}
-    <div class="product-grid-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue">
+    <div class="product-grid-items grid grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue">
       {%- assign collection_to_use = section.settings.collection | default: collections.all -%}
       {%- for product in collection_to_use.products limit: section.settings.products_to_show -%}
-        <div class="product-grid-item" 
+        <div class="product-grid-item border-r border-b border-vinyl-blue p-6 sm:p-10 group hover:bg-white transition-colors duration-500" 
              data-tags="{{ product.tags | join: ',' | downcase }}"
              data-price="{{ product.price | money_without_currency | remove: ',' }}"
              data-date="{{ product.published_at }}">
@@ -45,16 +37,17 @@
         </div>
       {%- else -%}
         {%- for i in (1..8) -%}
-          <div class="product-grid-item" data-tags="placeholder" data-price="0" data-date="">
-            {% render 'card-product', show_vendor: section.settings.show_vendor %}
+          <div class="product-grid-item border-r border-b border-vinyl-blue p-6 sm:p-10" data-tags="placeholder" data-price="0" data-date="">
+            {% render 'card-product' %}
           </div>
         {%- endfor -%}
       {%- endfor -%}
     </div>
     
     {%- comment -%} Load More Button {%- endcomment -%}
-    <div class="py-16 flex justify-center bg-vinyl-paper border-b border-vinyl-blue">
-      <button class="px-12 py-3 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-vinyl-blue hover:text-white transition-all shadow-[4px_4px_0px_0px_rgba(26,35,219,0.1)] hover:shadow-none" data-load-more>
+    <div class="py-24 flex flex-col items-center justify-center bg-vinyl-paper border-b border-vinyl-blue gap-8">
+      <div class="w-16 h-px bg-vinyl-blue/20"></div>
+      <button class="px-16 py-3 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-vinyl-blue hover:text-white transition-all shadow-[8px_8px_0px_0px_rgba(26,35,219,0.1)] hover:shadow-none" data-load-more>
         Load More
       </button>
     </div>

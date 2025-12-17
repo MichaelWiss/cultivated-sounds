@@ -1,52 +1,48 @@
-{% comment %} Force Sync {% endcomment %}
-<section class="relative w-full border-b border-vinyl-blue overflow-hidden group" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
-  <!-- Background with blend mode -->
-  <div class="absolute inset-0 bg-vinyl-blue opacity-5 z-10 pointer-events-none mix-blend-multiply"></div>
-  
-  <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[70vh]">
+<section class="relative w-full border-b border-vinyl-blue overflow-hidden group">
+  <div class="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
     <!-- Left: Image -->
-    <div class="relative h-[50vh] lg:h-auto border-b lg:border-b-0 lg:border-r border-vinyl-blue overflow-hidden">
+    <div class="relative h-[60vh] lg:h-auto border-b lg:border-b-0 lg:border-r border-vinyl-blue overflow-hidden">
       {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 1500 | image_tag:
-          loading: 'lazy',
-          class: 'absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] ease-in-out group-hover:scale-105 filter grayscale contrast-125',
+        {{ section.settings.image | image_url: width: 2000 | image_tag:
+          loading: 'eager',
+          class: 'absolute inset-0 w-full h-full object-cover transition-transform duration-[4s] ease-in-out group-hover:scale-105 filter grayscale contrast-[1.1]',
           sizes: '(min-width: 1024px) 50vw, 100vw'
         }}
       {%- else -%}
         {{ 'lifestyle-1' | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover filter grayscale contrast-125' }}
       {%- endif -%}
       
-      {%- if section.settings.badge_text != blank -%}
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8">
-           <div class="text-white font-mono text-xs uppercase border border-white/30 px-3 py-1 rounded-full backdrop-blur-md">
-              {{ section.settings.badge_text }}
-           </div>
-        </div>
-      {%- endif -%}
+      <!-- Attribution -->
+      <div class="absolute bottom-10 left-10 z-20">
+        <p class="font-mono text-[9px] uppercase tracking-[0.3em] text-white/80">PHOTOGRAPHY: VINYL ARCHIVE</p>
+      </div>
     </div>
 
     <!-- Right: Content -->
-    <div class="relative flex flex-col justify-center p-8 sm:p-16 lg:p-24 bg-vinyl-paper">
-      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-vinyl-blue to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
+    <div class="relative flex flex-col justify-center p-12 sm:p-20 lg:p-32 bg-vinyl-paper">
       {%- if section.settings.subheading != blank -%}
-        <p class="font-mono text-vinyl-blue text-sm mb-6 tracking-widest uppercase">{{ section.settings.subheading }}</p>
+        <p class="font-mono text-vinyl-blue text-[10px] mb-12 tracking-[0.4em] uppercase font-bold">{{ section.settings.subheading }}</p>
       {%- endif -%}
       
-      <h2 class="hero-text font-serif text-5xl sm:text-6xl lg:text-7xl leading-[0.9] text-vinyl-black mb-8">
-        {{ section.settings.heading }}
+      <h2 class="hero-text font-serif text-6xl sm:text-7xl lg:text-[100px] leading-[0.85] text-vinyl-black mb-16 flex flex-col items-start gap-1">
+        <span class="text-vinyl-blue italic -ml-1">Sessa's</span>
+        <span>Third Full</span>
+        <span>Length,</span>
+        <span>Pequena</span>
+        <span>Vertigem</span>
+        <span>De Amor</span>
       </h2>
 
       {%- if section.settings.text != blank -%}
-        <p class="font-sans text-lg text-gray-600 max-w-md mb-10 leading-relaxed">
+        <p class="font-sans text-base text-gray-500 max-w-sm mb-16 leading-relaxed">
           {{ section.settings.text }}
         </p>
       {%- endif -%}
 
       {%- if section.settings.button_label != blank -%}
-        <a href="{{ section.settings.button_link }}" class="hero-btn w-fit group flex items-center gap-3 px-8 py-3 bg-transparent border border-vinyl-blue text-vinyl-blue rounded-full hover:bg-vinyl-blue hover:text-white transition-all duration-300 no-underline">
-          <span class="font-mono uppercase tracking-wide text-sm">{{ section.settings.button_label }}</span>
-          <span class="group-hover:translate-x-1 transition-transform">→</span>
+        <a href="{{ section.settings.button_link }}" class="hero-btn w-fit group flex items-center gap-6 no-underline">
+          <span class="font-mono uppercase tracking-[0.3em] text-[10px] text-vinyl-black border-b border-vinyl-black pb-1 group-hover:text-vinyl-blue group-hover:border-vinyl-blue transition-colors">{{ section.settings.button_label }}</span>
+          <span class="text-xl transition-transform group-hover:translate-x-2">→</span>
         </a>
       {%- endif -%}
     </div>

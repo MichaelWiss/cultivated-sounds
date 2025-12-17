@@ -5,32 +5,29 @@
       
       <!-- Brand -->
       <div class="md:col-span-4 flex flex-col justify-start">
-        <div class="mb-8">
-          <a href="{{ routes.root_url }}" class="font-serif text-3xl italic font-bold tracking-tighter text-vinyl-blue decoration-0 no-underline">
-            {{ shop.name }}<span class="text-xs align-top not-italic font-sans">®</span>
+        <div class="mb-10">
+          <a href="{{ routes.root_url }}" class="font-serif text-4xl italic font-black tracking-tighter text-vinyl-blue decoration-0 no-underline">
+            {{ shop.name }}<span class="text-xs align-top not-italic font-sans font-normal ml-0.5">®</span>
           </a>
         </div>
-        <p class="font-sans text-sm leading-relaxed max-w-xs text-gray-500 mb-8 italic">
-          {{ section.settings.brand_description }}
+        <p class="font-sans text-[11px] leading-[1.8] max-w-xs text-vinyl-black mb-10 italic">
+          {{ section.settings.brand_description | default: 'We simplify music discovery with a curated selection of vinyl records and audio essentials. Based in Brooklyn, shipping worldwide.' }}
         </p>
-        <div class="mt-auto">
-          {% render 'social-icons' %}
-        </div>
       </div>
 
       <!-- Dynamic Blocks -->
       {%- for block in section.blocks -%}
         <div class="md:col-span-2" {{ block.shopify_attributes }}>
           {%- if block.settings.heading != blank -%}
-            <h4 class="font-mono text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-8">{{ block.settings.heading }}</h4>
+            <h4 class="font-mono text-[9px] uppercase tracking-[0.3em] text-gray-400 font-bold mb-10">{{ block.settings.heading }}</h4>
           {%- endif -%}
           {%- if block.settings.menu != blank -%}
-            <ul class="space-y-4 font-serif text-lg list-unstyled italic">
+            <ul class="space-y-4 font-serif text-base list-unstyled italic text-vinyl-blue">
               {%- for link in block.settings.menu.links -%}
                 <li>
                     <a 
                         href="{{ link.url }}" 
-                        class="hover:text-vinyl-blue transition-all"
+                        class="hover:text-vinyl-black transition-all hover:translate-x-1 inline-block"
                     >
                         {{ link.title }}
                     </a>
@@ -43,53 +40,42 @@
 
       <!-- Newsletter -->
       <div class="md:col-span-4">
-        <div class="bg-white border-2 border-vinyl-blue p-8 shadow-[12px_12px_0px_0px_rgba(26,35,219,1)]">
-          <h3 class="font-serif text-2xl italic mb-6 text-vinyl-blue">{{ section.settings.newsletter_heading }}</h3>
-          
-          {% form 'customer', class: 'flex flex-col' %}
-            <input type="hidden" name="contact[tags]" value="newsletter">
-            <div class="relative mb-4">
-              <input 
-                id="NewsletterForm--{{ section.id }}"
-                type="email" 
-                name="contact[email]"
-                value="{{ form.email }}"
-                aria-required="true"
-                autocorrect="off"
-                autocapitalize="off"
-                autocomplete="email"
-                placeholder="YOUR EMAIL" 
-                class="w-full bg-vinyl-paper border border-vinyl-blue py-4 px-4 font-mono text-[10px] uppercase tracking-widest focus:outline-none focus:bg-white transition-colors"
-                required
-              >
-            </div>
-            <button type="submit" class="w-full bg-vinyl-blue text-white font-mono text-xs uppercase py-4 hover:bg-black transition-colors flex justify-center items-center gap-3 cursor-pointer tracking-[0.2em]">
-              <span>JOIN THE LIST</span>
-              <span class="text-xl">→</span>
-            </button>
-            {%- if form.errors -%}
-              <small class="newsletter-form__message form__message text-vinyl-red mt-2" id="Newsletter-error--{{ section.id }}">
-                {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
-              </small>
-            {%- endif -%}
-            {%- if form.posted_successfully? -%}
-              <h3 class="newsletter-form__message newsletter-form__message--success form__message text-green-600 mt-2 font-mono text-xs" id="Newsletter-success--{{ section.id }}" tabindex="-1" autofocus>
-                {{ 'general.newsletter.success' | t }}
-              </h3>
-            {%- endif -%}
-          {% endform %}
+        <div class="bg-white p-8 border-2 border-vinyl-blue shadow-[12px_12px_0px_0px_rgba(26,35,219,1)]">
+           <h3 class="font-serif text-2xl italic text-vinyl-blue mb-4">Join the Club</h3>
+           <p class="font-sans text-[11px] text-gray-500 mb-8 leading-relaxed">Weekly essentials, collection arrivals and sonic observations.</p>
+           
+           {% form 'customer', class: 'relative mb-4' %}
+             <input type="hidden" name="contact[tags]" value="newsletter">
+             <div class="relative group border-b-2 border-vinyl-blue">
+               <input
+                 type="email"
+                 name="contact[email]"
+                 class="w-full bg-transparent py-4 px-0 font-mono text-[10px] uppercase tracking-[0.2em] focus:outline-none placeholder:text-gray-300"
+                 placeholder="EMAIL ADDRESS"
+                 required
+               >
+               <button type="submit" class="absolute right-0 top-1/2 -translate-y-1/2 text-vinyl-blue hover:text-black transition-colors p-2 text-xl">
+                 →
+               </button>
+             </div>
+           {% endform %}
         </div>
       </div>
 
     </div>
 
-    <div class="flex flex-col md:flex-row justify-between items-center text-[10px] font-mono uppercase tracking-wider text-gray-500 gap-4">
-      {%- assign current_year = 'now' | date: "%Y" -%}
-      <p>{{ 'general.footer.copyright' | t: year: current_year, shop_name: shop.name }}</p>
-      <div class="flex gap-6">
-        {% render 'social-icons' %}
-      </div>
-      <p>{{ 'general.footer.designed_by' | t }}</p>
+    <div class="mt-16 pt-8 border-t border-vinyl-blue/10 flex flex-col sm:flex-row justify-between items-center gap-6">
+       <div class="font-mono text-[9px] uppercase tracking-[0.2em] text-gray-400">
+          © {{ 'now' | date: "%Y" }} Cultivated Sounds LLC.
+       </div>
+       <div class="flex gap-8 items-center">
+          <a href="#" class="text-vinyl-blue hover:text-black transition-colors">{% render 'icon-instagram' %}</a>
+          <a href="#" class="text-vinyl-blue hover:text-black transition-colors">{% render 'icon-twitter' %}</a>
+          <a href="#" class="text-vinyl-blue hover:text-black transition-colors">{% render 'icon-facebook' %}</a>
+       </div>
+       <div class="font-mono text-[9px] uppercase tracking-[0.2em] text-gray-400">
+          DESIGNED BY Michael Wiss
+       </div>
     </div>
 
   </div>

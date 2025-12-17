@@ -52,6 +52,12 @@ class AudioPlayerBar extends HTMLElement {
     document.addEventListener('click', (e) => {
         const trackItem = e.target.closest('[data-audio-src]');
         if (trackItem) {
+            // If already playing this track, toggle play/pause instead of restarting
+            if (this.sound && this.playlist[this.currentIndex]?.src === trackItem.dataset.audioSrc) {
+                this.togglePlay();
+                return;
+            }
+
             // Build playlist from the DOM list
             const container = trackItem.closest('[data-audio-player-container]');
             if (container) {
@@ -59,7 +65,7 @@ class AudioPlayerBar extends HTMLElement {
                 const newPlaylist = tracks.map(el => ({
                     title: el.querySelector('.font-sans')?.textContent.trim() || 'Unknown Track',
                     src: el.dataset.audioSrc,
-                    image: document.querySelector('.pdp-image')?.src || '', // Grab main product image
+                    image: document.querySelector('.pdp-main-image')?.src || '', // Updated to match new PDP class
                     element: el
                 }));
                 
@@ -125,12 +131,14 @@ class AudioPlayerBar extends HTMLElement {
         onplay: () => {
             this.isPlaying = true;
             this.updatePlayBtn();
+            this.updateListIcons();
             this.requestRef = requestAnimationFrame(this.updateProgress.bind(this));
             this.saveState();
         },
         onpause: () => {
             this.isPlaying = false;
             this.updatePlayBtn();
+            this.updateListIcons();
             cancelAnimationFrame(this.requestRef);
         },
         onend: () => {
@@ -142,6 +150,29 @@ class AudioPlayerBar extends HTMLElement {
     });
 
     this.sound.play();
+  }
+
+  updateListIcons() {
+    // Reset all list icons to play state
+    document.querySelectorAll('[data-audio-src] svg').forEach(svg => {
+        svg.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+    });
+    
+    // Update current track icon if exists on page
+    if (this.playlist[this.currentIndex]) {
+        const currentSrc = this.playlist[this.currentIndex].src;
+        const matchingEl = document.querySelector(`[data-audio-src="${currentSrc}"]`);
+        if (matchingEl) {
+            const svg = matchingEl.querySelector('svg');
+            if (svg) {
+                if (this.isPlaying) {
+                    svg.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+                } else {
+                    svg.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+                }
+            }
+        }
+    }
   }
 
   togglePlay() {

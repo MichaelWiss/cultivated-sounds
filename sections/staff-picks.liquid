@@ -1,25 +1,25 @@
-<div class="border-b border-vinyl-blue {% if section.settings.use_alt_background %}bg-[#e8e6df]{% else %}bg-vinyl-paper{% endif %}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
-  <div class="page-width">
+<div class="bg-vinyl-paper py-20" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="px-6 sm:px-10 lg:px-16">
     {%- if section.settings.title != blank -%}
-      <div class="flex flex-col md:flex-row justify-between items-end mb-8 px-4 sm:px-8">
-        <div class="border-l-4 border-vinyl-blue pl-6">
-          <h2 class="font-serif text-4xl sm:text-5xl text-vinyl-blue italic leading-tight">{{ section.settings.title }}</h2>
+      <div class="flex justify-between items-end mb-16">
+        <div class="flex flex-col gap-3">
+          <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-vinyl-blue italic leading-none">{{ section.settings.title }}</h2>
           {%- if section.settings.subtitle != blank -%}
-            <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-2">{{ section.settings.subtitle }}</p>
+            <p class="font-mono text-[9px] uppercase tracking-[0.3em] text-gray-400 font-bold">{{ section.settings.subtitle }}</p>
           {%- endif -%}
         </div>
         
         {%- if section.settings.show_view_all -%}
-          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="hidden md:block font-mono text-[10px] uppercase tracking-[0.15em] hover:text-vinyl-blue transition-colors mt-4 md:mt-0 group border-b border-transparent hover:border-vinyl-blue pb-1">
-            View All Picks <span class="group-hover:translate-x-1 inline-block transition-transform">→</span>
+          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="font-mono text-[10px] uppercase tracking-[0.2em] text-vinyl-blue border-b border-vinyl-blue pb-1 hover:text-vinyl-black hover:border-vinyl-black transition-colors block">
+            View All Picks
           </a>
         {%- endif -%}
       </div>
     {%- endif -%}
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-t border-vinyl-blue">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-        <div class="staff-pick-item">
+        <div>
           {% render 'card-product',
             card_product: product,
             show_vendor: section.settings.show_vendor
@@ -27,20 +27,12 @@
         </div>
       {%- else -%}
         {%- for i in (1..4) -%}
-          <div class="staff-pick-item">
-            {% render 'card-product', show_vendor: section.settings.show_vendor %}
+          <div>
+            {% render 'card-product' %}
           </div>
         {%- endfor -%}
       {%- endfor -%}
     </div>
-
-    {%- if section.settings.show_view_all -%}
-      <div class="mt-12 text-center md:hidden px-4">
-        <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="inline-block border border-vinyl-blue px-8 py-3 rounded-full font-mono text-[10px] uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(26,35,219,0.1)]">
-          View All Picks →
-        </a>
-      </div>
-    {%- endif -%}
   </div>
 </div>
 

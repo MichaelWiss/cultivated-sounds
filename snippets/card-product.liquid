@@ -4,13 +4,19 @@
   - Uses Tailwind CSS
 {% endcomment %}
 
-<div class="group relative flex flex-col h-full bg-transparent transition-all duration-300 cursor-pointer border-r border-b border-vinyl-blue">
+{% comment %}
+  Refined Product Card Snippet
+{% endcomment %}
+
+{%- assign product = card_product | default: product -%}
+
+<div class="group relative flex flex-col h-full bg-transparent transition-all duration-300 cursor-pointer {{ class }}">
   <a href="{{ product.url }}" class="absolute inset-0 z-10">
     <span class="sr-only">View {{ product.title }}</span>
   </a>
 
   {% comment %} Image Container {% endcomment %}
-  <div class="relative aspect-square w-full overflow-hidden border-b border-vinyl-blue">
+  <div class="relative aspect-square w-full overflow-hidden mb-6">
     {% if product.featured_media %}
       <img 
         src="{{ product.featured_media | image_url: width: 800 }}" 
@@ -25,40 +31,32 @@
     {% endif %}
 
     {% comment %} Badges {% endcomment %}
-    <div class="absolute top-3 left-3 flex flex-col gap-2">
+    <div class="absolute top-2 left-2 flex flex-col gap-2 z-20">
       {% unless product.available %}
-        <span class="bg-vinyl-black text-white text-[9px] font-mono uppercase px-2 py-0.5 tracking-wider">
+        <div class="bg-black text-white text-[9px] font-mono uppercase px-2 py-0.5 tracking-[0.2em]">
           Sold Out
-        </span>
+        </div>
       {% endunless %}
-      {% if product.tags contains 'New' and product.available %}
-        <span class="bg-vinyl-blue text-white text-[9px] font-mono uppercase px-2 py-0.5 tracking-wider rounded-full">
+      {% if product.tags contains 'New' or product.tags contains 'new' %}
+        <div class="bg-vinyl-blue text-white text-[9px] font-mono uppercase px-3 py-1 tracking-[0.2em] rounded-full">
           New
-        </span>
+        </div>
       {% endif %}
     </div>
   </div>
 
   {% comment %} Details {% endcomment %}
-  <div class="p-4 sm:p-5 flex flex-col flex-1 bg-vinyl-paper/50 group-hover:bg-white transition-colors duration-300">
-    <div class="flex justify-between items-start mb-1">
-      <div class="flex flex-col">
-        <span class="font-sans text-[10px] uppercase tracking-[0.15em] text-gray-500 mb-1">{{ product.vendor }}</span>
-        <h2 class="font-serif text-lg sm:text-xl leading-tight italic text-vinyl-black group-hover:text-vinyl-blue transition-colors">
-          {{ product.title }}
-        </h2>
-      </div>
-    </div>
-    
-    <div class="mt-auto flex justify-between items-end pt-4">
-      <div class="flex flex-col">
-        <span class="font-mono text-[9px] uppercase text-gray-400 tracking-widest">
-          {{ product.type | default: 'Vinyl' }} / {{ product.metafields.my_fields.format | default: 'LP' }}
+  <div class="flex flex-col flex-1">
+    <div class="flex flex-col gap-1 tracking-tight">
+        <span class="font-sans text-[11px] font-bold uppercase text-vinyl-black leading-tight border-b border-transparent group-hover:text-vinyl-blue transition-colors">
+            {{ product.vendor }} —
         </span>
-      </div>
-      <span class="font-mono text-sm font-bold text-vinyl-blue">
-        {{ product.price | money }}
-      </span>
+        <h3 class="font-serif italic text-base text-vinyl-blue leading-tight truncate">
+            {{ product.title }}
+        </h3>
+        <div class="mt-2 text-vinyl-black">
+          <span class="font-mono text-[10px] font-bold">{{ product.price | money }}</span>
+        </div>
     </div>
   </div>
 </div>

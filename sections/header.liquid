@@ -2,24 +2,18 @@
   <div class="flex justify-between items-stretch h-16 sm:h-20">
     
     <!-- Logo Section -->
-    <div class="flex-shrink-0 flex items-center px-4 sm:px-8 border-r border-vinyl-blue cursor-pointer">
-      <a href="{{ routes.root_url }}" class="font-serif text-2xl sm:text-3xl italic font-bold tracking-tighter text-vinyl-blue decoration-0 no-underline">
-        {%- if section.settings.logo != blank -%}
-          {{ section.settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', width: section.settings.logo_width }}
-        {%- elsif settings.logo != blank -%}
-          {{ settings.logo | image_url: width: 300 | image_tag: loading: 'lazy', width: settings.logo_width }}
-        {%- else -%}
-          Cultivated Sounds<span class="text-xs align-top not-italic font-sans">®</span>
-        {%- endif -%}
+    <div class="flex-shrink-0 flex items-center px-6 sm:px-10 border-r border-vinyl-blue">
+      <a href="{{ routes.root_url }}" class="font-serif text-3xl italic font-black tracking-tighter text-vinyl-blue decoration-0 no-underline">
+        Cultivated Sounds<span class="text-[10px] align-top not-italic font-sans font-normal ml-0.5">®</span>
       </a>
     </div>
 
     <!-- Desktop Nav -->
-    <nav class="hidden md:flex flex-1 items-center justify-center space-x-8 px-8">
+    <nav class="hidden md:flex flex-1 items-center justify-center gap-12 px-8">
       {%- for link in section.settings.menu.links -%}
         <a 
           href="{{ link.url }}"
-          class="font-mono text-sm uppercase tracking-wide text-vinyl-black hover:text-vinyl-blue hover:underline decoration-vinyl-blue decoration-1 underline-offset-4 transition-all {% if link.active %}text-vinyl-blue underline{% endif %}"
+          class="font-mono text-[10px] uppercase tracking-[0.2em] text-vinyl-black hover:text-vinyl-blue transition-colors {% if link.active %}text-vinyl-blue underline underline-offset-8 decoration-2{% endif %}"
         >
           {{ link.title }}
         </a>
@@ -27,9 +21,9 @@
     </nav>
 
     <!-- Icons / Actions -->
-    <div class="flex items-stretch">
+    <div class="flex items-stretch border-l border-vinyl-blue">
       <button 
-          class="px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center"
+          class="w-16 sm:w-20 bg-vinyl-blue text-white hover:bg-black transition-colors flex items-center justify-center"
           aria-label="{{ 'general.search.search' | t }}"
           data-open-search
       >
@@ -37,18 +31,19 @@
       </button>
       <button 
           onclick="document.querySelector('cart-drawer').open()"
-          class="px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center group relative"
+          class="w-16 sm:w-20 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center group relative"
           id="cart-icon-bubble"
           aria-label="{{ 'sections.cart.title' | t }}"
           aria-haspopup="dialog"
       >
         {% render 'icon-cart' %}
         {%- if cart.item_count >= 0 -%}
-          <span class="absolute top-4 right-3 w-4 h-4 bg-white border border-vinyl-blue rounded-full text-[9px] text-vinyl-blue flex items-center justify-center font-mono font-bold">
+          <span class="absolute top-4 right-4 w-4 h-4 bg-white border border-vinyl-blue rounded-full text-[9px] text-vinyl-blue flex items-center justify-center font-mono font-bold">
             {{ cart.item_count }}
           </span>
         {%- endif -%}
       </button>
+    </div>
       <button 
         onclick="document.querySelector('header-drawer').open()"
         class="md:hidden px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center"
