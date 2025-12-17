@@ -1,46 +1,8 @@
 {
   "sections": {
-    "banner": {
-      "type": "featured-release",
-      "settings": {
-        "heading": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem <span style=\"font-weight: 300;\">De Amor</span></p>",
-        "text": "A stunning exploration of taking textures and intimate songwriting. Pressed on 180g limited edition clear vinyl.",
-        "button_label": "Shop Now",
-        "button_link": "collections/all"
-      }
-    },
-    "staff_picks": {
-      "type": "staff-picks",
-      "settings": {
-        "title": "Staff Picks",
-        "subtitle": "HANDPICKED ESSENTIALS FOR CULTIVATED LISTENING",
-        "collection": "frontpage",
-        "products_to_show": 4,
-        "show_view_all": true,
-        "show_vendor": true,
-        "use_alt_background": true
-      }
-    },
-    "marquee": {
-      "type": "scrolling-text",
-      "settings": {}
-    },
-    "main_grid": {
-      "type": "homepage-grid",
-      "settings": {
-        "products_to_show": 16
-      }
-    },
-    "store_info": {
-      "type": "store-info",
-      "settings": {}
+    "main": {
+      "type": "featured-release"
     }
   },
-  "order": [
-    "banner",
-    "staff_picks",
-    "marquee",
-    "main_grid",
-    "store_info"
-  ]
+  "order": ["main"]
 }
