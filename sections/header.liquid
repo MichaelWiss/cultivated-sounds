@@ -31,6 +31,7 @@
       <button 
           class="px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center"
           aria-label="{{ 'general.search.search' | t }}"
+          data-open-search
       >
         {% render 'icon-search' %}
       </button>
@@ -42,8 +43,8 @@
           aria-haspopup="dialog"
       >
         {% render 'icon-cart' %}
-        {%- if cart.item_count > 0 -%}
-          <span class="absolute top-4 right-3 w-4 h-4 bg-vinyl-red rounded-full text-[10px] text-white flex items-center justify-center font-mono">
+        {%- if cart.item_count >= 0 -%}
+          <span class="absolute top-4 right-3 w-4 h-4 bg-white border border-vinyl-blue rounded-full text-[9px] text-vinyl-blue flex items-center justify-center font-mono font-bold">
             {{ cart.item_count }}
           </span>
         {%- endif -%}

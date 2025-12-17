@@ -15,6 +15,14 @@ class ProductForm extends HTMLElement {
     this.handleErrorMessage();
     submitButton.setAttribute('aria-disabled', true);
     submitButton.classList.add('loading');
+    
+    const loadingOverlay = submitButton.querySelector('.loading-overlay__spinner');
+    const submitText = submitButton.querySelector('.submit-text');
+    const submitIcon = submitButton.querySelector('.submit-icon');
+
+    if (loadingOverlay) loadingOverlay.classList.remove('hidden');
+    if (submitText) submitText.classList.add('hidden');
+    if (submitIcon) submitIcon.classList.add('hidden');
 
     const config = {
       method: 'POST',
@@ -37,7 +45,7 @@ class ProductForm extends HTMLElement {
                 }
             }));
         } else {
-            this.handleErrorMessage(responseJson.description);
+            this.handleErrorMessage(responseJson.description || responseJson.message);
         }
     } catch (e) {
         console.error(e);
@@ -45,13 +53,24 @@ class ProductForm extends HTMLElement {
     } finally {
         submitButton.classList.remove('loading');
         submitButton.removeAttribute('aria-disabled');
+        if (loadingOverlay) loadingOverlay.classList.add('hidden');
+        if (submitText) submitText.classList.remove('hidden');
+        if (submitIcon) submitIcon.classList.remove('hidden');
     }
   }
 
   handleErrorMessage(errorMessage = false) {
-    // Basic alert for now, can be improved to inline error
+    this.errorMessageWrapper = this.querySelector('[data-error-wrapper]');
+    this.errorMessage = this.querySelector('.product-form__error-message');
+    
+    if (!this.errorMessageWrapper) return;
+    
     if (errorMessage) {
-        alert(errorMessage);
+      this.errorMessageWrapper.removeAttribute('hidden');
+      this.errorMessage.textContent = errorMessage;
+    } else {
+      this.errorMessageWrapper.setAttribute('hidden', true);
+      this.errorMessage.textContent = '';
     }
   }
 }

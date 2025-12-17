@@ -5,19 +5,27 @@
 {% endcomment %}
 
 <product-filters>
-  <section id="shop" class="border-b border-vinyl-blue">
-    {%- comment -%} Sticky Filter Bar {%- endcomment -%}
-    <div class="sticky top-16 sm:top-20 z-40 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto">
-      <div class="flex space-x-6">
-        <button class="font-mono text-xs uppercase font-bold text-vinyl-blue" data-filter="all">All</button>
+  <section id="shop" class="border-t border-vinyl-blue">
+    {%- comment -%} Navigation / Filter Bar {%- endcomment -%}
+    <div class="bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex items-center overflow-x-auto no-scrollbar">
+      <div class="flex items-center space-x-12">
+        <button class="font-mono text-xs uppercase font-bold text-vinyl-blue whitespace-nowrap" data-filter="all">Shop All</button>
         {%- assign filter_tags_array = section.settings.filter_tags | split: ',' -%}
         {%- for tag in filter_tags_array -%}
-          <button class="font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue transition-colors" data-filter="{{ tag | strip | handleize }}">{{ tag | strip }}</button>
+          <button class="font-mono text-xs uppercase text-gray-400 hover:text-vinyl-blue transition-colors whitespace-nowrap" data-filter="{{ tag | strip | handleize }}">{{ tag | strip }}</button>
         {%- endfor -%}
       </div>
-      <div class="flex items-center space-x-2 font-mono text-xs uppercase">
-        <span class="text-gray-500">Sort By:</span>
-        <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue">
+    </div>
+
+    {%- comment -%} Status Bar {%- endcomment -%}
+    <div class="sticky top-[64px] sm:top-[80px] z-40 bg-vinyl-paper border-b border-vinyl-blue py-2 px-4 sm:px-8 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="font-mono text-[10px] uppercase text-gray-400">Shop All</span>
+        <span class="font-mono text-[10px] uppercase text-vinyl-blue">({{ collection_to_use.products_count | default: 0 }} Items)</span>
+      </div>
+      <div class="flex items-center space-x-2 font-mono text-[10px] uppercase">
+        <span class="text-gray-400">Sort By:</span>
+        <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue p-0">
           <option>Newest</option>
           <option>Price: Low to High</option>
           <option>Price: High to Low</option>
@@ -26,7 +34,7 @@
     </div>
 
     {%- comment -%} Product Grid {%- endcomment -%}
-    <div class="product-grid-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-8 py-8">
+    <div class="product-grid-items grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue">
       {%- assign collection_to_use = section.settings.collection | default: collections.all -%}
       {%- for product in collection_to_use.products limit: section.settings.products_to_show -%}
         <div class="product-grid-item" 
@@ -45,8 +53,8 @@
     </div>
     
     {%- comment -%} Load More Button {%- endcomment -%}
-    <div class="py-12 flex justify-center bg-vinyl-paper">
-      <button class="px-8 py-3 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-xs uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-all" data-load-more>
+    <div class="py-16 flex justify-center bg-vinyl-paper border-b border-vinyl-blue">
+      <button class="px-12 py-3 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-vinyl-blue hover:text-white transition-all shadow-[4px_4px_0px_0px_rgba(26,35,219,0.1)] hover:shadow-none" data-load-more>
         Load More
       </button>
     </div>

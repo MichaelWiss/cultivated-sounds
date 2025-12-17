@@ -13,9 +13,11 @@ class ProductFilters extends HTMLElement {
     
     this.currentFilter = 'all';
     this.currentSort = 'newest';
-    this.visibleCount = 8;
+    // Initialize from actual items displayed
+    this.visibleCount = this.productGrid ? Array.from(this.productGrid.children).filter(item => item.style.display !== 'none').length : 8;
     
     this.init();
+    this.initAnimations();
   }
 
   init() {
@@ -41,8 +43,27 @@ class ProductFilters extends HTMLElement {
     }
   }
 
+  initAnimations() {
+    if (!this.productGrid) return;
+    
+    const items = this.querySelectorAll('.product-grid-item');
+    if (window.gsap && window.ScrollTrigger) {
+      gsap.from(items, {
+        opacity: 0,
+        y: 30,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: this.productGrid,
+          start: 'top 80%'
+        }
+      });
+    }
+  }
+
   handleFilterClick(button) {
-    const filter = button.dataset.filter;
+    const filter = button.dataset.filter.toLowerCase();
     this.currentFilter = filter;
 
     // Update active state
@@ -63,6 +84,7 @@ class ProductFilters extends HTMLElement {
 
   applyFilters() {
     const items = Array.from(this.productGrid?.children || []);
+    if (!items.length) return;
     
     // Filter
     let filteredItems = items;
@@ -91,23 +113,32 @@ class ProductFilters extends HTMLElement {
       }
     });
 
-    // Hide all items
+    // Hide all items with a fade out
     items.forEach(item => {
       item.style.display = 'none';
+      item.style.opacity = '0';
     });
 
     // Show filtered and sorted items
     filteredItems.forEach((item, index) => {
       if (index < this.visibleCount) {
-        item.style.display = '';
+        item.style.display = 'block';
         this.productGrid?.appendChild(item); // Re-order
+        
+        // Staggered fade in
+        gsap.to(item, {
+          opacity: 1,
+          duration: 0.4,
+          delay: index * 0.05,
+          ease: 'power2.out'
+        });
       }
     });
 
     // Update load more button visibility
     if (this.loadMoreBtn) {
       this.loadMoreBtn.style.display = 
-        filteredItems.length > this.visibleCount ? 'block' : 'none';
+        filteredItems.length > this.visibleCount ? 'flex' : 'none';
     }
   }
 

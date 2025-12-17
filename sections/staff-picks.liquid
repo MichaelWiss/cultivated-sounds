@@ -1,38 +1,42 @@
 <div class="border-b border-vinyl-blue {% if section.settings.use_alt_background %}bg-[#e8e6df]{% else %}bg-vinyl-paper{% endif %}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
-  <div class="page-width px-4 sm:px-8">
+  <div class="page-width">
     {%- if section.settings.title != blank -%}
-      <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-400 pb-4">
-        <div>
+      <div class="flex flex-col md:flex-row justify-between items-end mb-8 px-4 sm:px-8">
+        <div class="border-l-4 border-vinyl-blue pl-6">
+          <h2 class="font-serif text-4xl sm:text-5xl text-vinyl-blue italic leading-tight">{{ section.settings.title }}</h2>
           {%- if section.settings.subtitle != blank -%}
-            <p class="font-mono text-xs uppercase tracking-widest text-gray-600 mb-4">{{ section.settings.subtitle }}</p>
+            <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-2">{{ section.settings.subtitle }}</p>
           {%- endif -%}
-          <h2 class="font-serif text-4xl sm:text-5xl mb-2 text-vinyl-blue italic">{{ section.settings.title }}</h2>
         </div>
         
         {%- if section.settings.show_view_all -%}
-          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="hidden md:block font-mono text-xs uppercase tracking-widest hover:text-vinyl-blue transition-colors mt-4 md:mt-0">
-            View All Picks →
+          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="hidden md:block font-mono text-[10px] uppercase tracking-[0.15em] hover:text-vinyl-blue transition-colors mt-4 md:mt-0 group border-b border-transparent hover:border-vinyl-blue pb-1">
+            View All Picks <span class="group-hover:translate-x-1 inline-block transition-transform">→</span>
           </a>
         {%- endif -%}
       </div>
     {%- endif -%}
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-t border-vinyl-blue">
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-        {% render 'card-product',
-          card_product: product,
-          show_vendor: section.settings.show_vendor
-        %}
+        <div class="staff-pick-item">
+          {% render 'card-product',
+            card_product: product,
+            show_vendor: section.settings.show_vendor
+          %}
+        </div>
       {%- else -%}
         {%- for i in (1..4) -%}
-          {% render 'card-product', show_vendor: section.settings.show_vendor %}
+          <div class="staff-pick-item">
+            {% render 'card-product', show_vendor: section.settings.show_vendor %}
+          </div>
         {%- endfor -%}
       {%- endfor -%}
     </div>
 
     {%- if section.settings.show_view_all -%}
-      <div class="mt-12 text-center md:hidden">
-        <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="inline-block border border-vinyl-black px-8 py-3 rounded-full font-mono text-xs uppercase tracking-widest hover:bg-vinyl-black hover:text-white transition-colors">
+      <div class="mt-12 text-center md:hidden px-4">
+        <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="inline-block border border-vinyl-blue px-8 py-3 rounded-full font-mono text-[10px] uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(26,35,219,0.1)]">
           View All Picks →
         </a>
       </div>

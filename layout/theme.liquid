@@ -58,11 +58,13 @@
     <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'product-filters.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'product-gallery.js' | asset_url }}" defer="defer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js" defer></script>
     <script src="{{ 'animations.js' | asset_url }}" defer></script>
     <script src="{{ 'audio-player.js' | asset_url }}" defer></script>
+    <script src="{{ 'search.js' | asset_url }}" defer></script>
     
     {% comment %} Soft Navigation (Swup) {% endcomment %}
     <script src="{{ 'swup.umd.js' | asset_url }}" defer></script>
@@ -81,8 +83,9 @@
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-    {%- render 'cart-drawer' -%}
+    {%- section 'cart-drawer' -%}
     {%- render 'audio-player-bar' -%}
+    {%- section 'search-modal' -%}
 
     {% sections 'header-group' %}
 

@@ -1,0 +1,38 @@
+{% comment %}
+  Navigation bar for collection links
+{% endcomment %}
+
+<nav class="bg-vinyl-paper border-b border-vinyl-blue py-4 sm:py-6 sticky top-[64px] sm:top-[80px] z-40 overflow-x-auto no-scrollbar">
+  <div class="flex justify-center items-center gap-8 sm:gap-16 px-4">
+    {%- for link in section.settings.menu.links -%}
+      <a 
+        href="{{ link.url }}"
+        class="font-mono text-xs uppercase tracking-widest text-vinyl-blue hover:text-black transition-colors whitespace-nowrap {% if link.active %}font-bold underline underline-offset-8 decoration-2{% endif %}"
+      >
+        {{ link.title }}
+      </a>
+      {%- unless forloop.last -%}
+        <span class="text-vinyl-blue opacity-30">|</span>
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+</nav>
+
+{% schema %}
+{
+  "name": "Collection Bar",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Bar"
+    }
+  ]
+}
+{% endschema %}

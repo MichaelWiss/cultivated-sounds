@@ -1,0 +1,66 @@
+<div 
+  id="SearchModal" 
+  class="fixed top-0 left-0 w-full h-[70vh] bg-vinyl-paper z-[100] shadow-2xl border-b border-vinyl-blue transform -translate-y-full flex flex-col transition-transform duration-500 ease-in-out"
+  aria-hidden="true"
+  data-predictive-search-modal
+>
+  <div class="container mx-auto px-4 sm:px-8 py-8 h-full flex flex-col">
+    <div class="flex justify-end mb-4">
+      <button 
+        type="button" 
+        class="flex items-center gap-2 text-vinyl-blue hover:text-vinyl-black font-mono text-xs uppercase tracking-widest"
+        data-close-search
+      >
+        <span>Close</span>
+        {% render 'icon-close' %}
+      </button>
+    </div>
+
+    <div class="relative border-b-2 border-vinyl-blue mb-8">
+      <span class="absolute left-0 top-1/2 -translate-y-1/2 text-vinyl-blue">
+        {% render 'icon-search' %}
+      </span>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+        <input 
+          type="text" 
+          name="q"
+          placeholder="SEARCH ARTIST, TITLE, OR CAT NO." 
+          class="w-full bg-transparent py-4 pl-10 pr-4 font-serif text-3xl sm:text-4xl text-vinyl-black placeholder:text-gray-300 focus:outline-none uppercase"
+          data-predictive-search-input
+          autocomplete="off"
+        >
+        <input type="hidden" name="type" value="product">
+      </form>
+    </div>
+
+    <div class="flex-1 overflow-y-auto" data-predictive-search-results>
+      <div class="popular-searches text-gray-400 font-sans text-sm">
+        <p class="mb-2">Popular Searches:</p>
+        <ul class="flex gap-4 flex-wrap font-mono text-xs uppercase text-vinyl-blue list-none p-0">
+          {% for link in section.settings.popular_searches.links %}
+            <li><a href="{{ link.url }}" class="hover:underline">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  [data-predictive-search-modal].is-open {
+    transform: translateY(0);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Search Modal",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "popular_searches",
+      "label": "Popular Searches Menu"
+    }
+  ]
+}
+{% endschema %}

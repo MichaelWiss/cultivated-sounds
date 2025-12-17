@@ -1,0 +1,67 @@
+{% comment %}
+  Journal CTA Section
+  - Brutalist design with large text and circular graphic
+{% endcomment %}
+
+<section class="bg-black text-white py-24 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-20 pointer-events-none">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/20 rounded-full"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-white/20 rounded-full"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-white/20 rounded-full"></div>
+  </div>
+
+  <div class="container mx-auto px-4 sm:px-8 relative z-10 text-center">
+    <h2 class="font-mono text-xs uppercase tracking-[0.4em] mb-12 text-gray-400">
+      {{ section.settings.subheading }}
+    </h2>
+    
+    <div class="max-w-4xl mx-auto mb-16">
+      <p class="font-serif text-3xl sm:text-5xl lg:text-6xl italic leading-tight text-white mb-4">
+        {{ section.settings.heading }}
+      </p>
+    </div>
+
+    <a href="{{ section.settings.button_link }}" class="inline-flex items-center gap-4 font-mono text-xs uppercase tracking-[0.2em] group">
+      <span class="border-b border-white pb-1 group-hover:border-vinyl-blue group-hover:text-vinyl-blue transition-colors">
+        {{ section.settings.button_label }}
+      </span>
+      <span class="group-hover:translate-x-2 transition-transform duration-300">→</span>
+    </a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Journal CTA",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "MUSIC, PLACES, WORDS, OBJECTS."
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CULTIVATED SOUNDS JOURNAL: A CURATED EXPLORATION OF SONIC CULTURE."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "VISIT THE JOURNAL"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Journal CTA"
+    }
+  ]
+}
+{% endschema %}

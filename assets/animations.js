@@ -48,9 +48,9 @@ function initAnimations() {
     });
   }
 
-  const pdpImage = document.querySelector('.pdp-image');
+  const pdpImage = document.querySelector('.pdp-main-image, .pdp-image');
   if (pdpImage) {
-    gsap.from(".pdp-image", {
+    gsap.from(pdpImage, {
       scale: 1.05,
       opacity: 0,
       duration: 1,
