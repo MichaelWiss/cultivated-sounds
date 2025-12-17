@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "banner": {
+      "type": "featured-release"
+    }
+  },
+  "order": [
+    "banner"
+  ]
+}

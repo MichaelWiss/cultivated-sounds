@@ -66,9 +66,10 @@
     <script src="{{ 'audio-player.js' | asset_url }}" defer></script>
     <script src="{{ 'search.js' | asset_url }}" defer></script>
     
-    {% comment %} Soft Navigation (Swup) {% endcomment %}
+    {% comment %} Soft Navigation (Swup) disabled for debugging 404
     <script src="{{ 'swup.umd.js' | asset_url }}" defer></script>
     <script src="{{ 'navigation.js' | asset_url }}" type="module" defer></script>
+    {% endcomment %}
 
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
