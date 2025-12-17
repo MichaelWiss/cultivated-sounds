@@ -17,15 +17,19 @@
       </div>
     {%- endif -%}
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-vinyl-blue border border-vinyl-blue">
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
-        {% render 'card-product',
-          card_product: product,
-          show_vendor: section.settings.show_vendor
-        %}
+        <div class="bg-white">
+          {% render 'card-product',
+            card_product: product,
+            show_vendor: section.settings.show_vendor
+          %}
+        </div>
       {%- else -%}
         {%- for i in (1..4) -%}
-          {% render 'card-product', show_vendor: section.settings.show_vendor %}
+          <div class="bg-white">
+            {% render 'card-product', show_vendor: section.settings.show_vendor %}
+          </div>
         {%- endfor -%}
       {%- endfor -%}
     </div>
@@ -42,7 +46,7 @@
 
 {% schema %}
 {
-  "name": "Featured Collection",
+  "name": "Staff Picks",
   "tag": "section",
   "class": "section",
   "settings": [
@@ -120,21 +124,7 @@
   },
   "presets": [
     {
-      "name": "Featured Collection",
-      "settings": {
-        "title": "Latest Drops",
-        "subtitle": "FRESH IN THE BINS",
-        "products_to_show": 4,
-        "show_view_all": true,
-        "show_vendor": true,
-        "use_alt_background": false
-      }
-    }
-  ]
-}
-{% endschema %}
-        "show_vendor": true
-      }
+      "name": "Featured Collection"
     }
   ]
 }

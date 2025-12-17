@@ -17,6 +17,21 @@
         "padding_bottom": 96
       }
     },
+    "staff_picks_dEr363": {
+      "type": "staff-picks",
+      "name": "Staff Picks",
+      "settings": {
+        "title": "Staff Picks",
+        "subtitle": "HANDPICKED ESSENTIALS FOR CULTIVATED LISTENING",
+        "collection": "",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "show_vendor": true,
+        "use_alt_background": true,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "featured_collection_VxCKXL": {
       "type": "featured-collection",
       "name": "Featured Collection",
@@ -51,11 +66,23 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "homepage_grid_8dwTFE": {
+      "type": "homepage-grid",
+      "name": "Homepage Grid",
+      "settings": {
+        "collection": "",
+        "products_to_show": 8,
+        "filter_tags": "Ambient, Jazz, Rock, Electronic",
+        "show_vendor": true
+      }
     }
   },
   "order": [
     "main",
+    "staff_picks_dEr363",
     "featured_collection_VxCKXL",
+    "homepage_grid_8dwTFE",
     "scrolling_text_RhtFg3",
     "store_info_3pBcaY"
   ]
