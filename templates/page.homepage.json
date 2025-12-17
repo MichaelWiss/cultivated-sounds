@@ -12,8 +12,8 @@
     "main": {
       "type": "main-page",
       "settings": {
-        "padding_top": 96,
-        "padding_bottom": 96
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "staff_picks_paD6kz": {
@@ -54,6 +54,16 @@
         "padding_bottom": 64
       }
     },
+    "homepage_grid_qLGJDj": {
+      "type": "homepage-grid",
+      "name": "Homepage Grid",
+      "settings": {
+        "collection": "",
+        "products_to_show": 8,
+        "filter_tags": "Ambient, Jazz, Rock, Electronic",
+        "show_vendor": true
+      }
+    },
     "store_info_Mg3BhK": {
       "type": "store-info",
       "name": "Store Info",
@@ -64,16 +74,6 @@
         "link": "",
         "padding_top": 64,
         "padding_bottom": 64
-      }
-    },
-    "homepage_grid_qLGJDj": {
-      "type": "homepage-grid",
-      "name": "Homepage Grid",
-      "settings": {
-        "collection": "",
-        "products_to_show": 8,
-        "filter_tags": "Ambient, Jazz, Rock, Electronic",
-        "show_vendor": true
       }
     }
   },
