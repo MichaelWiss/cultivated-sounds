@@ -1,41 +1,12 @@
 {
   "sections": {
     "banner": {
-      "type": "hero-banner",
-      "blocks": {
-        "subheading": {
-          "type": "subheading",
-          "settings": {
-            "text": "Just Arrived"
-          }
-        },
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "text": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem De Amor</p>"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "A stunning exploration of tropicalia infused textures and intimate songwriting. Pressed on 180g limited edition clear vinyl."
-          }
-        },
-        "button": {
-          "type": "button",
-          "settings": {
-            "label": "Shop Now"
-          }
-        }
-      },
-      "block_order": [
-        "subheading",
-        "heading",
-        "text",
-        "button"
-      ],
+      "type": "featured-release",
       "settings": {
-        "badge_text": "FEATURED RELEASE"
+        "heading": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem <span style=\"font-weight: 300;\">De Amor</span></p>",
+        "text": "A stunning exploration of tropicalia infused textures and intimate songwriting. Pressed on 180g limited edition clear vinyl.",
+        "button_label": "Shop Now",
+        "button_link": "collections/all"
       }
     },
     "staff_picks": {
@@ -43,49 +14,36 @@
       "settings": {
         "title": "Staff Picks",
         "subtitle": "HANDPICKED ESSENTIALS FOR CULTIVATED LISTENING",
+        "collection": "frontpage",
         "products_to_show": 4,
         "show_view_all": true,
         "show_vendor": true,
         "use_alt_background": true
       }
     },
-    "scrolling_text": {
+    "marquee": {
       "type": "scrolling-text",
       "settings": {
         "text": "New Arrivals • Restocks • Rare Finds • Pre-Orders",
         "speed": 25
       }
     },
-    "homepage_grid": {
-      "type": "product-grid-main",
+    "main_grid": {
+      "type": "homepage-grid",
       "settings": {
-        "products_to_show": 8,
-        "show_vendor": true
-      }
-    },
-    "journal_cta": {
-      "type": "cta-journal-big",
-      "settings": {
-        "subheading": "Refinement Rotation®",
-        "heading": "Weekly essentials, collection arrivals and sonic observations.",
-        "button_label": "Join the Club"
+        "products_to_show": 16
       }
     },
     "store_info": {
       "type": "store-info",
-      "settings": {
-        "heading": "We simplify music discovery with a curated selection of vinyl records and audio essentials.",
-        "location": "Brooklyn",
-        "link_text": "Visit Our Brooklyn Store"
-      }
+      "settings": {}
     }
   },
   "order": [
     "banner",
     "staff_picks",
-    "scrolling_text",
-    "homepage_grid",
-    "journal_cta",
+    "marquee",
+    "main_grid",
     "store_info"
   ]
 }
