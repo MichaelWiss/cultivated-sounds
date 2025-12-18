@@ -1,9 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./theme/**/*.liquid",
-    "./theme/**/*.js",
-    "./theme/**/*.json",
+    "./sections/**/*.liquid",
+    "./snippets/**/*.liquid",
+    "./layout/**/*.liquid",
+    "./templates/**/*.json",
+    "./assets/**/*.js",
     "./components/**/*.{ts,tsx}"
   ],
   theme: {

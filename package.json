@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "build:css": "tailwindcss -i ./src/application.css -o ./theme/assets/application.css",
-    "watch:css": "tailwindcss -i ./src/application.css -o ./theme/assets/application.css --watch"
+    "build:css": "tailwindcss -i ./src/application.css -o ./assets/application.css",
+    "watch:css": "tailwindcss -i ./src/application.css -o ./assets/application.css --watch"
   },
   "dependencies": {
     "gsap": "^3.14.1",
