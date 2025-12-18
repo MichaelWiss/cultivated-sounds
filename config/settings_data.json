@@ -3,7 +3,33 @@
     "colors_background": "#f2f0e9",
     "colors_text": "#111111",
     "colors_accent_1": "#1a23db",
-    "colors_accent_2": "#e63946"
+    "colors_accent_2": "#e63946",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      },
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {}
+      },
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {}
+      }
+    },
+    "content_for_index": [
+      "banner",
+      "staff_picks",
+      "marquee",
+      "main_grid",
+      "store_info"
+    ],
+    "blocks": {}
   },
   "presets": {
     "Default": {
