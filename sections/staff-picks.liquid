@@ -3,7 +3,7 @@
     {%- if section.settings.title != blank -%}
       <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-gray-400 pb-6">
         <div class="flex flex-col gap-2">
-          <h2 class="font-serif text-5xl lg:text-7xl text-vinyl-blue leading-none">{{ section.settings.title }}</h2>
+          <h2 class="font-serif text-5xl lg:text-7xl text-vinyl-blue italic leading-none">{{ section.settings.title }}</h2>
           {%- if section.settings.subtitle != blank -%}
             <p class="font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">{{ section.settings.subtitle }}</p>
           {%- endif -%}
@@ -22,7 +22,8 @@
         <div>
           {% render 'card-product',
             card_product: product,
-            show_vendor: section.settings.show_vendor
+            show_vendor: section.settings.show_vendor,
+            card_style: 'editorial'
           %}
         </div>
       {%- else -%}

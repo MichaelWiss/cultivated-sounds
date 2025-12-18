@@ -23,7 +23,7 @@
     <!-- Icons / Actions -->
     <div class="flex items-stretch border-l border-vinyl-blue">
       <button 
-          class="w-16 sm:w-20 bg-vinyl-blue text-white hover:bg-black transition-colors flex items-center justify-center"
+          class="w-16 sm:w-20 bg-vinyl-paper text-vinyl-black hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center"
           aria-label="{{ 'general.search.search' | t }}"
           data-open-search
       >
@@ -31,14 +31,14 @@
       </button>
       <button 
           onclick="document.querySelector('cart-drawer').open()"
-          class="w-16 sm:w-20 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center group relative"
+          class="w-16 sm:w-20 bg-vinyl-paper border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center group relative"
           id="cart-icon-bubble"
           aria-label="{{ 'sections.cart.title' | t }}"
           aria-haspopup="dialog"
       >
         {% render 'icon-cart' %}
         {%- if cart.item_count >= 0 -%}
-          <span class="absolute top-4 right-4 w-4 h-4 bg-white border border-vinyl-blue rounded-full text-[9px] text-vinyl-blue flex items-center justify-center font-mono font-bold">
+          <span class="absolute top-4 right-4 w-4 h-4 bg-vinyl-red rounded-full text-[9px] text-white flex items-center justify-center font-mono font-bold">
             {{ cart.item_count }}
           </span>
         {%- endif -%}

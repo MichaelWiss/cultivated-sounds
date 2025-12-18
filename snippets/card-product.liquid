@@ -3,73 +3,111 @@
   - Ported from ProductCard.tsx and updated for brutalist design
 {% endcomment %}
 
-{%- assign product = card_product | default: product -%}
+{%- assign card_style = card_style | default: 'standard' -%}
 
-<div class="group relative flex flex-col h-full bg-vinyl-paper border border-vinyl-blue p-5 transition-all duration-300 cursor-pointer hover:bg-white {{ class }}">
-  <a href="{{ product.url }}" class="absolute inset-0 z-20">
-    <span class="sr-only">View {{ product.title }}</span>
-  </a>
+{%- if card_style == 'editorial' -%}
+  <div class="group relative flex flex-col h-full bg-vinyl-paper p-4 transition-all duration-300 cursor-pointer shadow-sm border border-transparent hover:border-vinyl-blue {{ class }}">
+    <a href="{{ product.url }}" class="absolute inset-0 z-20">
+      <span class="sr-only">View {{ product.title }}</span>
+    </a>
 
-  {% comment %} Image Container {% endcomment %}
-  <div class="relative aspect-square w-full overflow-hidden mb-6 vinyl-shadow-soft group-hover:vinyl-shadow transition-all duration-500 bg-gray-100">
-    {% if product.featured_media %}
-      {{ product.featured_media | image_url: width: 800 | image_tag:
-        loading: 'lazy',
-        class: 'w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out',
-        widths: '200, 400, 600, 800',
-        alt: product.title
-      }}
-    {% else %}
-      {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover grayscale' }}
-    {% endif %}
-
-    {% comment %} Badges {% endcomment %}
-    <div class="absolute top-3 left-3 flex flex-col gap-2 z-30">
-      {% unless product.available %}
-        <div class="bg-black text-white text-[9px] font-mono uppercase px-2 py-1 tracking-[0.2em]">
-          Sold Out
-        </div>
-      {% endunless %}
-      {% if product.tags contains 'New' or product.tags contains 'new' %}
-        <div class="bg-vinyl-blue text-white text-[9px] font-mono uppercase px-3 py-1 tracking-[0.2em] rounded-full">
-          New
-        </div>
+    {% comment %} Image Container {% endcomment %}
+    <div class="relative aspect-square w-full overflow-hidden mb-6 vinyl-shadow-soft group-hover:vinyl-shadow transition-all duration-500 bg-gray-100">
+      {% if product.featured_media %}
+        {{ product.featured_media | image_url: width: 800 | image_tag:
+          loading: 'lazy',
+          class: 'w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out',
+          widths: '200, 400, 600, 800',
+          alt: product.title
+        }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover grayscale' }}
       {% endif %}
     </div>
-    
-    {% comment %} Quick Add Overlay (from ProductCard.tsx) {% endcomment %}
-    {% if product.available %}
-      <div class="absolute inset-0 bg-vinyl-blue/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-        <div class="bg-vinyl-blue text-white font-mono text-[10px] uppercase px-6 py-2.5 rounded-full translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-          View Item
-        </div>
-      </div>
-    {% endif %}
-  </div>
 
-  {% comment %} Details {% endcomment %}
-  <div class="flex flex-col flex-1">
-    <div class="flex justify-between items-start mb-1.5">
-        <span class="font-mono text-[10px] font-bold uppercase text-gray-500 tracking-wider">
-            {{ product.vendor }}
-        </span>
-        <span class="font-mono text-[11px] font-bold text-vinyl-black">
+    {% comment %} Details - Editorial/Staff Picks Style {% endcomment %}
+    <div class="flex flex-col flex-1">
+      <div class="flex justify-between items-start mb-1">
+          <h3 class="font-serif font-bold text-lg text-vinyl-black leading-none">
+              {{ product.vendor }}
+          </h3>
+          <span class="font-mono text-sm text-vinyl-black">
+              {{ product.price | money_without_trailing_zeros }}
+          </span>
+      </div>
+      <p class="font-serif italic text-sm text-gray-500 leading-tight">
+          {{ product.title }}
+      </p>
+    </div>
+  </div>
+{%- else -%}
+  {% comment %} Standard Grid Style {% endcomment %}
+  <div class="group relative flex flex-col h-full bg-vinyl-paper border-r border-b border-vinyl-blue p-6 transition-all duration-300 cursor-pointer hover:bg-white {{ class }}">
+    <a href="{{ product.url }}" class="absolute inset-0 z-20">
+      <span class="sr-only">View {{ product.title }}</span>
+    </a>
+
+    {% comment %} Image Container {% endcomment %}
+    <div class="relative aspect-square w-full overflow-hidden mb-8 border border-gray-200 shadow-[4px_4px_0px_0px_rgba(26,35,219,0.1)] group-hover:shadow-[6px_6px_0px_0px_rgba(26,35,219,0.2)] transition-all duration-300">
+      {% if product.featured_media %}
+        {{ product.featured_media | image_url: width: 800 | image_tag:
+          loading: 'lazy',
+          class: 'w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out',
+          widths: '200, 400, 600, 800',
+          alt: product.title
+        }}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover grayscale' }}
+      {% endif %}
+
+      {% comment %} Quick View Overlay {% endcomment %}
+      {% if product.available %}
+        <div class="absolute inset-0 bg-vinyl-blue/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+          <div class="bg-vinyl-blue text-white font-mono text-[10px] uppercase px-6 py-2.5 rounded-full translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+            View Item
+          </div>
+        </div>
+      {% endif %}
+
+      {% comment %} Badges {% endcomment %}
+      <div class="absolute top-4 left-4 flex flex-col gap-2 z-30">
+        {% unless product.available %}
+          <div class="bg-vinyl-black text-white text-[10px] font-mono uppercase px-2 py-1 tracking-widest">
+            Sold Out
+          </div>
+        {% endunless %}
+        {% if product.tags contains 'New' or product.tags contains 'new' %}
+          <div class="bg-vinyl-blue text-white text-[10px] font-mono uppercase px-2 py-1 tracking-widest rounded-full">
+            New
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% comment %} Details - Grid Style {% endcomment %}
+    <div class="flex flex-col flex-1 text-center items-center">
+      <h3 class="font-mono text-[11px] uppercase tracking-widest text-gray-500 mb-2">
+          {{ product.vendor }}
+      </h3>
+      <h2 class="font-serif text-xl leading-tight text-vinyl-black mb-1 group-hover:text-vinyl-blue transition-colors">
+          {{ product.title }}
+      </h2>
+      
+      {%- liquid
+        assign product_format = product.metafields.custom.format.value | default: product.type
+        if product_format == blank
+          assign product_format = '2LP Vinyl'
+        endif
+      -%}
+      <p class="font-sans text-[11px] text-gray-400 mb-4">
+        {{ product_format }}
+      </p>
+      
+      <div class="mt-auto pt-4 border-t border-gray-100 w-full text-center">
+        <span class="font-mono text-sm text-vinyl-black">
             {{ product.price | money_without_trailing_zeros }}
         </span>
+      </div>
     </div>
-    
-    <h3 class="font-serif italic text-lg text-vinyl-blue leading-tight mb-2 group-hover:underline decoration-vinyl-blue underline-offset-4">
-        {{ product.title }}
-    </h3>
-    
-    {%- liquid
-      assign product_format = product.metafields.custom.format.value | default: product.type
-      if product_format == blank
-        assign product_format = 'Vinyl LP'
-      endif
-    -%}
-    <p class="font-sans text-[11px] text-gray-400 italic mt-auto">
-      {{ product_format }}
-    </p>
   </div>
-</div>
+{%- endif -%}
