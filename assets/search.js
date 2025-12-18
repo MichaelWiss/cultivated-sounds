@@ -36,7 +36,7 @@ class SearchModal {
       }
     });
 
-    this.input.addEventListener('input', this.debounce(() => {
+    this.input.addEventListener('input', debounce(() => {
       this.performSearch();
     }, 300));
   }
@@ -112,23 +112,8 @@ class SearchModal {
   }
 
   formatPrice(price) {
-    // Assuming price is in cents
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(price / 100);
-  }
-
-  debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
+    // Use global formatMoney function
+    return window.formatMoney ? window.formatMoney(price, '${{amount}}') : `$${(price / 100).toFixed(2)}`;
   }
 }
 

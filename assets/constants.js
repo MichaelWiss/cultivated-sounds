@@ -96,25 +96,20 @@ window.theme.isMobile = function() {
  * Utility: Format price
  * @param {number} cents - Price in cents
  * @returns {string} Formatted price string
+ * Note: Main implementation is in global.js as formatMoney()
  */
 window.theme.formatMoney = function(cents) {
-  if (typeof cents === 'string') {
-    cents = cents.replace('.', '');
-  }
-  const value = (cents / 100).toFixed(2);
-  return '$' + value;
+  // Delegate to global formatMoney
+  return window.formatMoney(cents, '${{amount}}');
 };
 
 /**
  * Utility: Debounce function
- * (Also available in global.js, but included here for standalone use)
+ * Note: Main implementation is in global.js
  */
 window.theme.debounce = function(fn, wait) {
-  let t;
-  return function(...args) {
-    clearTimeout(t);
-    t = setTimeout(() => fn.apply(this, args), wait);
-  };
+  // Delegate to global debounce
+  return debounce(fn, wait);
 };
 
 /**

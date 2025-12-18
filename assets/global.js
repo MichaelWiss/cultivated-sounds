@@ -55,3 +55,69 @@ function debounce(fn, wait) {
     t = setTimeout(() => fn.apply(this, args), wait);
   };
 }
+
+// Fetch configuration for Shopify Ajax API calls
+function fetchConfig(type = 'json') {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': `application/${type}`
+    }
+  };
+}
+
+// Trap focus within an element (for accessibility)
+function trapFocus(container, elementToFocus = container) {
+  const elements = Array.from(
+    container.querySelectorAll(
+      'summary, a[href], button:enabled, [tabindex]:not([tabindex^="-"]), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object, iframe'
+    )
+  );
+  const first = elements[0];
+  const last = elements[elements.length - 1];
+
+  removeTrapFocus();
+
+  container.setAttribute('tabindex', '-1');
+  elementToFocus.focus();
+
+  function focusTrap(event) {
+    if (event.code === 'Tab') {
+      // Shift + Tab
+      if (event.shiftKey) {
+        if (event.target === first) {
+          last.focus();
+          event.preventDefault();
+        }
+      }
+      // Tab
+      else {
+        if (event.target === last) {
+          first.focus();
+          event.preventDefault();
+        }
+      }
+    }
+
+    // Escape
+    if (event.code === 'Escape') {
+      container.focus();
+    }
+  }
+
+  document.addEventListener('keydown', focusTrap);
+  container.addEventListener('focusout', function() {
+    setTimeout(function() {
+      if (!container.contains(document.activeElement)) {
+        elementToFocus.focus();
+      }
+    });
+  });
+}
+
+// Remove focus trap
+function removeTrapFocus(elementToFocus = null) {
+  document.removeEventListener('keydown', trapFocus);
+  if (elementToFocus) elementToFocus.focus();
+}
