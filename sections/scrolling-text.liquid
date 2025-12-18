@@ -1,23 +1,38 @@
-<div class="marquee-container w-full overflow-hidden bg-vinyl-paper border-t border-b border-vinyl-blue py-3" role="region" aria-label="Scrolling text">
-  <div class="marquee-content font-mono text-xs uppercase tracking-widest text-vinyl-blue whitespace-nowrap inline-block" style="animation: marquee {{ section.settings.speed }}s linear infinite;">
-    {%- for i in (1..10) -%}
-      <span class="mx-4">{{ section.settings.text }}</span>
-      <span class="mx-4">•</span>
-    {%- endfor -%}
+{%- liquid
+  assign bg_color = 'bg-vinyl-paper'
+  assign text_color = 'text-vinyl-blue'
+  if section.settings.style == 'inverted'
+    assign bg_color = 'bg-vinyl-blue'
+    assign text_color = 'text-white'
+  endif
+-%}
+
+<div class="marquee-wrapper w-full overflow-hidden {{ bg_color }} py-3 border-b border-vinyl-blue" role="region" aria-label="Scrolling text">
+  <div class="marquee-inner flex whitespace-nowrap">
+    <div class="marquee-content inline-block flex-shrink-0" style="animation: scroll {{ section.settings.speed }}s linear infinite;">
+      {%- for i in (1..10) -%}
+        <span class="font-mono text-[10px] uppercase tracking-[0.3em] font-bold px-8 {{ text_color }}">
+          {{ section.settings.text }}
+        </span>
+      {%- endfor -%}
+    </div>
+    <div class="marquee-content inline-block flex-shrink-0" aria-hidden="true" style="animation: scroll {{ section.settings.speed }}s linear infinite;">
+      {%- for i in (1..10) -%}
+        <span class="font-mono text-[10px] uppercase tracking-[0.3em] font-bold px-8 {{ text_color }}">
+          {{ section.settings.text }}
+        </span>
+      {%- endfor -%}
+    </div>
   </div>
 </div>
 
 <style>
-  .marquee-container {
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .marquee-content {
-    display: inline-block;
-  }
-  @keyframes marquee {
+  @keyframes scroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    100% { transform: translateX(-100%); }
+  }
+  .marquee-inner:hover .marquee-content {
+    animation-play-state: paused;
   }
 </style>
 
@@ -33,19 +48,34 @@
       "label": "Text"
     },
     {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "default", "label": "Default (Paper)" },
+        { "value": "inverted", "label": "Inverted (Blue)" }
+      ],
+      "default": "default"
+    },
+    {
       "type": "range",
       "id": "speed",
       "min": 5,
-      "max": 50,
-      "step": 1,
+      "max": 100,
+      "step": 2,
       "unit": "s",
-      "label": "Speed",
-      "default": 25
+      "label": "Speed (Lower is faster)",
+      "default": 30
     }
   ],
   "presets": [
     {
-      "name": "Scrolling Text"
+      "name": "Scrolling Text",
+      "settings": {
+        "text": "New Arrivals • Restocks • Rare Finds • Pre-Orders",
+        "style": "default",
+        "speed": 30
+      }
     }
   ]
 }

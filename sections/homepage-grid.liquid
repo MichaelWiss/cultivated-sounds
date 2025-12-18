@@ -1,0 +1,97 @@
+{%- liquid
+  assign collection = section.settings.collection | default: collections['all']
+-%}
+
+<div class="homepage-grid-section border-b border-vinyl-blue overflow-hidden">
+  
+  <!-- Sticky Filter Bar -->
+  <div class="sticky top-[64px] lg:top-[70px] z-30 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto no-scrollbar">
+    <div class="flex space-x-6 items-center">
+      <span class="font-mono text-[10px] uppercase font-bold text-vinyl-blue whitespace-nowrap">Filter By:</span>
+      <div class="flex space-x-6">
+        <a href="{{ collection.url }}" class="font-mono text-[10px] uppercase font-bold text-vinyl-blue no-underline whitespace-nowrap">All</a>
+        {% comment %} 
+          Hardcoded filters to match React prototype categories 
+          In a real shopify store these would come from the collection's filters 
+        {% endcomment %}
+        <a href="{{ collection.url }}?filter.p.product_type=Ambient" class="font-mono text-[10px] uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap">Ambient</a>
+        <a href="{{ collection.url }}?filter.p.product_type=Jazz" class="font-mono text-[10px] uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap">Jazz</a>
+        <a href="{{ collection.url }}?filter.p.product_type=Rock" class="font-mono text-[10px] uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap">Rock</a>
+        <a href="{{ collection.url }}?filter.p.product_type=Electronic" class="font-mono text-[10px] uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap">Electronic</a>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-2 font-mono text-[10px] uppercase ml-8">
+        <span class="text-gray-500 whitespace-nowrap">Sort By:</span>
+        <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue p-0" onchange="window.location.href = this.value">
+            {%- for option in collection.sort_options -%}
+               <option value="{{ collection.url }}?sort_by={{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>
+                  {{ option.name }}
+               </option>
+            {%- endfor -%}
+        </select>
+    </div>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue">
+    {%- for product in collection.products limit: section.settings.products_to_show -%}
+      <div class="product-grid-item border-r border-b border-vinyl-blue">
+        {% render 'card-product', card_product: product %}
+      </div>
+    {%- else -%}
+      {%- for i in (1..8) -%}
+        <div class="product-grid-item border-r border-b border-vinyl-blue">
+          {% render 'card-product' %}
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.show_load_more -%}
+    <div class="py-16 flex justify-center bg-vinyl-paper">
+      <a href="{{ collection.url }}" class="px-10 py-3.5 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-[11px] font-bold uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-all no-underline">
+        Load More
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Homepage Grid",
+  "tag": "section",
+  "class": "section-homepage-grid",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 16,
+      "label": "Products to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_load_more",
+      "default": true,
+      "label": "Show \"Load More\" button"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Grid",
+      "settings": {
+        "products_to_show": 16,
+        "show_load_more": true
+      }
+    }
+  ]
+}
+{% endschema %}
