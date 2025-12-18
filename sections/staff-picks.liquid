@@ -1,17 +1,17 @@
-<div class="bg-vinyl-paper py-20" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+<div class="{% if section.settings.use_alt_background %}bg-[#e8e6df]{% else %}bg-vinyl-paper{% endif %} border-b border-vinyl-blue" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="px-6 sm:px-10 lg:px-16">
     {%- if section.settings.title != blank -%}
-      <div class="flex justify-between items-end mb-16">
-        <div class="flex flex-col gap-3">
-          <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-vinyl-blue italic leading-none">{{ section.settings.title }}</h2>
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-gray-400 pb-6">
+        <div class="flex flex-col gap-2">
+          <h2 class="font-serif text-5xl lg:text-7xl text-vinyl-blue leading-none">{{ section.settings.title }}</h2>
           {%- if section.settings.subtitle != blank -%}
-            <p class="font-mono text-[9px] uppercase tracking-[0.3em] text-gray-400 font-bold">{{ section.settings.subtitle }}</p>
+            <p class="font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">{{ section.settings.subtitle }}</p>
           {%- endif -%}
         </div>
         
         {%- if section.settings.show_view_all -%}
-          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="font-mono text-[10px] uppercase tracking-[0.2em] text-vinyl-blue border-b border-vinyl-blue pb-1 hover:text-vinyl-black hover:border-vinyl-black transition-colors block">
-            View All Picks
+          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="hidden md:inline-block font-mono text-[11px] uppercase tracking-widest text-vinyl-black border-b border-vinyl-black pb-1 hover:text-vinyl-blue hover:border-vinyl-blue transition-all no-underline font-bold">
+            View All Picks →
           </a>
         {%- endif -%}
       </div>
@@ -32,6 +32,12 @@
           </div>
         {%- endfor -%}
       {%- endfor -%}
+    <div class="mt-12 md:hidden flex justify-center">
+      {%- if section.settings.show_view_all -%}
+        <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="font-mono text-[11px] uppercase tracking-widest text-vinyl-black border-b border-vinyl-black pb-1 font-bold no-underline">
+          View All Picks →
+        </a>
+      {%- endif -%}
     </div>
   </div>
 </div>

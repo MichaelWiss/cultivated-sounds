@@ -19,6 +19,12 @@ module.exports = {
         mono: ['var(--font-mono-family)', 'monospace'],
         sans: ['var(--font-body-family)', 'sans-serif'],
       },
+      boxShadow: {
+        'brutalist-blue': '4px 4px 0px 0px rgba(26, 35, 219, 1)',
+        'brutalist-blue-lg': '12px 12px 0px 0px rgba(26, 35, 219, 1)',
+        'brutalist-blue-soft': '4px 4px 0px 0px rgba(26, 35, 219, 0.1)',
+        'brutalist-blue-soft-lg': '6px 6px 0px 0px rgba(26, 35, 219, 0.2)',
+      },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
       }

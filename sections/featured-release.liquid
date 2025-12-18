@@ -1,0 +1,221 @@
+<section class="relative w-full border-b border-vinyl-blue overflow-hidden group">
+  {% comment %} Background with blend mode as seen in Hero.tsx {% endcomment %}
+  <div class="absolute inset-0 bg-vinyl-blue opacity-5 z-10 pointer-events-none mix-blend-multiply"></div>
+  
+  <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
+    <!-- Left: Image -->
+    <div class="relative h-[60vh] lg:h-auto border-b lg:border-b-0 lg:border-r border-vinyl-blue overflow-hidden">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 2000 | image_tag:
+          loading: 'eager',
+          class: 'absolute inset-0 w-full h-full object-cover transition-transform duration-[4s] ease-in-out group-hover:scale-105 filter grayscale contrast-[1.1]',
+          sizes: '(min-width: 1024px) 50vw, 100vw'
+        }}
+      {%- else -%}
+        <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+           {{ 'lifestyle-1' | placeholder_svg_tag: 'w-full h-full object-cover filter grayscale contrast-125' }}
+        </div>
+      {%- endif -%}
+      
+      <!-- Featured Release Badge -->
+      <div class="absolute bottom-10 left-10 z-20">
+        <span class="inline-block px-4 py-1.5 border border-white/40 rounded-full font-mono text-[9px] uppercase tracking-[0.2em] text-white backdrop-blur-md bg-black/20">
+          {{ section.settings.badge_text | default: "FEATURED RELEASE" }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Right: Content -->
+    <div class="relative flex flex-col justify-center p-8 sm:p-20 lg:p-32 bg-vinyl-paper">
+      <div class="flex flex-col items-start">
+        {%- liquid
+          assign has_blocks = false
+          if section.blocks.size > 0
+            assign has_blocks = true
+          endif
+        -%}
+
+        {%- if has_blocks -%}
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'subheading' -%}
+                <p class="font-mono text-vinyl-blue text-xs mb-8 tracking-[0.3em] uppercase font-bold" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </p>
+              
+              {%- when 'heading' -%}
+                <h2 class="hero-text font-serif text-5xl sm:text-6xl lg:text-7xl leading-[0.9] text-vinyl-black mb-10 flex flex-col items-start" {{ block.shopify_attributes }}>
+                  {{ block.settings.text | replace: '<p>', '' | replace: '</p>', '' }}
+                </h2>
+
+              {%- when 'text' -%}
+                <div class="font-sans text-lg text-gray-500 max-w-md mb-12 leading-relaxed" {{ block.shopify_attributes }}>
+                  {{ block.settings.text }}
+                </div>
+
+              {%- when 'button' -%}
+                <a href="{{ block.settings.link | default: '#' }}" class="hero-btn w-fit group flex items-center gap-4 px-8 py-3.5 bg-transparent border border-vinyl-blue text-vinyl-blue rounded-full hover:bg-vinyl-blue hover:text-white transition-all duration-300 no-underline" {{ block.shopify_attributes }}>
+                  <span class="font-mono uppercase tracking-widest text-[11px] font-bold">
+                    {{ block.settings.label }}
+                  </span>
+                  <span class="text-xl transition-transform group-hover:translate-x-1">→</span>
+                </a>
+            {%- endcase -%}
+          {%- endfor -%}
+        {%- else -%}
+          {% comment %} Fallback to section settings for when index.json is flat {% endcomment %}
+          {%- if section.settings.subheading != blank -%}
+            <p class="font-mono text-vinyl-blue text-xs mb-8 tracking-[0.3em] uppercase font-bold">
+              {{ section.settings.subheading }}
+            </p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="hero-text font-serif text-5xl sm:text-6xl lg:text-7xl leading-[0.9] text-vinyl-black mb-10 flex flex-col items-start">
+              {{ section.settings.heading | replace: '<p>', '' | replace: '</p>', '' }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.text != blank -%}
+            <div class="font-sans text-lg text-gray-500 max-w-md mb-12 leading-relaxed">
+              {{ section.settings.text }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link | default: '#' }}" class="hero-btn w-fit group flex items-center gap-4 px-8 py-3.5 bg-transparent border border-vinyl-blue text-vinyl-blue rounded-full hover:bg-vinyl-blue hover:text-white transition-all duration-300 no-underline">
+              <span class="font-mono uppercase tracking-widest text-[11px] font-bold">
+                {{ section.settings.button_label }}
+              </span>
+              <span class="text-xl transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Release",
+  "tag": "section",
+  "class": "section-featured-release",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "FEATURED RELEASE"
+    },
+    {
+      "type": "header",
+      "content": "Content (Fallback / Flat)"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Just Arrived"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem De Amor</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "A stunning exploration of tropicalia infused textures and intimate songwriting. Pressed on 180g limited edition clear vinyl."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Just Arrived"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p><span style=\"color: rgb(26, 35, 219); font-style: italic;\">Sessa's</span> Third Full Length, Pequena Vertigem De Amor</p>"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "A stunning exploration of tropicalia infused textures and intimate songwriting."
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Release",
+      "blocks": [
+        { "type": "subheading" },
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}
