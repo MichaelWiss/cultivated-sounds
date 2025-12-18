@@ -1,23 +1,23 @@
-<div class="{% if section.settings.use_alt_background %}bg-[#e8e6df]{% else %}bg-vinyl-paper{% endif %} border-b border-vinyl-blue" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
-  <div class="px-6 sm:px-10 lg:px-16">
+<section class="py-20 px-4 sm:px-8 border-b border-vinyl-blue {% if section.settings.use_alt_background %}bg-[#e8e6df]{% else %}bg-vinyl-paper{% endif %}">
+  <div class="container mx-auto">
     {%- if section.settings.title != blank -%}
-      <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-gray-400 pb-6">
-        <div class="flex flex-col gap-2">
-          <h2 class="font-serif text-5xl lg:text-7xl text-vinyl-blue italic leading-none">{{ section.settings.title }}</h2>
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-gray-400 pb-4">
+        <div>
+          <h2 class="font-serif text-4xl sm:text-5xl mb-2 text-vinyl-blue">{{ section.settings.title }}</h2>
           {%- if section.settings.subtitle != blank -%}
-            <p class="font-mono text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">{{ section.settings.subtitle }}</p>
+            <p class="font-mono text-xs uppercase tracking-widest text-gray-600">{{ section.settings.subtitle }}</p>
           {%- endif -%}
         </div>
         
         {%- if section.settings.show_view_all -%}
-          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="hidden md:inline-block font-mono text-[11px] uppercase tracking-widest text-vinyl-black border-b border-vinyl-black pb-1 hover:text-vinyl-blue hover:border-vinyl-blue transition-all no-underline font-bold">
+          <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="hidden md:block font-mono text-sm underline decoration-vinyl-blue underline-offset-4 hover:text-vinyl-blue hover:italic">
             View All Picks →
           </a>
         {%- endif -%}
       </div>
     {%- endif -%}
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
       {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
         <div>
           {% render 'card-product',
@@ -33,15 +33,16 @@
           </div>
         {%- endfor -%}
       {%- endfor -%}
-    <div class="mt-12 md:hidden flex justify-center">
+    </div>
+    <div class="mt-8 md:hidden text-center">
       {%- if section.settings.show_view_all -%}
-        <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="font-mono text-[11px] uppercase tracking-widest text-vinyl-black border-b border-vinyl-black pb-1 font-bold no-underline">
+        <a href="{{ section.settings.collection.url | default: routes.all_products_collection_url }}" class="font-mono text-sm underline decoration-vinyl-blue underline-offset-4">
           View All Picks →
         </a>
       {%- endif -%}
     </div>
   </div>
-</div>
+</section>
 
 {% schema %}
 {

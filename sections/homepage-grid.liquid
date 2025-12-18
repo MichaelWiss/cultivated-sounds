@@ -1,32 +1,38 @@
 {%- liquid
-  assign collection = section.settings.collection | default: collections['all']
+  assign selected_collection = section.settings.collection | default: collections['all']
+  if request.page_type == 'collection'
+    assign collection = collection
+  else
+    assign collection = selected_collection
+  endif
 -%}
 
-<div class="homepage-grid-section border-b border-vinyl-blue overflow-hidden">
+<div class="homepage-grid-section border-b border-vinyl-blue" id="homepage-grid-{{ section.id }}">
   
   <!-- Sticky Filter Bar -->
-  <div class="sticky top-[64px] lg:top-[70px] z-30 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto no-scrollbar">
-    <div class="flex space-x-6 items-center">
-      <span class="font-mono text-[10px] uppercase font-bold text-vinyl-blue whitespace-nowrap">Filter By:</span>
-      <div class="flex space-x-6">
-        <a href="{{ collection.url }}" class="font-mono text-[10px] uppercase font-bold text-vinyl-blue no-underline whitespace-nowrap">All</a>
-        {% comment %} 
-          Hardcoded filters to match React prototype categories 
-          In a real shopify store these would come from the collection's filters 
-        {% endcomment %}
-        <a href="{{ collection.url }}?filter.p.product_type=Ambient" class="font-mono text-[10px] uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap">Ambient</a>
-        <a href="{{ collection.url }}?filter.p.product_type=Jazz" class="font-mono text-[10px] uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap">Jazz</a>
-        <a href="{{ collection.url }}?filter.p.product_type=Rock" class="font-mono text-[10px] uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap">Rock</a>
-        <a href="{{ collection.url }}?filter.p.product_type=Electronic" class="font-mono text-[10px] uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap">Electronic</a>
-      </div>
+  <div class="sticky top-16 sm:top-20 z-[45] bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto no-scrollbar shadow-sm">
+    <div class="flex space-x-6 filter-links">
+      <a href="{{ selected_collection.url }}" class="filter-link font-mono text-xs uppercase font-bold text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="">All</a>
+      {% comment %} 
+        Hardcoded filters to match React prototype categories 
+        In a real shopify store these would come from the collection's filters 
+      {% endcomment %}
+      <a href="{{ selected_collection.url }}?filter.p.product_type=Ambient" class="filter-link font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="Ambient">Ambient</a>
+      <a href="{{ selected_collection.url }}?filter.p.product_type=Jazz" class="filter-link font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="Jazz">Jazz</a>
+      <a href="{{ selected_collection.url }}?filter.p.product_type=Rock" class="filter-link font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="Rock">Rock</a>
+      <a href="{{ selected_collection.url }}?filter.p.product_type=Electronic" class="filter-link font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="Electronic">Electronic</a>
     </div>
     
-    <div class="flex items-center space-x-2 font-mono text-[10px] uppercase ml-8">
-        <span class="text-gray-500 whitespace-nowrap">Sort By:</span>
-        <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue p-0" onchange="window.location.href = this.value">
-            {%- for option in collection.sort_options -%}
-               <option value="{{ collection.url }}?sort_by={{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>
-                  {{ option.name }}
+    <div class="flex items-center space-x-2 font-mono text-xs uppercase">
+        <span class="text-gray-500">Sort By:</span>
+        <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue" onchange="window.location.href = this.value">
+            {%- for option in selected_collection.sort_options -%}
+               {%- assign option_label = option.name -%}
+               {%- if option.value == 'created-descending' -%}
+                 {%- assign option_label = 'Newest' -%}
+               {%- endif -%}
+               <option value="{{ selected_collection.url }}?sort_by={{ option.value }}" {% if option.value == selected_collection.sort_by %}selected{% endif %}>
+                  {{ option_label }}
                </option>
             {%- endfor -%}
         </select>
@@ -34,28 +40,80 @@
   </div>
 
   <!-- Product Grid -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue product-grid-container">
     {%- for product in collection.products limit: section.settings.products_to_show -%}
-      <div class="product-grid-item border-r border-b border-vinyl-blue">
+      <div class="product-grid-item">
         {% render 'card-product', card_product: product %}
       </div>
     {%- else -%}
-      {%- for i in (1..8) -%}
-        <div class="product-grid-item border-r border-b border-vinyl-blue">
-          {% render 'card-product' %}
-        </div>
-      {%- endfor -%}
+      {%- if request.page_type == 'collection' -%}
+         <div class="col-span-full py-24 text-center font-mono text-sm uppercase text-gray-500">No products found</div>
+      {%- else -%}
+        {%- for i in (1..8) -%}
+          <div class="product-grid-item">
+            {% render 'card-product' %}
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
     {%- endfor -%}
   </div>
 
   {%- if section.settings.show_load_more -%}
-    <div class="py-16 flex justify-center bg-vinyl-paper">
-      <a href="{{ collection.url }}" class="px-10 py-3.5 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-[11px] font-bold uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-all no-underline">
+    <div class="py-12 flex justify-center bg-vinyl-paper">
+      <a href="{{ selected_collection.url }}" class="px-8 py-3 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-xs uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-all no-underline">
         Load More
       </a>
     </div>
   {%- endif -%}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.getElementById('homepage-grid-{{ section.id }}');
+    if (!section) return;
+
+    const filterLinks = section.querySelectorAll('.filter-link');
+    const gridContainer = section.querySelector('.product-grid-container');
+
+    filterLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const url = new URL(this.href);
+        
+        // Add section_id to fetch only this section
+        url.searchParams.set('section_id', 'homepage-grid');
+        
+        // Visual feedback
+        gridContainer.style.opacity = '0.5';
+        
+        fetch(url.toString())
+          .then(response => response.text())
+          .then(responseText => {
+            const html = new DOMParser().parseFromString(responseText, 'text/html');
+            const newGrid = html.querySelector('.product-grid-container');
+            
+            if (newGrid) {
+              gridContainer.innerHTML = newGrid.innerHTML;
+            }
+            
+            // Update active state
+            filterLinks.forEach(l => {
+              l.classList.remove('text-vinyl-blue', 'font-bold');
+              l.classList.add('text-gray-500');
+            });
+            this.classList.add('text-vinyl-blue', 'font-bold');
+            this.classList.remove('text-gray-500');
+            
+            gridContainer.style.opacity = '1';
+          })
+          .catch(err => {
+            console.error('Error fetching products:', err);
+            gridContainer.style.opacity = '1';
+          });
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {
