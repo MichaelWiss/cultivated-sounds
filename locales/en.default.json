@@ -72,7 +72,12 @@
   },
   "accessibility": {
     "skip_to_text": "Skip to content",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "error": "Error",
+    "unit_price_separator": "per",
+    "link_messages": {
+      "new_window": "Opens in a new window"
+    }
   },
   "sections": {
     "header": {
@@ -136,7 +141,18 @@
         "input_label": "Quantity for {{ product }}",
         "decrease": "Decrease quantity for {{ product }}",
         "increase": "Increase quantity for {{ product }}"
+      },
+      "price": {
+        "from_price_html": "From {{ price }}",
+        "regular_price": "Regular price",
+        "sale_price": "Sale price",
+        "unit_price": "Unit price"
       }
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Gift Card"
     }
   },
   "customer": {
