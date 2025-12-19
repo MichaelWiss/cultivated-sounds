@@ -57,75 +57,186 @@
       </div>
     </div>
 
-    <!-- Expandable Filter Panel (separate element, NOT in grid) -->
+    <!-- Backdrop Overlay -->
     <div 
-      id="filter-panel-{{ section.id }}"
-      class="filter-panel bg-gray-100 border-r border-b border-gray-300 overflow-hidden max-h-0 opacity-0 transition-all duration-300"
-      data-filter-panel
-      role="region"
+      class="filter-backdrop fixed inset-0 bg-black bg-opacity-50 opacity-0 invisible transition-opacity duration-300 z-40"
+      data-filter-backdrop
       aria-hidden="true">
-      <div class="px-4 sm:px-8 py-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
+    </div>
+
+    <!-- Sidebar Filter Panel -->
+    <aside 
+      id="filter-panel-{{ section.id }}"
+      class="filter-sidebar fixed top-0 left-0 h-full w-[400px] max-w-[90vw] bg-[#e8e6df] shadow-2xl transform -translate-x-full transition-transform duration-300 z-50 overflow-y-auto"
+      data-filter-panel
+      role="dialog"
+      aria-modal="true"
+      aria-label="Filter products">
+      
+      <!-- Sidebar Header -->
+      <div class="sticky top-0 bg-[#e8e6df] border-b border-gray-400 px-6 py-4 flex justify-between items-center z-10">
+        <h2 class="font-mono text-sm uppercase tracking-widest font-bold text-vinyl-black">FILTERS</h2>
+        <button 
+          class="filter-close w-8 h-8 flex items-center justify-center hover:bg-gray-300 transition-colors rounded-full bg-transparent border-none cursor-pointer"
+          data-filter-close
+          aria-label="Close filters">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Filter Sections -->
+      <div class="px-6 py-4">
         
+        <!-- Genre Filter -->
+        <div class="filter-section border-b border-vinyl-blue pb-4 mb-4">
+          <button 
+            class="filter-section-toggle w-full flex justify-between items-center py-2 font-mono text-sm text-vinyl-blue hover:text-vinyl-black transition-colors bg-transparent border-none cursor-pointer text-left"
+            data-filter-section="genre"
+            aria-expanded="false">
+            <span>Genre</span>
+            <span class="filter-section-icon text-xl transition-transform">+</span>
+          </button>
+          <div class="filter-section-content hidden mt-2" data-filter-section-content="genre">
+            <!-- Genre options would go here -->
+            <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+              <input type="checkbox" name="genre" value="rock" data-filter="genre" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">Rock</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Label Filter -->
+        <div class="filter-section border-b border-vinyl-blue pb-4 mb-4">
+          <button 
+            class="filter-section-toggle w-full flex justify-between items-center py-2 font-mono text-sm text-vinyl-blue hover:text-vinyl-black transition-colors bg-transparent border-none cursor-pointer text-left"
+            data-filter-section="label"
+            aria-expanded="false">
+            <span>Label</span>
+            <span class="filter-section-icon text-xl transition-transform">+</span>
+          </button>
+          <div class="filter-section-content hidden mt-2" data-filter-section-content="label">
+            <!-- Label options would go here -->
+          </div>
+        </div>
+
+        <!-- Manufacturer Filter -->
+        <div class="filter-section border-b border-vinyl-blue pb-4 mb-4">
+          <button 
+            class="filter-section-toggle w-full flex justify-between items-center py-2 font-mono text-sm text-vinyl-blue hover:text-vinyl-black transition-colors bg-transparent border-none cursor-pointer text-left"
+            data-filter-section="manufacturer"
+            aria-expanded="false">
+            <span>Manufacturer</span>
+            <span class="filter-section-icon text-xl transition-transform">+</span>
+          </button>
+          <div class="filter-section-content hidden mt-2" data-filter-section-content="manufacturer">
+            <!-- Manufacturer options would go here -->
+          </div>
+        </div>
+
+        <!-- Format Filter -->
+        <div class="filter-section border-b border-vinyl-blue pb-4 mb-4">
+          <button 
+            class="filter-section-toggle w-full flex justify-between items-center py-2 font-mono text-sm text-vinyl-blue hover:text-vinyl-black transition-colors bg-transparent border-none cursor-pointer text-left"
+            data-filter-section="format"
+            aria-expanded="false">
+            <span>Format</span>
+            <span class="filter-section-icon text-xl transition-transform">+</span>
+          </button>
+          <div class="filter-section-content hidden mt-2" data-filter-section-content="format">
+            {%- assign product_types = '' | split: '' -%}
+            {%- for product in collection.products -%}
+              {%- unless product_types contains product.type -%}
+                {%- assign product_types = product_types | push: product.type -%}
+              {%- endunless -%}
+            {%- endfor -%}
+            
+            {%- if product_types.size > 0 -%}
+              {%- for product_type in product_types -%}
+                <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+                  <input type="checkbox" name="type" value="{{ product_type | handleize }}" data-filter="type" class="w-4 h-4 cursor-pointer">
+                  <span class="font-sans text-sm text-gray-700">{{ product_type }}</span>
+                </label>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </div>
+
+        <!-- Color Vinyl Filter -->
+        <div class="filter-section border-b border-vinyl-blue pb-4 mb-4">
+          <button 
+            class="filter-section-toggle w-full flex justify-between items-center py-2 font-mono text-sm text-vinyl-blue hover:text-vinyl-black transition-colors bg-transparent border-none cursor-pointer text-left"
+            data-filter-section="color"
+            aria-expanded="false">
+            <span>Color Vinyl</span>
+            <span class="filter-section-icon text-xl transition-transform">+</span>
+          </button>
+          <div class="filter-section-content hidden mt-2" data-filter-section-content="color">
+            <!-- Color vinyl options would go here -->
+          </div>
+        </div>
+
         <!-- Availability Filter -->
-        <div class="filter-group">
-          <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Availability</h3>
-          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-            <input type="checkbox" name="availability" value="in-stock" data-filter="availability" class="w-4 h-4 cursor-pointer">
-            <span class="font-sans text-sm text-gray-700">In stock</span>
-          </label>
-          <label class="filter-option flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" name="availability" value="sold-out" data-filter="availability" class="w-4 h-4 cursor-pointer">
-            <span class="font-sans text-sm text-gray-700">Sold out</span>
-          </label>
+        <div class="filter-section border-b border-vinyl-blue pb-4 mb-4">
+          <button 
+            class="filter-section-toggle w-full flex justify-between items-center py-2 font-mono text-sm text-vinyl-blue hover:text-vinyl-black transition-colors bg-transparent border-none cursor-pointer text-left"
+            data-filter-section="availability"
+            aria-expanded="false">
+            <span>Availability</span>
+            <span class="filter-section-icon text-xl transition-transform">+</span>
+          </button>
+          <div class="filter-section-content hidden mt-2" data-filter-section-content="availability">
+            <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+              <input type="checkbox" name="availability" value="in-stock" data-filter="availability" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">In stock</span>
+            </label>
+            <label class="filter-option flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" name="availability" value="sold-out" data-filter="availability" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">Sold out</span>
+            </label>
+          </div>
         </div>
 
         <!-- Price Filter -->
-        <div class="filter-group">
-          <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Price</h3>
-          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-            <input type="checkbox" name="price" value="0-25" data-filter="price" class="w-4 h-4 cursor-pointer">
-            <span class="font-sans text-sm text-gray-700">Under $25</span>
-          </label>
-          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-            <input type="checkbox" name="price" value="25-50" data-filter="price" class="w-4 h-4 cursor-pointer">
-            <span class="font-sans text-sm text-gray-700">$25 - $50</span>
-          </label>
-          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-            <input type="checkbox" name="price" value="50-100" data-filter="price" class="w-4 h-4 cursor-pointer">
-            <span class="font-sans text-sm text-gray-700">$50 - $100</span>
-          </label>
-          <label class="filter-option flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" name="price" value="100+" data-filter="price" class="w-4 h-4 cursor-pointer">
-            <span class="font-sans text-sm text-gray-700">Over $100</span>
-          </label>
-        </div>
-
-        <!-- Product Type Filter -->
-        <div class="filter-group">
-          <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Product type</h3>
-          {%- assign product_types = '' | split: '' -%}
-          {%- for product in collection.products -%}
-            {%- unless product_types contains product.type -%}
-              {%- assign product_types = product_types | push: product.type -%}
-            {%- endunless -%}
-          {%- endfor -%}
-          
-          {%- if product_types.size > 0 -%}
-            {%- for product_type in product_types -%}
-              <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-                <input type="checkbox" name="type" value="{{ product_type | handleize }}" data-filter="type" class="w-4 h-4 cursor-pointer">
-                <span class="font-sans text-sm text-gray-700">{{ product_type }}</span>
-              </label>
-            {%- endfor -%}
-          {%- else -%}
+        <div class="filter-section border-b border-vinyl-blue pb-4 mb-4">
+          <button 
+            class="filter-section-toggle w-full flex justify-between items-center py-2 font-mono text-sm text-vinyl-blue hover:text-vinyl-black transition-colors bg-transparent border-none cursor-pointer text-left"
+            data-filter-section="price"
+            aria-expanded="false">
+            <span>Price</span>
+            <span class="filter-section-icon text-xl transition-transform">+</span>
+          </button>
+          <div class="filter-section-content hidden mt-2" data-filter-section-content="price">
             <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-              <input type="checkbox" name="type" value="vinyl" data-filter="type" class="w-4 h-4 cursor-pointer">
-              <span class="font-sans text-sm text-gray-700">Vinyl</span>
+              <input type="checkbox" name="price" value="0-25" data-filter="price" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">Under $25</span>
             </label>
-          {%- endif -%}
+            <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+              <input type="checkbox" name="price" value="25-50" data-filter="price" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">$25 - $50</span>
+            </label>
+            <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+              <input type="checkbox" name="price" value="50-100" data-filter="price" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">$50 - $100</span>
+            </label>
+            <label class="filter-option flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" name="price" value="100+" data-filter="price" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">Over $100</span>
+            </label>
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sticky bottom-0 bg-[#e8e6df] border-t border-gray-400 px-6 py-4">
+        <button 
+          class="w-full py-3 px-6 border-2 border-vinyl-blue rounded-full font-mono text-xs uppercase tracking-widest text-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-all bg-transparent cursor-pointer"
+          data-view-items>
+          VIEW <span data-product-count>{{ collection.products_count }}</span> ITEMS
+        </button>
+      </div>
+    </aside>
 
     <!-- Product Grid (4 columns, separate from filter bar) -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 product-grid-container">
@@ -187,8 +298,26 @@
     }
 
     init() {
-      // Filter toggle
-      this.filterToggle?.addEventListener('click', () => this.toggleFilters());
+      // Filter toggle - opens sidebar
+      this.filterToggle?.addEventListener('click', () => this.openSidebar());
+      
+      // Close button
+      const closeBtn = this.container.querySelector('[data-filter-close]');
+      closeBtn?.addEventListener('click', () => this.closeSidebar());
+      
+      // Backdrop click
+      const backdrop = this.container.querySelector('[data-filter-backdrop]');
+      backdrop?.addEventListener('click', () => this.closeSidebar());
+      
+      // View items button
+      const viewItemsBtn = this.container.querySelector('[data-view-items]');
+      viewItemsBtn?.addEventListener('click', () => this.closeSidebar());
+      
+      // Filter section toggles
+      const sectionToggles = this.container.querySelectorAll('[data-filter-section]');
+      sectionToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => this.toggleFilterSection(e.currentTarget));
+      });
       
       // Sort toggle
       this.sortToggle?.addEventListener('click', (e) => {
@@ -214,23 +343,54 @@
       });
     }
 
-    toggleFilters() {
-      const isExpanded = this.filterToggle.getAttribute('aria-expanded') === 'true';
+    openSidebar() {
+      const backdrop = this.container.querySelector('[data-filter-backdrop]');
+      
+      // Show sidebar
+      this.filterPanel.style.transform = 'translateX(0)';
+      this.filterToggle.setAttribute('aria-expanded', 'true');
+      
+      // Show backdrop
+      backdrop.style.opacity = '1';
+      backdrop.style.visibility = 'visible';
+      backdrop.setAttribute('aria-hidden', 'false');
+      
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
+    }
+
+    closeSidebar() {
+      const backdrop = this.container.querySelector('[data-filter-backdrop]');
+      
+      // Hide sidebar
+      this.filterPanel.style.transform = 'translateX(-100%)';
+      this.filterToggle.setAttribute('aria-expanded', 'false');
+      
+      // Hide backdrop
+      backdrop.style.opacity = '0';
+      backdrop.style.visibility = 'hidden';
+      backdrop.setAttribute('aria-hidden', 'true');
+      
+      // Restore body scroll
+      document.body.style.overflow = '';
+    }
+
+    toggleFilterSection(toggle) {
+      const sectionName = toggle.getAttribute('data-filter-section');
+      const content = this.container.querySelector(`[data-filter-section-content="${sectionName}"]`);
+      const icon = toggle.querySelector('.filter-section-icon');
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
       
       if (isExpanded) {
-        // Close
-        this.filterPanel.style.maxHeight = '0';
-        this.filterPanel.style.opacity = '0';
-        this.filterPanel.setAttribute('aria-hidden', 'true');
-        this.filterToggle.setAttribute('aria-expanded', 'false');
-        this.filterIcon.style.transform = 'rotate(0deg)';
+        // Collapse
+        content.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        icon.textContent = '+';
       } else {
-        // Open
-        this.filterPanel.style.maxHeight = '500px';
-        this.filterPanel.style.opacity = '1';
-        this.filterPanel.setAttribute('aria-hidden', 'false');
-        this.filterToggle.setAttribute('aria-expanded', 'true');
-        this.filterIcon.style.transform = 'rotate(180deg)';
+        // Expand
+        content.classList.remove('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        icon.textContent = '−';
       }
     }
 
