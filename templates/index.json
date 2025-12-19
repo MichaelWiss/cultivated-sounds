@@ -16,7 +16,8 @@
         "subheading": "Just Arrived",
         "heading": "<p>Sessa's Third Full Length</p>",
         "text": "A stunning exploration of tropicalia infused textures and intimate songwriting.",
-        "button_label": "Shop Now"
+        "button_label": "Shop Now",
+        "button_link": ""
       }
     },
     "staff_picks": {
@@ -40,6 +41,7 @@
     "main_grid": {
       "type": "homepage-grid",
       "settings": {
+        "collection": "",
         "products_to_show": 16,
         "show_load_more": true
       }
@@ -50,6 +52,7 @@
         "heading": "We simplify music discovery with a curated selection of vinyl records and audio essentials.",
         "location": "Brooklyn",
         "link_text": "Visit Our Brooklyn Store",
+        "link": "",
         "padding_top": 80,
         "padding_bottom": 80
       }
