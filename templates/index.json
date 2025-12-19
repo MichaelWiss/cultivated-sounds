@@ -36,14 +36,10 @@
     },
     "marquee": {
       "type": "scrolling-text",
-      "settings": {}
-    },
-    "main_grid": {
-      "type": "homepage-grid",
       "settings": {
-        "collection": "",
-        "products_to_show": 16,
-        "show_load_more": true
+        "text": "NEW ARRIVALS • VINYL RECORDS • AUDIO ESSENTIALS • CURATED SOUNDS",
+        "speed": 20,
+        "repeat_count": 3
       }
     },
     "store_info": {
@@ -56,13 +52,22 @@
         "padding_top": 80,
         "padding_bottom": 80
       }
+    },
+    "homepage_grid_rGyKFm": {
+      "type": "homepage-grid",
+      "name": "Homepage Grid",
+      "settings": {
+        "collection": "",
+        "products_to_show": 16,
+        "show_load_more": true
+      }
     }
   },
   "order": [
     "banner",
     "staff_picks",
     "marquee",
-    "main_grid",
-    "store_info"
+    "store_info",
+    "homepage_grid_rGyKFm"
   ]
 }
