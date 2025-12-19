@@ -7,130 +7,129 @@
   endif
 -%}
 
-<div class="homepage-grid-section relative" id="homepage-grid-{{ section.id }}">
+<div class="homepage-grid-section relative border-b border-vinyl-blue" id="homepage-grid-{{ section.id }}">
   
-  <!-- Sticky Filter Bar with Blue Background -->
-  <div class="sticky top-16 sm:top-20 z-[45] bg-vinyl-blue border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
-    <!-- Filters Button (Left) -->
-    <button 
-      class="filter-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
-      data-filter-toggle
-      aria-expanded="false"
-      aria-controls="filter-panel-{{ section.id }}">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform" data-filter-icon>
-        <path d="M3 6l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-      FILTERS
-    </button>
-
-    <!-- Sort Dropdown (Right) -->
-    <div class="sort-dropdown relative" data-sort-dropdown>
-      <button 
-        class="sort-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors bg-transparent border-none cursor-pointer"
-        data-sort-toggle
-        aria-expanded="false"
-        aria-controls="sort-menu-{{ section.id }}">
-        SORT BY
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform" data-sort-icon>
-          <path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </button>
-      
-      <!-- Sort Menu -->
-      <div 
-        id="sort-menu-{{ section.id }}"
-        class="sort-menu absolute top-full right-0 mt-2 bg-white border border-gray-300 min-w-[220px] opacity-0 invisible translate-y-[-10px] transition-all duration-200 shadow-lg z-50"
-        data-sort-menu
-        role="menu">
-        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-vinyl-blue hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="featured" role="menuitem">Featured</button>
-        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="best-selling" role="menuitem">Best selling</button>
-        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-asc" role="menuitem">Alphabetically, A-Z</button>
-        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-desc" role="menuitem">Alphabetically, Z-A</button>
-        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-asc" role="menuitem">Price, low to high</button>
-        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-desc" role="menuitem">Price, high to low</button>
-        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-desc" role="menuitem">Date, old to new</button>
-        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-asc" role="menuitem">Date, new to old</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Expandable Filter Panel -->
-  <div 
-    id="filter-panel-{{ section.id }}"
-    class="filter-panel bg-gray-100 border-b border-gray-300 overflow-hidden max-h-0 opacity-0 transition-all duration-300"
-    data-filter-panel
-    role="region"
-    aria-hidden="true">
-    <div class="px-4 sm:px-8 py-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
-      
-      <!-- Availability Filter -->
-      <div class="filter-group">
-        <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Availability</h3>
-        <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-          <input type="checkbox" name="availability" value="in-stock" data-filter="availability" class="w-4 h-4 cursor-pointer">
-          <span class="font-sans text-sm text-gray-700">In stock</span>
-        </label>
-        <label class="filter-option flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" name="availability" value="sold-out" data-filter="availability" class="w-4 h-4 cursor-pointer">
-          <span class="font-sans text-sm text-gray-700">Sold out</span>
-        </label>
-      </div>
-
-      <!-- Price Filter -->
-      <div class="filter-group">
-        <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Price</h3>
-        <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-          <input type="checkbox" name="price" value="0-25" data-filter="price" class="w-4 h-4 cursor-pointer">
-          <span class="font-sans text-sm text-gray-700">Under $25</span>
-        </label>
-        <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-          <input type="checkbox" name="price" value="25-50" data-filter="price" class="w-4 h-4 cursor-pointer">
-          <span class="font-sans text-sm text-gray-700">$25 - $50</span>
-        </label>
-        <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-          <input type="checkbox" name="price" value="50-100" data-filter="price" class="w-4 h-4 cursor-pointer">
-          <span class="font-sans text-sm text-gray-700">$50 - $100</span>
-        </label>
-        <label class="filter-option flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" name="price" value="100+" data-filter="price" class="w-4 h-4 cursor-pointer">
-          <span class="font-sans text-sm text-gray-700">Over $100</span>
-        </label>
-      </div>
-
-      <!-- Product Type Filter -->
-      <div class="filter-group">
-        <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Product type</h3>
-        {%- assign product_types = '' | split: '' -%}
-        {%- for product in collection.products -%}
-          {%- unless product_types contains product.type -%}
-            {%- assign product_types = product_types | push: product.type -%}
-          {%- endunless -%}
-        {%- endfor -%}
-        
-        {%- if product_types.size > 0 -%}
-          {%- for product_type in product_types -%}
-            <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-              <input type="checkbox" name="type" value="{{ product_type | handleize }}" data-filter="type" class="w-4 h-4 cursor-pointer">
-              <span class="font-sans text-sm text-gray-700">{{ product_type }}</span>
-            </label>
-          {%- endfor -%}
-        {%- else -%}
-          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
-            <input type="checkbox" name="type" value="vinyl" data-filter="type" class="w-4 h-4 cursor-pointer">
-            <span class="font-sans text-sm text-gray-700">Vinyl</span>
-          </label>
-        {%- endif -%}
-      </div>
-    </div>
-  </div>
-
-  <!-- Spacer to prevent overlap with sticky filter bar -->
-  <div class="h-16" aria-hidden="true"></div>
-
-  <!-- Product Grid with proper spacing -->
+  <!-- Product Grid with integrated filter bar -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue product-grid-container">
+    
+    <!-- Filter Bar as First Grid Row -->
+    <div class="col-span-full bg-vinyl-blue border-r border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
+      <!-- Filters Button (Left) -->
+      <button 
+        class="filter-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
+        data-filter-toggle
+        aria-expanded="false"
+        aria-controls="filter-panel-{{ section.id }}">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform" data-filter-icon>
+          <path d="M3 6l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        FILTERS
+      </button>
+
+      <!-- Sort Dropdown (Right) -->
+      <div class="sort-dropdown relative" data-sort-dropdown>
+        <button 
+          class="sort-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors bg-transparent border-none cursor-pointer"
+          data-sort-toggle
+          aria-expanded="false"
+          aria-controls="sort-menu-{{ section.id }}">
+          SORT BY
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform" data-sort-icon>
+            <path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        
+        <!-- Sort Menu -->
+        <div 
+          id="sort-menu-{{ section.id }}"
+          class="sort-menu absolute top-full right-0 mt-2 bg-white border border-gray-300 min-w-[220px] opacity-0 invisible translate-y-[-10px] transition-all duration-200 shadow-lg z-50"
+          data-sort-menu
+          role="menu">
+          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-vinyl-blue hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="featured" role="menuitem">Featured</button>
+          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="best-selling" role="menuitem">Best selling</button>
+          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-asc" role="menuitem">Alphabetically, A-Z</button>
+          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-desc" role="menuitem">Alphabetically, Z-A</button>
+          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-asc" role="menuitem">Price, low to high</button>
+          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-desc" role="menuitem">Price, high to low</button>
+          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-desc" role="menuitem">Date, old to new</button>
+          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-asc" role="menuitem">Date, new to old</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expandable Filter Panel -->
+    <div 
+      id="filter-panel-{{ section.id }}"
+      class="col-span-full filter-panel bg-gray-100 border-r border-b border-gray-300 overflow-hidden max-h-0 opacity-0 transition-all duration-300"
+      data-filter-panel
+      role="region"
+      aria-hidden="true">
+      <div class="px-4 sm:px-8 py-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
+        
+        <!-- Availability Filter -->
+        <div class="filter-group">
+          <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Availability</h3>
+          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+            <input type="checkbox" name="availability" value="in-stock" data-filter="availability" class="w-4 h-4 cursor-pointer">
+            <span class="font-sans text-sm text-gray-700">In stock</span>
+          </label>
+          <label class="filter-option flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" name="availability" value="sold-out" data-filter="availability" class="w-4 h-4 cursor-pointer">
+            <span class="font-sans text-sm text-gray-700">Sold out</span>
+          </label>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="filter-group">
+          <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Price</h3>
+          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+            <input type="checkbox" name="price" value="0-25" data-filter="price" class="w-4 h-4 cursor-pointer">
+            <span class="font-sans text-sm text-gray-700">Under $25</span>
+          </label>
+          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+            <input type="checkbox" name="price" value="25-50" data-filter="price" class="w-4 h-4 cursor-pointer">
+            <span class="font-sans text-sm text-gray-700">$25 - $50</span>
+          </label>
+          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+            <input type="checkbox" name="price" value="50-100" data-filter="price" class="w-4 h-4 cursor-pointer">
+            <span class="font-sans text-sm text-gray-700">$50 - $100</span>
+          </label>
+          <label class="filter-option flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" name="price" value="100+" data-filter="price" class="w-4 h-4 cursor-pointer">
+            <span class="font-sans text-sm text-gray-700">Over $100</span>
+          </label>
+        </div>
+
+        <!-- Product Type Filter -->
+        <div class="filter-group">
+          <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Product type</h3>
+          {%- assign product_types = '' | split: '' -%}
+          {%- for product in collection.products -%}
+            {%- unless product_types contains product.type -%}
+              {%- assign product_types = product_types | push: product.type -%}
+            {%- endunless -%}
+          {%- endfor -%}
+          
+          {%- if product_types.size > 0 -%}
+            {%- for product_type in product_types -%}
+              <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+                <input type="checkbox" name="type" value="{{ product_type | handleize }}" data-filter="type" class="w-4 h-4 cursor-pointer">
+                <span class="font-sans text-sm text-gray-700">{{ product_type }}</span>
+              </label>
+            {%- endfor -%}
+          {%- else -%}
+            <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+              <input type="checkbox" name="type" value="vinyl" data-filter="type" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">Vinyl</span>
+            </label>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Cards -->
     {%- for product in collection.products limit: section.settings.products_to_show -%}
-      <div class="product-grid-item" 
+      <div class="product-grid-item border-r border-b border-vinyl-blue" 
            data-product-id="{{ product.id }}"
            data-price="{{ product.price | money_without_currency | remove: ',' | remove: ' ' }}"
            data-title="{{ product.title | downcase }}"
@@ -144,7 +143,7 @@
          <div class="col-span-full py-24 text-center font-mono text-sm uppercase text-gray-500">No products found</div>
       {%- else -%}
         {%- for i in (1..8) -%}
-          <div class="product-grid-item">
+          <div class="product-grid-item border-r border-b border-vinyl-blue">
             {% render 'card-product' %}
           </div>
         {%- endfor -%}
