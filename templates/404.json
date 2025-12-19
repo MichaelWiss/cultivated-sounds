@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -6,9 +15,22 @@
         "padding_top": 96,
         "padding_bottom": 96
       }
+    },
+    "featured_release_3Laj9L": {
+      "type": "featured-release",
+      "name": "Featured Release",
+      "settings": {
+        "badge_text": "FEATURED RELEASE",
+        "subheading": "Just Arrived",
+        "heading": "<p>Sessa's<br>Third Full Length,<br>Pequena Vertigem<br>De Amor</p>",
+        "text": "A stunning exploration of tropicalia infused textures and intimate songwriting. Pressed on 180g limited edition clear vinyl.",
+        "button_label": "Shop Now",
+        "button_link": ""
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "featured_release_3Laj9L"
   ]
 }
