@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "main-404",
+      "disabled": true,
       "settings": {
         "padding_top": 96,
         "padding_bottom": 96
