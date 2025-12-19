@@ -7,10 +7,10 @@
   endif
 -%}
 
-<div class="homepage-grid-section border-b border-vinyl-blue" id="homepage-grid-{{ section.id }}">
+<div class="homepage-grid-section relative border-b border-vinyl-blue" id="homepage-grid-{{ section.id }}">
   
   <!-- Sticky Filter Bar -->
-  <div class="sticky top-16 sm:top-20 z-[45] bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto no-scrollbar shadow-sm">
+  <div class="sticky top-16 sm:top-20 z-[45] bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto no-scrollbar">
     <div class="flex space-x-6 filter-links">
       <a href="{{ selected_collection.url }}" class="filter-link font-mono text-xs uppercase font-bold text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="">All</a>
       {% comment %} 
