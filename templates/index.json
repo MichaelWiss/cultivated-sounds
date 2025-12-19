@@ -53,7 +53,7 @@
         "padding_bottom": 80
       }
     },
-    "homepage_grid_NRfCHa": {
+    "homepage_grid_gyQL3Q": {
       "type": "homepage-grid",
       "name": "Homepage Grid",
       "settings": {
@@ -61,13 +61,29 @@
         "products_to_show": 16,
         "show_load_more": true
       }
+    },
+    "featured_collection_NQLRGF": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "title": "Latest Drops",
+        "subtitle": "Fresh in the bins",
+        "collection": "",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "show_vendor": true,
+        "use_alt_background": false,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "banner",
     "staff_picks",
+    "featured_collection_NQLRGF",
+    "homepage_grid_gyQL3Q",
     "marquee",
-    "store_info",
-    "homepage_grid_NRfCHa"
+    "store_info"
   ]
 }
