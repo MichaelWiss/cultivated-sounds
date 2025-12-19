@@ -1,0 +1,43 @@
+# Development files
+node_modules/
+_prototype/
+src/
+
+# Build/config files
+package.json
+package-lock.json
+tailwind.config.js
+index.css
+metadata.json
+*.config.js
+*.config.ts
+
+# Documentation
+*.md
+AUDIT_REPORT.md
+CODE_AUDIT_2024.md
+CODE_REVIEW.md
+COMPREHENSIVE_AUDIT.md
+FIXES_APPLIED.md
+MIGRATION_SESSION_SUMMARY.md
+PHASE_VERIFICATION_REPORT.md
+PROJECT_AUDIT_SUMMARY.md
+SHOPIFY_MIGRATION_PLAN.md
+README.md
+
+# Environment and editor
+.env*
+.agent/
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Zip archives
+*.zip

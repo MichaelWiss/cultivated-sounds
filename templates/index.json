@@ -1,13 +1,61 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "banner": {
+      "type": "featured-release",
+      "settings": {
+        "badge_text": "FEATURED RELEASE",
+        "subheading": "Just Arrived",
+        "heading": "<p>Sessa's Third Full Length</p>",
+        "text": "A stunning exploration of tropicalia infused textures and intimate songwriting.",
+        "button_label": "Shop Now"
+      }
+    },
+    "staff_picks": {
+      "type": "staff-picks",
+      "settings": {
+        "title": "Staff Picks",
+        "subtitle": "HANDPICKED ESSENTIALS FOR CULTIVATED LISTENING",
+        "collection": "all",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "show_vendor": true,
+        "use_alt_background": true,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "marquee": {
+      "type": "scrolling-text",
+      "settings": {
+        "text": "New Arrivals • Restocks • Rare Finds • Pre-Orders",
+        "style": "default",
+        "speed": 30
+      }
+    },
+    "main_grid": {
+      "type": "homepage-grid",
+      "settings": {
+        "products_to_show": 16,
+        "show_load_more": true
+      }
+    },
+    "store_info": {
+      "type": "store-info",
+      "settings": {
+        "heading": "We simplify music discovery with a curated selection of vinyl records and audio essentials.",
+        "location": "Brooklyn",
+        "link_text": "Visit Our Brooklyn Store",
+        "link": "collections/all",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "staff_picks",
+    "marquee",
+    "main_grid",
+    "store_info"
+  ]
 }
