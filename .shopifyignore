@@ -7,7 +7,7 @@ src/
 package.json
 package-lock.json
 tailwind.config.js
-index.css
+/index.css
 metadata.json
 *.config.js
 *.config.ts
