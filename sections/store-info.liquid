@@ -16,7 +16,8 @@
 {% schema %}
 {
   "name": "Store Info",
-  "class": "section",
+  "tag": "section",
+  "class": "section-store-info",
   "settings": [
     {
       "type": "textarea",
@@ -66,6 +67,9 @@
       "default": 64
     }
   ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "presets": [
     {
       "name": "Store Info"

@@ -124,6 +124,9 @@
     </div>
   </div>
 
+  <!-- Spacer to prevent overlap with sticky filter bar -->
+  <div class="h-16" aria-hidden="true"></div>
+
   <!-- Product Grid with proper spacing -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue product-grid-container">
     {%- for product in collection.products limit: section.settings.products_to_show -%}
@@ -386,6 +389,18 @@
       "id": "show_load_more",
       "default": true,
       "label": "Show \"Load More\" button"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "presets": [
+    {
+      "name": "Homepage Grid",
+      "settings": {
+        "products_to_show": 16,
+        "show_load_more": true
+      }
     }
   ]
 }

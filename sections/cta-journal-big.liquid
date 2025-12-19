@@ -38,6 +38,8 @@
 {% schema %}
 {
   "name": "Journal CTA",
+  "tag": "section",
+  "class": "section-journal-cta",
   "settings": [
     {
       "type": "text",
@@ -63,6 +65,9 @@
       "label": "Button Link"
     }
   ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "presets": [
     {
       "name": "Journal CTA"

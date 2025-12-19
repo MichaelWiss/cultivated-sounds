@@ -1,0 +1,91 @@
+<section class="scrolling-text-section relative overflow-hidden border-b border-vinyl-blue bg-vinyl-blue py-4">
+  <div class="scrolling-text-wrapper flex whitespace-nowrap" data-scrolling-text>
+    {%- liquid
+      assign text_content = section.settings.text | default: 'NEW ARRIVALS • VINYL RECORDS • AUDIO ESSENTIALS • CURATED SOUNDS'
+      assign repeat_count = section.settings.repeat_count | default: 3
+    -%}
+    
+    {%- for i in (1..repeat_count) -%}
+      <div class="scrolling-text-item flex items-center gap-8 px-8 animate-scroll">
+        <span class="font-mono text-sm uppercase tracking-widest text-white">
+          {{ text_content }}
+        </span>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll {{ section.settings.speed | default: 20 }}s linear infinite;
+  }
+
+  .scrolling-text-wrapper {
+    display: flex;
+    width: fit-content;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-scroll {
+      animation-play-state: paused;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Scrolling Text",
+  "tag": "section",
+  "class": "section-scrolling-text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "NEW ARRIVALS • VINYL RECORDS • AUDIO ESSENTIALS • CURATED SOUNDS",
+      "info": "Use • to separate text items"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "default": 20,
+      "unit": "s",
+      "label": "Animation speed"
+    },
+    {
+      "type": "range",
+      "id": "repeat_count",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "label": "Text repetitions"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "presets": [
+    {
+      "name": "Scrolling Text",
+      "settings": {
+        "text": "NEW ARRIVALS • VINYL RECORDS • AUDIO ESSENTIALS • CURATED SOUNDS",
+        "speed": 20,
+        "repeat_count": 3
+      }
+    }
+  ]
+}
+{% endschema %}
