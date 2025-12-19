@@ -1,13 +1,13 @@
-<section class="scrolling-text-section relative overflow-hidden border-b border-vinyl-blue bg-vinyl-blue py-4">
+<section class="scrolling-text-section relative overflow-hidden border-y border-vinyl-blue bg-vinyl-paper py-2">
   <div class="scrolling-text-wrapper flex whitespace-nowrap" data-scrolling-text>
     {%- liquid
-      assign text_content = section.settings.text | default: 'NEW ARRIVALS • VINYL RECORDS • AUDIO ESSENTIALS • CURATED SOUNDS'
+      assign text_content = section.settings.text | default: '• PRE-ORDERS • ✦ NEW ARRIVALS • RESTOCKS • RARE FINDS •'
       assign repeat_count = section.settings.repeat_count | default: 3
     -%}
     
     {%- for i in (1..repeat_count) -%}
       <div class="scrolling-text-item flex items-center gap-8 px-8 animate-scroll">
-        <span class="font-mono text-sm uppercase tracking-widest text-white">
+        <span class="font-mono text-xs uppercase tracking-[0.2em] text-vinyl-blue">
           {{ text_content }}
         </span>
       </div>
@@ -51,8 +51,8 @@
       "type": "text",
       "id": "text",
       "label": "Text",
-      "default": "NEW ARRIVALS • VINYL RECORDS • AUDIO ESSENTIALS • CURATED SOUNDS",
-      "info": "Use • to separate text items"
+      "default": "• PRE-ORDERS • ✦ NEW ARRIVALS • RESTOCKS • RARE FINDS •",
+      "info": "Use • or ✦ to separate text items"
     },
     {
       "type": "range",
@@ -81,7 +81,7 @@
     {
       "name": "Scrolling Text",
       "settings": {
-        "text": "NEW ARRIVALS • VINYL RECORDS • AUDIO ESSENTIALS • CURATED SOUNDS",
+        "text": "• PRE-ORDERS • ✦ NEW ARRIVALS • RESTOCKS • RARE FINDS •",
         "speed": 20,
         "repeat_count": 3
       }
