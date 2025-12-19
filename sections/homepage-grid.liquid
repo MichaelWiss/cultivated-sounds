@@ -7,42 +7,133 @@
   endif
 -%}
 
-<div class="homepage-grid-section relative border-b border-vinyl-blue" id="homepage-grid-{{ section.id }}">
+<div class="homepage-grid-section relative" id="homepage-grid-{{ section.id }}">
   
-  <!-- Sticky Filter Bar -->
-  <div class="sticky top-16 sm:top-20 z-[45] bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex justify-between items-center overflow-x-auto no-scrollbar">
-    <div class="flex space-x-6 filter-links">
-      <a href="{{ selected_collection.url }}" class="filter-link font-mono text-xs uppercase font-bold text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="">All</a>
-      {% comment %} 
-        Hardcoded filters to match React prototype categories 
-        In a real shopify store these would come from the collection's filters 
-      {% endcomment %}
-      <a href="{{ selected_collection.url }}?filter.p.product_type=Ambient" class="filter-link font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="Ambient">Ambient</a>
-      <a href="{{ selected_collection.url }}?filter.p.product_type=Jazz" class="filter-link font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="Jazz">Jazz</a>
-      <a href="{{ selected_collection.url }}?filter.p.product_type=Rock" class="filter-link font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="Rock">Rock</a>
-      <a href="{{ selected_collection.url }}?filter.p.product_type=Electronic" class="filter-link font-mono text-xs uppercase text-gray-500 hover:text-vinyl-blue no-underline whitespace-nowrap" data-filter-value="Electronic">Electronic</a>
-    </div>
-    
-    <div class="flex items-center space-x-2 font-mono text-xs uppercase">
-        <span class="text-gray-500">Sort By:</span>
-        <select class="bg-transparent border-none focus:ring-0 cursor-pointer font-bold text-vinyl-blue" onchange="window.location.href = this.value">
-            {%- for option in selected_collection.sort_options -%}
-               {%- assign option_label = option.name -%}
-               {%- if option.value == 'created-descending' -%}
-                 {%- assign option_label = 'Newest' -%}
-               {%- endif -%}
-               <option value="{{ selected_collection.url }}?sort_by={{ option.value }}" {% if option.value == selected_collection.sort_by %}selected{% endif %}>
-                  {{ option_label }}
-               </option>
-            {%- endfor -%}
-        </select>
+  <!-- Sticky Filter Bar with Blue Background -->
+  <div class="sticky top-16 sm:top-20 z-[45] bg-vinyl-blue border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
+    <!-- Filters Button (Left) -->
+    <button 
+      class="filter-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
+      data-filter-toggle
+      aria-expanded="false"
+      aria-controls="filter-panel-{{ section.id }}">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform" data-filter-icon>
+        <path d="M3 6l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      FILTERS
+    </button>
+
+    <!-- Sort Dropdown (Right) -->
+    <div class="sort-dropdown relative" data-sort-dropdown>
+      <button 
+        class="sort-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors bg-transparent border-none cursor-pointer"
+        data-sort-toggle
+        aria-expanded="false"
+        aria-controls="sort-menu-{{ section.id }}">
+        SORT BY
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform" data-sort-icon>
+          <path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      
+      <!-- Sort Menu -->
+      <div 
+        id="sort-menu-{{ section.id }}"
+        class="sort-menu absolute top-full right-0 mt-2 bg-white border border-gray-300 min-w-[220px] opacity-0 invisible translate-y-[-10px] transition-all duration-200 shadow-lg z-50"
+        data-sort-menu
+        role="menu">
+        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-vinyl-blue hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="featured" role="menuitem">Featured</button>
+        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="best-selling" role="menuitem">Best selling</button>
+        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-asc" role="menuitem">Alphabetically, A-Z</button>
+        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-desc" role="menuitem">Alphabetically, Z-A</button>
+        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-asc" role="menuitem">Price, low to high</button>
+        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-desc" role="menuitem">Price, high to low</button>
+        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-desc" role="menuitem">Date, old to new</button>
+        <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-asc" role="menuitem">Date, new to old</button>
+      </div>
     </div>
   </div>
 
-  <!-- Product Grid -->
+  <!-- Expandable Filter Panel -->
+  <div 
+    id="filter-panel-{{ section.id }}"
+    class="filter-panel bg-gray-100 border-b border-gray-300 overflow-hidden max-h-0 opacity-0 transition-all duration-300"
+    data-filter-panel
+    role="region"
+    aria-hidden="true">
+    <div class="px-4 sm:px-8 py-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
+      
+      <!-- Availability Filter -->
+      <div class="filter-group">
+        <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Availability</h3>
+        <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+          <input type="checkbox" name="availability" value="in-stock" data-filter="availability" class="w-4 h-4 cursor-pointer">
+          <span class="font-sans text-sm text-gray-700">In stock</span>
+        </label>
+        <label class="filter-option flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" name="availability" value="sold-out" data-filter="availability" class="w-4 h-4 cursor-pointer">
+          <span class="font-sans text-sm text-gray-700">Sold out</span>
+        </label>
+      </div>
+
+      <!-- Price Filter -->
+      <div class="filter-group">
+        <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Price</h3>
+        <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+          <input type="checkbox" name="price" value="0-25" data-filter="price" class="w-4 h-4 cursor-pointer">
+          <span class="font-sans text-sm text-gray-700">Under $25</span>
+        </label>
+        <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+          <input type="checkbox" name="price" value="25-50" data-filter="price" class="w-4 h-4 cursor-pointer">
+          <span class="font-sans text-sm text-gray-700">$25 - $50</span>
+        </label>
+        <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+          <input type="checkbox" name="price" value="50-100" data-filter="price" class="w-4 h-4 cursor-pointer">
+          <span class="font-sans text-sm text-gray-700">$50 - $100</span>
+        </label>
+        <label class="filter-option flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" name="price" value="100+" data-filter="price" class="w-4 h-4 cursor-pointer">
+          <span class="font-sans text-sm text-gray-700">Over $100</span>
+        </label>
+      </div>
+
+      <!-- Product Type Filter -->
+      <div class="filter-group">
+        <h3 class="font-mono text-xs uppercase font-bold text-vinyl-black mb-3">Product type</h3>
+        {%- assign product_types = '' | split: '' -%}
+        {%- for product in collection.products -%}
+          {%- unless product_types contains product.type -%}
+            {%- assign product_types = product_types | push: product.type -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        
+        {%- if product_types.size > 0 -%}
+          {%- for product_type in product_types -%}
+            <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+              <input type="checkbox" name="type" value="{{ product_type | handleize }}" data-filter="type" class="w-4 h-4 cursor-pointer">
+              <span class="font-sans text-sm text-gray-700">{{ product_type }}</span>
+            </label>
+          {%- endfor -%}
+        {%- else -%}
+          <label class="filter-option flex items-center gap-2 mb-2 cursor-pointer">
+            <input type="checkbox" name="type" value="vinyl" data-filter="type" class="w-4 h-4 cursor-pointer">
+            <span class="font-sans text-sm text-gray-700">Vinyl</span>
+          </label>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Grid with proper spacing -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue product-grid-container">
     {%- for product in collection.products limit: section.settings.products_to_show -%}
-      <div class="product-grid-item">
+      <div class="product-grid-item" 
+           data-product-id="{{ product.id }}"
+           data-price="{{ product.price | money_without_currency | remove: ',' | remove: ' ' }}"
+           data-title="{{ product.title | downcase }}"
+           data-type="{{ product.type | handleize }}"
+           data-date="{{ product.created_at | date: '%s' }}"
+           data-available="{{ product.available }}">
         {% render 'card-product', card_product: product %}
       </div>
     {%- else -%}
@@ -59,7 +150,7 @@
   </div>
 
   {%- if section.settings.show_load_more -%}
-    <div class="py-12 flex justify-center bg-vinyl-paper">
+    <div class="py-12 flex justify-center bg-vinyl-paper border-t border-vinyl-blue">
       <a href="{{ selected_collection.url }}" class="px-8 py-3 border border-vinyl-blue rounded-full text-vinyl-blue font-mono text-xs uppercase tracking-widest hover:bg-vinyl-blue hover:text-white transition-all no-underline">
         Load More
       </a>
@@ -68,50 +159,205 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const section = document.getElementById('homepage-grid-{{ section.id }}');
-    if (!section) return;
+  class HomepageGrid {
+    constructor(container) {
+      this.container = container;
+      this.grid = container.querySelector('.product-grid-container');
+      this.products = Array.from(this.grid.querySelectorAll('.product-grid-item'));
+      this.filterToggle = container.querySelector('[data-filter-toggle]');
+      this.filterPanel = container.querySelector('[data-filter-panel]');
+      this.filterIcon = container.querySelector('[data-filter-icon]');
+      this.sortToggle = container.querySelector('[data-sort-toggle]');
+      this.sortMenu = container.querySelector('[data-sort-menu]');
+      this.sortIcon = container.querySelector('[data-sort-icon]');
+      this.sortOptions = container.querySelectorAll('[data-sort]');
+      this.filters = container.querySelectorAll('[data-filter]');
+      
+      this.activeFilters = {
+        availability: [],
+        price: [],
+        type: []
+      };
+      
+      this.init();
+    }
 
-    const filterLinks = section.querySelectorAll('.filter-link');
-    const gridContainer = section.querySelector('.product-grid-container');
-
-    filterLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const url = new URL(this.href);
-        
-        // Add section_id to fetch only this section
-        url.searchParams.set('section_id', 'homepage-grid');
-        
-        // Visual feedback
-        gridContainer.style.opacity = '0.5';
-        
-        fetch(url.toString())
-          .then(response => response.text())
-          .then(responseText => {
-            const html = new DOMParser().parseFromString(responseText, 'text/html');
-            const newGrid = html.querySelector('.product-grid-container');
-            
-            if (newGrid) {
-              gridContainer.innerHTML = newGrid.innerHTML;
-            }
-            
-            // Update active state
-            filterLinks.forEach(l => {
-              l.classList.remove('text-vinyl-blue', 'font-bold');
-              l.classList.add('text-gray-500');
-            });
-            this.classList.add('text-vinyl-blue', 'font-bold');
-            this.classList.remove('text-gray-500');
-            
-            gridContainer.style.opacity = '1';
-          })
-          .catch(err => {
-            console.error('Error fetching products:', err);
-            gridContainer.style.opacity = '1';
-          });
+    init() {
+      // Filter toggle
+      this.filterToggle?.addEventListener('click', () => this.toggleFilters());
+      
+      // Sort toggle
+      this.sortToggle?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleSort();
       });
-    });
+      
+      // Sort options
+      this.sortOptions.forEach(option => {
+        option.addEventListener('click', (e) => this.handleSort(e));
+      });
+
+      // Filter checkboxes
+      this.filters.forEach(filter => {
+        filter.addEventListener('change', (e) => this.handleFilter(e));
+      });
+
+      // Close sort menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('[data-sort-dropdown]')) {
+          this.closeSortMenu();
+        }
+      });
+    }
+
+    toggleFilters() {
+      const isExpanded = this.filterToggle.getAttribute('aria-expanded') === 'true';
+      
+      if (isExpanded) {
+        // Close
+        this.filterPanel.style.maxHeight = '0';
+        this.filterPanel.style.opacity = '0';
+        this.filterPanel.setAttribute('aria-hidden', 'true');
+        this.filterToggle.setAttribute('aria-expanded', 'false');
+        this.filterIcon.style.transform = 'rotate(0deg)';
+      } else {
+        // Open
+        this.filterPanel.style.maxHeight = '500px';
+        this.filterPanel.style.opacity = '1';
+        this.filterPanel.setAttribute('aria-hidden', 'false');
+        this.filterToggle.setAttribute('aria-expanded', 'true');
+        this.filterIcon.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    toggleSort() {
+      const isExpanded = this.sortToggle.getAttribute('aria-expanded') === 'true';
+      
+      if (isExpanded) {
+        this.closeSortMenu();
+      } else {
+        this.sortMenu.style.opacity = '1';
+        this.sortMenu.style.visibility = 'visible';
+        this.sortMenu.style.transform = 'translateY(0)';
+        this.sortToggle.setAttribute('aria-expanded', 'true');
+        this.sortIcon.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    closeSortMenu() {
+      this.sortMenu.style.opacity = '0';
+      this.sortMenu.style.visibility = 'hidden';
+      this.sortMenu.style.transform = 'translateY(-10px)';
+      this.sortToggle.setAttribute('aria-expanded', 'false');
+      this.sortIcon.style.transform = 'rotate(0deg)';
+    }
+
+    handleSort(e) {
+      const sortType = e.target.dataset.sort;
+      
+      // Update active state
+      this.sortOptions.forEach(opt => {
+        opt.classList.remove('text-vinyl-blue');
+        opt.classList.add('text-gray-700');
+      });
+      e.target.classList.add('text-vinyl-blue');
+      e.target.classList.remove('text-gray-700');
+      
+      this.sortProducts(sortType);
+      this.closeSortMenu();
+    }
+
+    sortProducts(sortType) {
+      let sortedProducts = [...this.products];
+
+      switch(sortType) {
+        case 'alpha-asc':
+          sortedProducts.sort((a, b) => 
+            a.dataset.title.localeCompare(b.dataset.title));
+          break;
+        case 'alpha-desc':
+          sortedProducts.sort((a, b) => 
+            b.dataset.title.localeCompare(a.dataset.title));
+          break;
+        case 'price-asc':
+          sortedProducts.sort((a, b) => 
+            parseFloat(a.dataset.price) - parseFloat(b.dataset.price));
+          break;
+        case 'price-desc':
+          sortedProducts.sort((a, b) => 
+            parseFloat(b.dataset.price) - parseFloat(a.dataset.price));
+          break;
+        case 'date-asc':
+          sortedProducts.sort((a, b) => 
+            parseInt(a.dataset.date) - parseInt(b.dataset.date));
+          break;
+        case 'date-desc':
+          sortedProducts.sort((a, b) => 
+            parseInt(b.dataset.date) - parseInt(a.dataset.date));
+          break;
+      }
+
+      sortedProducts.forEach(product => this.grid.appendChild(product));
+    }
+
+    handleFilter(e) {
+      const filterType = e.target.name;
+      const filterValue = e.target.value;
+      
+      if (e.target.checked) {
+        this.activeFilters[filterType].push(filterValue);
+      } else {
+        this.activeFilters[filterType] = this.activeFilters[filterType]
+          .filter(v => v !== filterValue);
+      }
+      
+      this.filterProducts();
+    }
+
+    filterProducts() {
+      this.products.forEach(product => {
+        let show = true;
+
+        // Availability filter
+        if (this.activeFilters.availability.length > 0) {
+          const available = product.dataset.available === 'true';
+          const matchesAvailability = this.activeFilters.availability.some(filter => {
+            if (filter === 'in-stock') return available;
+            if (filter === 'sold-out') return !available;
+            return false;
+          });
+          if (!matchesAvailability) show = false;
+        }
+
+        // Price filter
+        if (this.activeFilters.price.length > 0) {
+          const price = parseFloat(product.dataset.price);
+          const matchesPrice = this.activeFilters.price.some(filter => {
+            if (filter === '0-25') return price < 25;
+            if (filter === '25-50') return price >= 25 && price < 50;
+            if (filter === '50-100') return price >= 50 && price < 100;
+            if (filter === '100+') return price >= 100;
+            return false;
+          });
+          if (!matchesPrice) show = false;
+        }
+
+        // Type filter
+        if (this.activeFilters.type.length > 0) {
+          const matchesType = this.activeFilters.type.includes(product.dataset.type);
+          if (!matchesType) show = false;
+        }
+
+        product.style.display = show ? '' : 'none';
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.querySelector('#homepage-grid-{{ section.id }}');
+    if (section) {
+      new HomepageGrid(section);
+    }
   });
 </script>
 
