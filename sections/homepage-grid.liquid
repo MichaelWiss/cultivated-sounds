@@ -9,11 +9,11 @@
 
 <div class="homepage-grid-section relative border-b border-vinyl-blue" id="homepage-grid-{{ section.id }}">
   
-  <!-- Product Grid with integrated filter bar -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue product-grid-container">
+  <!-- Shared border container -->
+  <div class="border-l border-vinyl-blue">
     
-    <!-- Filter Bar as First Grid Row -->
-    <div class="col-span-full bg-vinyl-blue border-r border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
+    <!-- Filter Bar (separate element, NOT in grid) -->
+    <div class="bg-vinyl-blue border-r border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
       <!-- Filters Button (Left) -->
       <button 
         class="filter-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
@@ -57,10 +57,10 @@
       </div>
     </div>
 
-    <!-- Expandable Filter Panel -->
+    <!-- Expandable Filter Panel (separate element, NOT in grid) -->
     <div 
       id="filter-panel-{{ section.id }}"
-      class="col-span-full filter-panel bg-gray-100 border-r border-b border-gray-300 overflow-hidden max-h-0 opacity-0 transition-all duration-300"
+      class="filter-panel bg-gray-100 border-r border-b border-gray-300 overflow-hidden max-h-0 opacity-0 transition-all duration-300"
       data-filter-panel
       role="region"
       aria-hidden="true">
@@ -127,28 +127,30 @@
       </div>
     </div>
 
-    <!-- Product Cards -->
-    {%- for product in collection.products limit: section.settings.products_to_show -%}
-      <div class="product-grid-item border-r border-b border-vinyl-blue" 
-           data-product-id="{{ product.id }}"
-           data-price="{{ product.price | money_without_currency | remove: ',' | remove: ' ' }}"
-           data-title="{{ product.title | downcase }}"
-           data-type="{{ product.type | handleize }}"
-           data-date="{{ product.created_at | date: '%s' }}"
-           data-available="{{ product.available }}">
-        {% render 'card-product', card_product: product %}
-      </div>
-    {%- else -%}
-      {%- if request.page_type == 'collection' -%}
-         <div class="col-span-full py-24 text-center font-mono text-sm uppercase text-gray-500">No products found</div>
+    <!-- Product Grid (4 columns, separate from filter bar) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 product-grid-container">
+      {%- for product in collection.products limit: section.settings.products_to_show -%}
+        <div class="product-grid-item border-r border-b border-vinyl-blue" 
+             data-product-id="{{ product.id }}"
+             data-price="{{ product.price | money_without_currency | remove: ',' | remove: ' ' }}"
+             data-title="{{ product.title | downcase }}"
+             data-type="{{ product.type | handleize }}"
+             data-date="{{ product.created_at | date: '%s' }}"
+             data-available="{{ product.available }}">
+          {% render 'card-product', card_product: product %}
+        </div>
       {%- else -%}
-        {%- for i in (1..8) -%}
-          <div class="product-grid-item border-r border-b border-vinyl-blue">
-            {% render 'card-product' %}
-          </div>
-        {%- endfor -%}
-      {%- endif -%}
-    {%- endfor -%}
+        {%- if request.page_type == 'collection' -%}
+           <div class="col-span-full py-24 text-center font-mono text-sm uppercase text-gray-500">No products found</div>
+        {%- else -%}
+          {%- for i in (1..8) -%}
+            <div class="product-grid-item border-r border-b border-vinyl-blue">
+              {% render 'card-product' %}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
   </div>
 
   {%- if section.settings.show_load_more -%}
