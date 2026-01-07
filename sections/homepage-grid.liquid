@@ -9,6 +9,13 @@
 
 <div class="homepage-grid-section relative border-b border-vinyl-blue" id="homepage-grid-{{ section.id }}">
   
+  <!-- Backdrop Overlay - MOVED OUTSIDE to prevent stacking context issues -->
+  <div 
+    class="filter-backdrop fixed inset-0 bg-black/50 transition-opacity duration-300 z-40 hidden pointer-events-none"
+    data-filter-backdrop
+    aria-hidden="true">
+  </div>
+
   <!-- Shared border container -->
   <div class="border-l border-vinyl-blue">
     
@@ -16,19 +23,22 @@
     <div class="sticky top-0 z-[45] bg-vinyl-blue border-r border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
       <!-- Filters Button (Left) -->
       <button 
-        class="filter-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
+        type="button"
+        class="filter-toggle relative z-50 w-auto max-w-[200px] flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
+        style="border: 5px solid red !important;"
         data-filter-toggle
         aria-expanded="false"
         aria-controls="filter-panel-{{ section.id }}">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform" data-filter-icon>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform pointer-events-none" data-filter-icon>
           <path d="M3 6l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
-        FILTERS
+        <span class="pointer-events-none">FILTERS</span>
       </button>
 
       <!-- Sort Dropdown (Right) -->
       <div class="sort-dropdown relative" data-sort-dropdown>
         <button 
+          type="button"
           class="sort-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors bg-transparent border-none cursor-pointer"
           data-sort-toggle
           aria-expanded="false"
@@ -45,23 +55,16 @@
           class="sort-menu absolute top-full right-0 mt-2 bg-white border border-gray-300 min-w-[220px] opacity-0 invisible translate-y-[-10px] transition-all duration-200 shadow-lg z-50"
           data-sort-menu
           role="menu">
-          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-vinyl-blue hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="featured" role="menuitem">Featured</button>
-          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="best-selling" role="menuitem">Best selling</button>
-          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-asc" role="menuitem">Alphabetically, A-Z</button>
-          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-desc" role="menuitem">Alphabetically, Z-A</button>
-          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-asc" role="menuitem">Price, low to high</button>
-          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-desc" role="menuitem">Price, high to low</button>
-          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-desc" role="menuitem">Date, old to new</button>
-          <button class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-asc" role="menuitem">Date, new to old</button>
+          <button type="button" class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-vinyl-blue hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="featured" role="menuitem">Featured</button>
+          <button type="button" class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="best-selling" role="menuitem">Best selling</button>
+          <button type="button" class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-asc" role="menuitem">Alphabetically, A-Z</button>
+          <button type="button" class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="alpha-desc" role="menuitem">Alphabetically, Z-A</button>
+          <button type="button" class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-asc" role="menuitem">Price, low to high</button>
+          <button type="button" class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="price-desc" role="menuitem">Price, high to low</button>
+          <button type="button" class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-desc" role="menuitem">Date, old to new</button>
+          <button type="button" class="sort-option block w-full text-left px-4 py-3 font-mono text-xs uppercase text-gray-700 hover:bg-gray-100 transition-colors border-none cursor-pointer bg-transparent" data-sort="date-asc" role="menuitem">Date, new to old</button>
         </div>
       </div>
-    </div>
-
-    <!-- Backdrop Overlay -->
-    <div 
-      class="filter-backdrop fixed inset-0 bg-black bg-opacity-50 opacity-0 invisible pointer-events-none transition-opacity duration-300 z-40"
-      data-filter-backdrop
-      aria-hidden="true">
     </div>
 
     <!-- Sidebar Filter Panel -->
@@ -274,7 +277,8 @@
 </div>
 
 <script>
-  class HomepageGrid {
+  // Namespace class to avoid conflicts
+  class HomepageGrid_{{ section.id | replace: '-', '_' }} {
     constructor(container) {
       this.container = container;
       this.grid = container.querySelector('.product-grid-container');
@@ -298,13 +302,21 @@
     }
 
     init() {
-      // Filter toggle - opens sidebar (DEFENSIVE: Only if click is truly on button)
+      // Filter toggle - opens sidebar
       this.filterToggle?.addEventListener('click', (e) => {
-        // Verify this is a legitimate click on the filter toggle
-        if (e.currentTarget === this.filterToggle && !this.filterPanel.contains(e.target)) {
-          console.log('Opening sidebar from filter toggle');
-          this.openSidebar();
-        }
+        // STRICT CHECK: Only trigger if the click originated physically inside the button
+        // This ignores bubbled clicks from document/body if the button isn't the true target
+        if (!this.filterToggle.contains(e.target)) return;
+
+        // Defensive: ensure we aren't handling a bubbled click from the panel
+        if (this.filterPanel.contains(e.target)) return;
+        
+        e.stopPropagation();
+        console.log('Filter toggle clicked - Opening Sidebar', {
+          target: e.target,
+          currentTarget: e.currentTarget
+        });
+        this.openSidebar();
       });
       
       // Close button
@@ -366,11 +378,14 @@
       this.filterPanel.style.transform = 'translateX(0)';
       this.filterToggle.setAttribute('aria-expanded', 'true');
       
-      // Show backdrop and enable clicks
-      backdrop.classList.remove('pointer-events-none');
-      backdrop.style.opacity = '1';
-      backdrop.style.visibility = 'visible';
-      backdrop.setAttribute('aria-hidden', 'false');
+      // Show backdrop
+      backdrop.classList.remove('hidden', 'pointer-events-none');
+      // Small delay to allow display:block to apply before opacity transition
+      requestAnimationFrame(() => {
+        backdrop.style.opacity = '1';
+        backdrop.style.visibility = 'visible';
+        backdrop.setAttribute('aria-hidden', 'false');
+      });
       
       // Prevent body scroll
       document.body.style.overflow = 'hidden';
@@ -383,11 +398,16 @@
       this.filterPanel.style.transform = 'translateX(-100%)';
       this.filterToggle.setAttribute('aria-expanded', 'false');
       
-      // Hide backdrop and disable clicks
+      // Hide backdrop
       backdrop.classList.add('pointer-events-none');
       backdrop.style.opacity = '0';
       backdrop.style.visibility = 'hidden';
       backdrop.setAttribute('aria-hidden', 'true');
+      
+      // Wait for transition to finish before hiding
+      setTimeout(() => {
+        backdrop.classList.add('hidden');
+      }, 300);
       
       // Restore body scroll
       document.body.style.overflow = '';
@@ -535,13 +555,16 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  const initHomepageGrid = () => {
     const section = document.querySelector('#homepage-grid-{{ section.id }}');
     if (section && !section.dataset.initialized) {
       section.dataset.initialized = 'true';
-      new HomepageGrid(section);
+      new HomepageGrid_{{ section.id | replace: '-', '_' }}(section);
     }
-  });
+  };
+
+  document.addEventListener('DOMContentLoaded', initHomepageGrid);
+  document.addEventListener('page:loaded', initHomepageGrid);
 </script>
 
 {% schema %}
