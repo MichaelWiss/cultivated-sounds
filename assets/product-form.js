@@ -2,7 +2,13 @@ class ProductForm extends HTMLElement {
   constructor() {
     super();
     this.form = this.querySelector('form');
-    this.form.querySelector('[name=id]').disabled = false;
+    if (!this.form) return;
+    
+    const idInput = this.form.querySelector('[name=id]');
+    if (idInput) {
+      idInput.disabled = false;
+    }
+    
     this.form.addEventListener('submit', this.onSubmit.bind(this));
     this.cartDrawer = document.querySelector('cart-drawer');
   }

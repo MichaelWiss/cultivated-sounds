@@ -11,6 +11,11 @@ class ProductFilters extends HTMLElement {
     this.productGrid = document.querySelector('.product-grid-items');
     this.loadMoreBtn = document.querySelector('[data-load-more]');
     
+    // Only initialize if we have the required elements
+    if (!this.filterButtons.length && !this.sortSelect) {
+      return;
+    }
+    
     this.currentFilter = 'all';
     this.currentSort = 'newest';
     // Initialize from actual items displayed
@@ -21,6 +26,11 @@ class ProductFilters extends HTMLElement {
   }
 
   init() {
+    // Early return if no filter elements present
+    if (!this.filterButtons.length && !this.sortSelect) {
+      return;
+    }
+    
     // Filter button clicks
     this.filterButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {
