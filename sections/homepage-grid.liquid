@@ -13,7 +13,8 @@
   <div 
     class="filter-backdrop fixed inset-0 bg-black/50 transition-opacity duration-300 z-40 hidden pointer-events-none"
     data-filter-backdrop
-    aria-hidden="true">
+    aria-hidden="true"
+    style="display: none !important;">
   </div>
 
   <!-- Shared border container -->
@@ -22,18 +23,20 @@
     <!-- Filter Bar (sticky at top of section) -->
     <div class="sticky top-0 z-[45] bg-vinyl-blue border-r border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
       <!-- Filters Button (Left) -->
-      <button 
-        type="button"
+      <div 
+        role="button"
+        tabindex="0"
         class="filter-toggle relative z-50 w-auto max-w-[200px] flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
         style="border: 5px solid red !important;"
-        data-filter-toggle
+        data-filter-toggle-isolated
+        data-no-swup
         aria-expanded="false"
         aria-controls="filter-panel-{{ section.id }}">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform pointer-events-none" data-filter-icon>
           <path d="M3 6l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         <span class="pointer-events-none">FILTERS</span>
-      </button>
+      </div>
 
       <!-- Sort Dropdown (Right) -->
       <div class="sort-dropdown relative" data-sort-dropdown>
@@ -283,7 +286,7 @@
       this.container = container;
       this.grid = container.querySelector('.product-grid-container');
       this.products = Array.from(this.grid.querySelectorAll('.product-grid-item'));
-      this.filterToggle = container.querySelector('[data-filter-toggle]');
+      this.filterToggle = container.querySelector('[data-filter-toggle-isolated]');
       this.filterPanel = container.querySelector('[data-filter-panel]');
       this.filterIcon = container.querySelector('[data-filter-icon]');
       this.sortToggle = container.querySelector('[data-sort-toggle]');
@@ -302,21 +305,53 @@
     }
 
     init() {
+      // Global click debugging logger (TEMPORARY - for debugging)
+      this.globalClickHandler = (e) => {
+        console.log('Global click detected:', {
+          target: e.target,
+          tagName: e.target.tagName,
+          className: e.target.className,
+          id: e.target.id,
+          dataAttributes: Array.from(e.target.attributes).filter(attr => attr.name.startsWith('data-')),
+          closestFilterToggle: e.target.closest('[data-filter-toggle-isolated]'),
+          path: e.composedPath().map(el => el.tagName || el.nodeName).slice(0, 5)
+        });
+      };
+      document.addEventListener('click', this.globalClickHandler, true);
+
       // Filter toggle - opens sidebar
       this.filterToggle?.addEventListener('click', (e) => {
         // STRICT CHECK: Only trigger if the click originated physically inside the button
-        // This ignores bubbled clicks from document/body if the button isn't the true target
-        if (!this.filterToggle.contains(e.target)) return;
+        if (!this.filterToggle.contains(e.target)) {
+          console.log('Filter toggle click rejected - target not contained', {
+            target: e.target,
+            filterToggle: this.filterToggle,
+            contains: this.filterToggle.contains(e.target)
+          });
+          return;
+        }
 
         // Defensive: ensure we aren't handling a bubbled click from the panel
-        if (this.filterPanel.contains(e.target)) return;
+        if (this.filterPanel.contains(e.target)) {
+          console.log('Filter toggle click rejected - target in panel');
+          return;
+        }
         
         e.stopPropagation();
+        e.preventDefault();
         console.log('Filter toggle clicked - Opening Sidebar', {
           target: e.target,
           currentTarget: e.currentTarget
         });
         this.openSidebar();
+      });
+
+      // Accessibility: Enter/Space to toggle
+      this.filterToggle?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.openSidebar();
+        }
       });
       
       // Close button
@@ -369,6 +404,9 @@
       if (this.documentClickHandler) {
         document.removeEventListener('click', this.documentClickHandler);
       }
+      if (this.globalClickHandler) {
+        document.removeEventListener('click', this.globalClickHandler, true);
+      }
     }
 
     openSidebar() {
@@ -379,6 +417,7 @@
       this.filterToggle.setAttribute('aria-expanded', 'true');
       
       // Show backdrop
+      backdrop.style.display = 'block';
       backdrop.classList.remove('hidden', 'pointer-events-none');
       // Small delay to allow display:block to apply before opacity transition
       requestAnimationFrame(() => {
@@ -407,6 +446,7 @@
       // Wait for transition to finish before hiding
       setTimeout(() => {
         backdrop.classList.add('hidden');
+        backdrop.style.display = 'none';
       }, 300);
       
       // Restore body scroll
@@ -555,11 +595,20 @@
     }
   }
 
+  // Store instance for cleanup
+  let homepageGridInstance = null;
+  
   const initHomepageGrid = () => {
     const section = document.querySelector('#homepage-grid-{{ section.id }}');
-    if (section && !section.dataset.initialized) {
+    if (section) {
+      // Cleanup existing instance
+      if (homepageGridInstance) {
+        homepageGridInstance.destroy();
+      }
+      
+      // Create new instance
+      homepageGridInstance = new HomepageGrid_{{ section.id | replace: '-', '_' }}(section);
       section.dataset.initialized = 'true';
-      new HomepageGrid_{{ section.id | replace: '-', '_' }}(section);
     }
   };
 
