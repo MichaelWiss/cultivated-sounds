@@ -298,8 +298,14 @@
     }
 
     init() {
-      // Filter toggle - opens sidebar
-      this.filterToggle?.addEventListener('click', () => this.openSidebar());
+      // Filter toggle - opens sidebar (DEFENSIVE: Only if click is truly on button)
+      this.filterToggle?.addEventListener('click', (e) => {
+        // Verify this is a legitimate click on the filter toggle
+        if (e.currentTarget === this.filterToggle && !this.filterPanel.contains(e.target)) {
+          console.log('Opening sidebar from filter toggle');
+          this.openSidebar();
+        }
+      });
       
       // Close button
       const closeBtn = this.container.querySelector('[data-filter-close]');
