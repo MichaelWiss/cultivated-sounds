@@ -61,6 +61,13 @@
                  </div>
                </details>
              {%- endfor -%}
+             <script>
+               document.addEventListener('click', (e) => {
+                 document.querySelectorAll('details.group[open]').forEach(d => {
+                   if (!d.contains(e.target)) d.removeAttribute('open');
+                 });
+               });
+             </script>
              <noscript>
                <button type="submit" class="font-mono text-xs uppercase border border-vinyl-blue px-2 py-1">Apply</button>
              </noscript>

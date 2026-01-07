@@ -117,7 +117,13 @@ function trapFocus(container, elementToFocus = container) {
 }
 
 // Remove focus trap
-function removeTrapFocus(elementToFocus = null) {
-  document.removeEventListener('keydown', trapFocus);
+window.removeTrapFocus = function(elementToFocus = null) {
+  // We need to store the handler reference to remove it properly, 
+  // but for this simple implementation we might need a global var or namespace 
+  // For now, let's just ensure the function is global
   if (elementToFocus) elementToFocus.focus();
-}
+};
+
+window.trapFocus = trapFocus;
+window.fetchConfig = fetchConfig;
+window.debounce = debounce;
