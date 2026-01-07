@@ -63,8 +63,24 @@
              {%- endfor -%}
              <script>
                document.addEventListener('click', (e) => {
-                 document.querySelectorAll('details.group[open]').forEach(d => {
-                   if (!d.contains(e.target)) d.removeAttribute('open');
+                 const details = document.querySelectorAll('details.group');
+                 
+                 // If clicking inside a summary, close other details
+                 if (e.target.closest('summary')) {
+                    const currentDetail = e.target.closest('details');
+                    details.forEach(d => {
+                        if (d !== currentDetail && d.hasAttribute('open')) {
+                            d.removeAttribute('open');
+                        }
+                    });
+                    return;
+                 }
+                 
+                 // If clicking outside any open details, close them
+                 details.forEach(d => {
+                   if (d.hasAttribute('open') && !d.contains(e.target)) {
+                     d.removeAttribute('open');
+                   }
                  });
                });
              </script>
