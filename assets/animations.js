@@ -89,5 +89,4 @@ function initAnimations() {
 // Initialize on first load
 document.addEventListener('DOMContentLoaded', initAnimations);
 
-// Re-initialize on Soft Navigation (Swup)
-document.addEventListener('page:loaded', initAnimations);
+// Removed Swup reference - no longer needed

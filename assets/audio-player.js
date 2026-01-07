@@ -76,9 +76,8 @@ class AudioPlayerBar extends HTMLElement {
         }
     });
 
-    // Listen for soft nav re-init
+    // Initialize track listeners
     this.bindTrackListeners();
-    document.addEventListener('page:loaded', () => this.bindTrackListeners());
   }
 
   bindTrackListeners() {
