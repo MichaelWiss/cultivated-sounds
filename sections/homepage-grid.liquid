@@ -59,7 +59,7 @@
 
     <!-- Backdrop Overlay -->
     <div 
-      class="filter-backdrop fixed inset-0 bg-black bg-opacity-50 opacity-0 invisible transition-opacity duration-300 z-40"
+      class="filter-backdrop fixed inset-0 bg-black bg-opacity-50 opacity-0 invisible pointer-events-none transition-opacity duration-300 z-40"
       data-filter-backdrop
       aria-hidden="true">
     </div>
@@ -335,12 +335,22 @@
         filter.addEventListener('change', (e) => this.handleFilter(e));
       });
 
-      // Close sort menu when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('[data-sort-dropdown]')) {
+      // Close sort menu when clicking outside (FIXED: Properly scoped)
+      this.documentClickHandler = (e) => {
+        // Only process if sort menu is actually open
+        const isOpen = this.sortToggle?.getAttribute('aria-expanded') === 'true';
+        if (isOpen && !e.target.closest('[data-sort-dropdown]')) {
           this.closeSortMenu();
         }
-      });
+      };
+      document.addEventListener('click', this.documentClickHandler);
+    }
+    
+    destroy() {
+      // Cleanup event listeners
+      if (this.documentClickHandler) {
+        document.removeEventListener('click', this.documentClickHandler);
+      }
     }
 
     openSidebar() {
@@ -350,7 +360,8 @@
       this.filterPanel.style.transform = 'translateX(0)';
       this.filterToggle.setAttribute('aria-expanded', 'true');
       
-      // Show backdrop
+      // Show backdrop and enable clicks
+      backdrop.classList.remove('pointer-events-none');
       backdrop.style.opacity = '1';
       backdrop.style.visibility = 'visible';
       backdrop.setAttribute('aria-hidden', 'false');
@@ -366,7 +377,8 @@
       this.filterPanel.style.transform = 'translateX(-100%)';
       this.filterToggle.setAttribute('aria-expanded', 'false');
       
-      // Hide backdrop
+      // Hide backdrop and disable clicks
+      backdrop.classList.add('pointer-events-none');
       backdrop.style.opacity = '0';
       backdrop.style.visibility = 'hidden';
       backdrop.setAttribute('aria-hidden', 'true');
@@ -519,7 +531,8 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const section = document.querySelector('#homepage-grid-{{ section.id }}');
-    if (section) {
+    if (section && !section.dataset.initialized) {
+      section.dataset.initialized = 'true';
       new HomepageGrid(section);
     }
   });
