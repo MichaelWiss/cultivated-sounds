@@ -7,7 +7,7 @@
 
 {%- if card_style == 'editorial' -%}
   <div class="group relative flex flex-col h-full bg-vinyl-paper p-4 transition-all duration-300 cursor-pointer shadow-sm border border-transparent hover:border-vinyl-blue {{ class }}">
-    <a href="{{ product.url }}" class="absolute inset-0 z-20">
+    <a href="{{ product.url }}" class="absolute inset-0 z-40">
       <span class="sr-only">View {{ product.title }}</span>
     </a>
 
@@ -43,7 +43,7 @@
 {%- else -%}
   {% comment %} Standard Grid Style {% endcomment %}
   <div class="group relative flex flex-col h-full bg-vinyl-paper border-r border-b border-vinyl-blue p-4 sm:p-6 transition-all duration-300 cursor-pointer hover:bg-white {{ class }}">
-    <a href="{{ product.url }}" class="absolute inset-0 z-20">
+    <a href="{{ product.url }}" class="absolute inset-0 z-40">
       <span class="sr-only">View {{ product.title }}</span>
     </a>
 
