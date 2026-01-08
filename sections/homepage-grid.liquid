@@ -403,6 +403,12 @@
     }
 
     openSidebar() {
+      console.error('🔴 openSidebar() called!', {
+        filterToggle: this.filterToggle,
+        container: this.container,
+        trace: new Error().stack
+      });
+      
       const backdrop = this.container.querySelector('[data-filter-backdrop]');
       
       // Show sidebar
