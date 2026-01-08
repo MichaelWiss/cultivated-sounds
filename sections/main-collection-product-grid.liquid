@@ -51,7 +51,6 @@
                            {% if value.count == 0 and value.active == false %}disabled{% endif %}
                            class="w-3 h-3 border-vinyl-blue rounded-none focus:ring-0 text-vinyl-blue"
                          >
-                         <label for="Filter-{{ filter.param_name }}-{{ forloop.index }}" class="font-mono text-xs uppercase {% if value.count == 0 and value.active == false %}text-gray-300{% else %}text-vinyl-black{% endif %} cursor-pointer">
                            {{ value.label }} ({{ value.count }})
                          </label>
                        </li>
