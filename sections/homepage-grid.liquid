@@ -26,6 +26,7 @@
         role="button"
         tabindex="0"
         class="filter-toggle relative z-50 w-auto max-w-[200px] flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
+        style="border: 3px solid red !important; background: rgba(255,0,0,0.2) !important;"
         data-filter-toggle-isolated
         aria-expanded="false"
         aria-controls="filter-panel-{{ section.id }}">
@@ -329,11 +330,21 @@
     }
 
     init() {
-      // Removed global click debugging handler
+      // DEBUG: Log all clicks on the page to find what's triggering it
+      document.addEventListener('click', (e) => {
+        console.log('🔵 CLICK:', {
+          target: e.target,
+          targetTag: e.target.tagName,
+          targetClass: e.target.className,
+          filterToggle: this.filterToggle,
+          isFilterToggle: e.target === this.filterToggle || this.filterToggle?.contains(e.target)
+        });
+      }, true);
 
       // Filter toggle - opens sidebar
       if (this.filterToggle) {
         this.filterToggle.addEventListener('click', (e) => {
+          console.log('🟢 FILTER TOGGLE CLICKED');
           e.stopPropagation();
           e.preventDefault();
           this.openSidebar();
