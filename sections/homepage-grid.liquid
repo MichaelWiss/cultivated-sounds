@@ -9,16 +9,15 @@
 
 <div class="homepage-grid-section relative border-b border-vinyl-blue" id="homepage-grid-{{ section.id }}">
   
-  <!-- Backdrop Overlay - MOVED OUTSIDE to prevent stacking context issues -->
-  <div 
-    class="filter-backdrop fixed inset-0 bg-black/50 transition-opacity duration-300 z-40 hidden pointer-events-none"
-    data-filter-backdrop
-    aria-hidden="true"
-    style="display: none !important;">
-  </div>
-
   <!-- Shared border container -->
   <div class="border-l border-vinyl-blue">
+    
+    <!-- Backdrop Overlay -->
+    <div 
+      class="filter-backdrop fixed inset-0 bg-black/50 transition-opacity duration-300 z-40 hidden pointer-events-none opacity-0 invisible"
+      data-filter-backdrop
+      aria-hidden="true">
+    </div>
     
     <!-- Filter Bar (sticky at top of section) -->
     <div class="sticky top-0 z-[45] bg-vinyl-blue border-r border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
@@ -299,7 +298,34 @@
         type: []
       };
       
+      // Ensure filter panel starts closed
+      this.ensureClosedState();
+      
       this.init();
+    }
+    
+    ensureClosedState() {
+      const backdrop = this.container.querySelector('[data-filter-backdrop]');
+      
+      // Ensure sidebar is closed
+      if (this.filterPanel) {
+        this.filterPanel.style.transform = 'translateX(-100%)';
+      }
+      if (this.filterToggle) {
+        this.filterToggle.setAttribute('aria-expanded', 'false');
+      }
+      
+      // Ensure backdrop is hidden
+      if (backdrop) {
+        backdrop.classList.add('hidden', 'pointer-events-none');
+        backdrop.style.opacity = '0';
+        backdrop.style.visibility = 'hidden';
+        backdrop.style.display = 'none';
+        backdrop.setAttribute('aria-hidden', 'true');
+      }
+      
+      // Restore body scroll
+      document.body.style.overflow = '';
     }
 
     init() {
@@ -308,16 +334,6 @@
       // Filter toggle - opens sidebar
       if (this.filterToggle) {
         this.filterToggle.addEventListener('click', (e) => {
-          // STRICT CHECK: Only trigger if the click originated physically inside the button
-          if (!this.filterToggle.contains(e.target)) {
-            return;
-          }
-
-          // Defensive: ensure we aren't handling a bubbled click from the panel
-          if (this.filterPanel && this.filterPanel.contains(e.target)) {
-            return;
-          }
-          
           e.stopPropagation();
           e.preventDefault();
           this.openSidebar();
@@ -370,9 +386,9 @@
 
       // Close sort menu when clicking outside (FIXED: Properly scoped)
       this.documentClickHandler = (e) => {
-        // Only process if sort menu is actually open
+        // Only process if sort menu is actually open AND click is outside the section
         const isOpen = this.sortToggle?.getAttribute('aria-expanded') === 'true';
-        if (isOpen && !e.target.closest('[data-sort-dropdown]')) {
+        if (isOpen && !this.container.contains(e.target)) {
           this.closeSortMenu();
         }
       };
@@ -603,7 +619,8 @@
   
   const initHomepageGrid = () => {
     const section = document.querySelector('#homepage-grid-{{ section.id }}');
-    if (section && !section.dataset.initialized) {
+    // Only initialize if section exists and has required elements
+    if (section && !section.dataset.initialized && section.querySelector('[data-filter-toggle-isolated]')) {
       try {
         // Cleanup existing instance
         if (homepageGridInstance) {
