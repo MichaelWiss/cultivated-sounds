@@ -24,10 +24,10 @@
     <!-- Filter / Sort Bar -->
     <div class="sticky top-[64px] sm:top-[80px] z-30 bg-vinyl-paper border-b border-vinyl-blue py-3 px-4 sm:px-8 flex flex-wrap justify-between items-center gap-4">
        <div class="flex items-center gap-6">
-         <span class="font-mono text-xs uppercase text-gray-500">{{ collection.products_count }} {{ 'sections.collection_template.items' | t }}</span>
+         <span class="collection-count font-mono text-xs uppercase text-gray-500">{{ collection.products_count }} {{ 'sections.collection_template.items' | t }}</span>
          
          {%- if collection.filters.size > 0 -%}
-           <form class="flex items-center gap-4">
+           <form id="CollectionFiltersForm" class="flex items-center gap-4">
              {%- for filter in collection.filters -%}
                <details class="group relative">
                  <summary class="font-mono text-xs uppercase text-vinyl-blue cursor-pointer list-none flex items-center gap-1">
@@ -50,7 +50,6 @@
                            {% if value.active %}checked{% endif %}
                            {% if value.count == 0 and value.active == false %}disabled{% endif %}
                            class="w-3 h-3 border-vinyl-blue rounded-none focus:ring-0 text-vinyl-blue"
-                           onchange="this.closest('form').submit()"
                          >
                          <label for="Filter-{{ filter.param_name }}-{{ forloop.index }}" class="font-mono text-xs uppercase {% if value.count == 0 and value.active == false %}text-gray-300{% else %}text-vinyl-black{% endif %} cursor-pointer">
                            {{ value.label }} ({{ value.count }})
@@ -70,7 +69,7 @@
 
        <div class="flex items-center gap-2">
           <span class="font-mono text-xs uppercase text-gray-500">{{ 'sections.collection_template.sort_by_label' | t }}</span>
-          <select id="SortBy" class="font-mono text-xs uppercase text-vinyl-blue font-bold cursor-pointer bg-transparent border-none focus:ring-0 p-0" onchange="location.href=this.value">
+          <select id="SortBy" class="font-mono text-xs uppercase text-vinyl-blue font-bold cursor-pointer bg-transparent border-none focus:ring-0 p-0">
             {%- for option in collection.sort_options -%}
               <option value="{{ collection.url }}?sort_by={{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
             {%- endfor -%}
@@ -79,7 +78,7 @@
     </div>
 
     <!-- Product Grid -->
-    <div class="collection-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue min-h-[50vh]">
+    <div id="ProductGridContainer" class="collection-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-vinyl-blue min-h-[50vh]">
       {%- for product in collection.products -%}
           <div class="collection-item">
               {% render 'card-product', card_product: product, show_vendor: section.settings.show_vendor %}
@@ -128,6 +127,7 @@
     {%- endif -%}
   {%- endpaginate -%}
 </div>
+<script src="{{ 'collection-filters.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
