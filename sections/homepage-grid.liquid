@@ -22,11 +22,9 @@
     <!-- Filter Bar (sticky at top of section) -->
     <div class="sticky top-0 z-[45] bg-vinyl-blue border-r border-b border-vinyl-blue py-4 px-4 sm:px-8 flex justify-between items-center" data-filter-bar>
       <!-- Filters Button (Left) -->
-      <div 
-        role="button"
-        tabindex="0"
-        class="filter-toggle relative z-50 w-auto max-w-[200px] flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors no-underline bg-transparent border-none cursor-pointer"
-        style="border: 3px solid red !important; background: rgba(255,0,0,0.2) !important;"
+      <button
+        type="button"
+        class="filter-toggle flex items-center gap-2 font-mono text-xs uppercase font-bold text-white hover:text-gray-200 transition-colors bg-transparent border-none cursor-pointer"
         data-filter-toggle-isolated
         aria-expanded="false"
         aria-controls="filter-panel-{{ section.id }}">
@@ -34,7 +32,7 @@
           <path d="M3 6l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         <span class="pointer-events-none">FILTERS</span>
-      </div>
+      </button>
 
       <!-- Sort Dropdown (Right) -->
       <div class="sort-dropdown relative" data-sort-dropdown>
@@ -278,7 +276,6 @@
 </div>
 
 <script>
-  // Namespace class to avoid conflicts
   class HomepageGrid_{{ section.id | replace: '-', '_' }} {
     constructor(container) {
       this.container = container;
@@ -286,12 +283,13 @@
       this.products = this.grid ? Array.from(this.grid.querySelectorAll('.product-grid-item')) : [];
       this.filterToggle = container.querySelector('[data-filter-toggle-isolated]');
       this.filterPanel = container.querySelector('[data-filter-panel]');
-      this.filterIcon = container.querySelector('[data-filter-icon]');
+      this.backdrop = container.querySelector('[data-filter-backdrop]');
       this.sortToggle = container.querySelector('[data-sort-toggle]');
       this.sortMenu = container.querySelector('[data-sort-menu]');
       this.sortIcon = container.querySelector('[data-sort-icon]');
       this.sortOptions = container.querySelectorAll('[data-sort]');
       this.filters = container.querySelectorAll('[data-filter]');
+      this.isOpen = false;
       
       this.activeFilters = {
         availability: [],
@@ -299,93 +297,40 @@
         type: []
       };
       
-      // Ensure filter panel starts closed
-      this.ensureClosedState();
-      
       this.init();
-    }
-    
-    ensureClosedState() {
-      const backdrop = this.container.querySelector('[data-filter-backdrop]');
-      
-      // Ensure sidebar is closed
-      if (this.filterPanel) {
-        this.filterPanel.style.transform = 'translateX(-100%)';
-      }
-      if (this.filterToggle) {
-        this.filterToggle.setAttribute('aria-expanded', 'false');
-      }
-      
-      // Ensure backdrop is hidden
-      if (backdrop) {
-        backdrop.classList.add('hidden', 'pointer-events-none');
-        backdrop.style.opacity = '0';
-        backdrop.style.visibility = 'hidden';
-        backdrop.style.display = 'none';
-        backdrop.setAttribute('aria-hidden', 'true');
-      }
-      
-      // Restore body scroll
-      document.body.style.overflow = '';
     }
 
     init() {
-      // DEBUG: Log all clicks on the page to find what's triggering it
-      document.addEventListener('click', (e) => {
-        console.log('🔵 CLICK:', {
-          target: e.target,
-          targetTag: e.target.tagName,
-          targetClass: e.target.className,
-          filterToggle: this.filterToggle,
-          isFilterToggle: e.target === this.filterToggle || this.filterToggle?.contains(e.target)
-        });
-      }, true);
-
-      // Filter toggle - opens sidebar
-      if (this.filterToggle) {
-        this.filterToggle.addEventListener('click', (e) => {
-          console.log('🟢 FILTER TOGGLE CLICKED');
-          e.stopPropagation();
-          e.preventDefault();
-          this.openSidebar();
-        });
-      }
-
-      // Accessibility: Enter/Space to toggle
-      if (this.filterToggle) {
-        this.filterToggle.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            this.openSidebar();
-          }
-        });
-      }
-      
-      // Close button
-      const closeBtn = this.container.querySelector('[data-filter-close]');
-      closeBtn?.addEventListener('click', () => this.closeSidebar());
-      
-      // Backdrop click
-      const backdrop = this.container.querySelector('[data-filter-backdrop]');
-      backdrop?.addEventListener('click', () => this.closeSidebar());
-      
-      // View items button
-      const viewItemsBtn = this.container.querySelector('[data-view-items]');
-      viewItemsBtn?.addEventListener('click', () => this.closeSidebar());
-      
-      // Filter section toggles
-      const sectionToggles = this.container.querySelectorAll('[data-filter-section]');
-      sectionToggles.forEach(toggle => {
-        toggle.addEventListener('click', (e) => this.toggleFilterSection(e.currentTarget));
+      // Filter toggle button
+      this.filterToggle?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.openSidebar();
       });
       
-      // Sort toggle
+      // Close button
+      this.container.querySelector('[data-filter-close]')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.closeSidebar();
+      });
+      
+      // Backdrop click to close
+      this.backdrop?.addEventListener('click', () => this.closeSidebar());
+      
+      // View items button
+      this.container.querySelector('[data-view-items]')?.addEventListener('click', () => this.closeSidebar());
+      
+      // Filter section toggles
+      this.container.querySelectorAll('[data-filter-section]').forEach(toggle => {
+        toggle.addEventListener('click', () => this.toggleFilterSection(toggle));
+      });
+      
+      // Sort functionality
       this.sortToggle?.addEventListener('click', (e) => {
         e.stopPropagation();
         this.toggleSort();
       });
       
-      // Sort options
       this.sortOptions.forEach(option => {
         option.addEventListener('click', (e) => this.handleSort(e));
       });
@@ -395,83 +340,47 @@
         filter.addEventListener('change', (e) => this.handleFilter(e));
       });
 
-      // Close sort menu when clicking outside (FIXED: Properly scoped)
-      this.documentClickHandler = (e) => {
-        // Only process if sort menu is actually open AND click is outside the section
-        const isOpen = this.sortToggle?.getAttribute('aria-expanded') === 'true';
-        if (isOpen && !this.container.contains(e.target)) {
+      // Close sort menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (this.sortToggle?.getAttribute('aria-expanded') === 'true' && 
+            !this.sortToggle.contains(e.target) && 
+            !this.sortMenu?.contains(e.target)) {
           this.closeSortMenu();
         }
-      };
-      document.addEventListener('click', this.documentClickHandler);
-    }
-    
-    destroy() {
-      // Cleanup event listeners
-      if (this.documentClickHandler) {
-        document.removeEventListener('click', this.documentClickHandler);
-      }
+      });
     }
 
     openSidebar() {
-      console.error('🔴 openSidebar() called!', {
-        filterToggle: this.filterToggle,
-        container: this.container,
-        trace: new Error().stack
-      });
+      if (this.isOpen) return;
+      this.isOpen = true;
       
-      const backdrop = this.container.querySelector('[data-filter-backdrop]');
+      this.filterPanel?.classList.remove('-translate-x-full');
+      this.filterPanel?.classList.add('translate-x-0');
+      this.filterToggle?.setAttribute('aria-expanded', 'true');
       
-      // Show sidebar
-      if (this.filterPanel) {
-        this.filterPanel.style.transform = 'translateX(0)';
-      }
-      if (this.filterToggle) {
-        this.filterToggle.setAttribute('aria-expanded', 'true');
-      }
+      this.backdrop?.classList.remove('hidden', 'opacity-0', 'invisible');
+      this.backdrop?.classList.add('opacity-100', 'visible');
+      this.backdrop?.removeAttribute('aria-hidden');
       
-      // Show backdrop
-      if (backdrop) {
-        backdrop.style.display = 'block';
-        backdrop.classList.remove('hidden', 'pointer-events-none');
-        // Small delay to allow display:block to apply before opacity transition
-        requestAnimationFrame(() => {
-          backdrop.style.opacity = '1';
-          backdrop.style.visibility = 'visible';
-          backdrop.setAttribute('aria-hidden', 'false');
-        });
-      }
-      
-      // Prevent body scroll
       document.body.style.overflow = 'hidden';
     }
 
     closeSidebar() {
-      const backdrop = this.container.querySelector('[data-filter-backdrop]');
+      if (!this.isOpen) return;
+      this.isOpen = false;
       
-      // Hide sidebar
-      if (this.filterPanel) {
-        this.filterPanel.style.transform = 'translateX(-100%)';
-      }
-      if (this.filterToggle) {
-        this.filterToggle.setAttribute('aria-expanded', 'false');
-      }
+      this.filterPanel?.classList.add('-translate-x-full');
+      this.filterPanel?.classList.remove('translate-x-0');
+      this.filterToggle?.setAttribute('aria-expanded', 'false');
       
-      // Hide backdrop
-      if (backdrop) {
-        backdrop.classList.add('pointer-events-none');
-        backdrop.style.opacity = '0';
-        backdrop.style.visibility = 'hidden';
-        backdrop.setAttribute('aria-hidden', 'true');
-        
-        // Wait for transition to finish before hiding
-        setTimeout(() => {
-          backdrop.classList.add('hidden');
-          backdrop.style.display = 'none';
-        }, 300);
-      }
+      this.backdrop?.classList.add('opacity-0', 'invisible');
+      this.backdrop?.classList.remove('opacity-100', 'visible');
+      this.backdrop?.setAttribute('aria-hidden', 'true');
       
-      // Restore body scroll
+      setTimeout(() => {
+        this.backdrop?.classList.add('hidden');
+      }, 300);
+      
       document.body.style.overflow = '';
     }
 
@@ -631,32 +540,21 @@
     }
   }
 
-  // Store instance for cleanup
-  let homepageGridInstance = null;
-  
-  const initHomepageGrid = () => {
-    const section = document.querySelector('#homepage-grid-{{ section.id }}');
-    // Only initialize if section exists and has required elements
-    if (section && !section.dataset.initialized && section.querySelector('[data-filter-toggle-isolated]')) {
-      try {
-        // Cleanup existing instance
-        if (homepageGridInstance) {
-          homepageGridInstance.destroy();
-        }
-        
-        // Create new instance
-        homepageGridInstance = new HomepageGrid_{{ section.id | replace: '-', '_' }}(section);
-        section.dataset.initialized = 'true';
-      } catch (error) {
-        console.error('Failed to initialize HomepageGrid:', error);
-      }
-    }
-  };
-
+  // Initialize on DOM ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHomepageGrid);
+    document.addEventListener('DOMContentLoaded', () => {
+      const section = document.querySelector('#homepage-grid-{{ section.id }}');
+      if (section && !section.dataset.initialized) {
+        new HomepageGrid_{{ section.id | replace: '-', '_' }}(section);
+        section.dataset.initialized = 'true';
+      }
+    });
   } else {
-    initHomepageGrid();
+    const section = document.querySelector('#homepage-grid-{{ section.id }}');
+    if (section && !section.dataset.initialized) {
+      new HomepageGrid_{{ section.id | replace: '-', '_' }}(section);
+      section.dataset.initialized = 'true';
+    }
   }
 </script>
 
