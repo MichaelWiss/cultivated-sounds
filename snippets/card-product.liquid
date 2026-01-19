@@ -3,6 +3,7 @@
   - Ported from ProductCard.tsx and updated for brutalist design
 {% endcomment %}
 
+{%- assign product = card_product | default: product -%}
 {%- assign card_style = card_style | default: 'standard' -%}
 
 {%- if card_style == 'editorial' -%}
