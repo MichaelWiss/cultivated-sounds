@@ -30,7 +30,7 @@
         {% render 'icon-search' %}
       </button>
       <button 
-          onclick="document.getElementById('cart-drawer').open()"
+          onclick="customElements.whenDefined('cart-drawer').then(() => document.getElementById('cart-drawer').open())"
           class="px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center group relative"
           id="cart-icon-bubble"
           aria-label="{{ 'sections.cart.title' | t }}"
@@ -44,7 +44,7 @@
         {%- endif -%}
       </button>
       <button 
-        onclick="document.getElementById('mobile-menu-drawer').open()"
+        onclick="customElements.whenDefined('header-drawer').then(() => document.getElementById('mobile-menu-drawer').open())"
         class="md:hidden px-4 sm:px-6 border-l border-vinyl-blue hover:bg-vinyl-blue hover:text-white transition-colors flex items-center justify-center"
         aria-label="{{ 'general.accessibility.menu' | t }}"
       >
