@@ -57,6 +57,7 @@
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'header-drawer.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'product-gallery.js' | asset_url }}" defer="defer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -75,6 +76,20 @@
       if (Shopify.designMode) {
         document.documentElement.classList.add('shopify-design-mode');
       }
+      
+      // Define routes early so deferred scripts can access them
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+      window.cartStrings = {
+        error: '{{ 'sections.cart.cart_error' | t }}',
+        quantityError: '{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}'
+      };
     </script>
   </head>
 
@@ -99,23 +114,6 @@
       <li id="a11y-refresh-page-message">{{ 'general.accessibility.refresh_page' | t }}</li>
       <li id="a11y-new-window-message">{{ 'general.accessibility.link_messages.new_window' | t }}</li>
     </ul>
-
-    <script>
-      window.shopUrl = '{{ request.origin }}';
-      window.routes = {
-        cart_add_url: '{{ routes.cart_add_url }}',
-        cart_change_url: '{{ routes.cart_change_url }}',
-        cart_update_url: '{{ routes.cart_update_url }}',
-        cart_url: '{{ routes.cart_url }}',
-        predictive_search_url: '{{ routes.predictive_search_url }}'
-      };
-
-      window.cartStrings = {
-        error: '{{ 'sections.cart.cart_error' | t }}',
-        quantityError: '{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}'
-      };
-    </script>
-
 
   </body>
 </html>
