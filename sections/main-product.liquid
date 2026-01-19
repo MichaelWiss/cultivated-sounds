@@ -195,27 +195,74 @@
                   </div>
 
                 {%- when 'tracklist' -%}
+                  {%- comment -%}
+                    Tracklist Block
+                    Supports two data sources:
+                    1. Product metafield: product.metafields.custom.tracklist (JSON array)
+                       Format: [{"title": "Track Name", "duration": "3:45", "side": "A", "preview_url": "https://..."}, ...]
+                    2. Fallback: Placeholder tracks for demo purposes
+                  {%- endcomment -%}
+                  
+                  {%- assign tracklist_json = product.metafields.custom.tracklist.value -%}
+                  {%- assign has_tracklist = false -%}
+                  {%- if tracklist_json != blank and tracklist_json.size > 0 -%}
+                    {%- assign has_tracklist = true -%}
+                    {%- assign tracklist = tracklist_json -%}
+                  {%- endif -%}
+                  
                   <div class="pdp-animate-up" data-audio-player-container {{ block.shopify_attributes }}>
                        <div class="flex justify-between items-end border-b border-vinyl-blue pb-2 mb-4">
                            <h3 class="font-serif text-2xl italic text-vinyl-blue">Tracklist</h3>
-                           <span class="font-mono text-[10px] uppercase text-gray-500">8 Tracks</span>
+                           {%- if has_tracklist -%}
+                             <span class="font-mono text-[10px] uppercase text-gray-500">{{ tracklist.size }} Tracks</span>
+                           {%- else -%}
+                             <span class="font-mono text-[10px] uppercase text-gray-500">8 Tracks</span>
+                           {%- endif -%}
                        </div>
                        <ul class="flex flex-col">
-                           {%- assign track_letters = "A,A,A,B,B,C,C,D" | split: ',' -%}
-                           {% for i in (1..8) %}
-                               {%- assign letter = track_letters[forloop.index0] -%}
+                           {%- if has_tracklist -%}
+                             {%- for track in tracklist -%}
                                <li 
                                   class="group flex justify-between items-center py-3 border-b border-gray-200 hover:pl-2 transition-all cursor-pointer hover:bg-white"
                                   data-track-index="{{ forloop.index0 }}"
+                                  {% if track.preview_url %}data-audio-src="{{ track.preview_url }}"{% endif %}
                                >
                                    <div class="flex items-center gap-4">
-                                       <span class="font-mono text-xs text-gray-400 w-6 flex justify-center">{{ letter }}{{ forloop.index | minus: track_letters | at_most: 3 | plus: 1 }}</span>
-                                       <span class="font-sans text-sm group-hover:text-vinyl-blue transition-colors">Track Name {{ forloop.index }}</span>
+                                       {%- if track.preview_url -%}
+                                         <button class="w-6 h-6 flex items-center justify-center text-vinyl-blue hover:scale-110 transition-transform" aria-label="Play {{ track.title }}">
+                                           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                         </button>
+                                       {%- else -%}
+                                         <span class="font-mono text-xs text-gray-400 w-6 flex justify-center">{{ track.side | default: forloop.index }}</span>
+                                       {%- endif -%}
+                                       <span class="font-sans text-sm group-hover:text-vinyl-blue transition-colors">{{ track.title }}</span>
                                    </div>
-                                   <span class="font-mono text-xs text-gray-400">{{ forloop.index | times: 37 | divided_by: 10 }}:{{ forloop.index | times: 13 | modulo: 60 | prepend: '00' | slice: -2, 2 }}</span>
+                                   <span class="font-mono text-xs text-gray-400">{{ track.duration | default: '--:--' }}</span>
                                </li>
-                           {% endfor %}
+                             {%- endfor -%}
+                           {%- else -%}
+                             {%- comment -%} Placeholder tracks for demo {%- endcomment -%}
+                             {%- assign demo_tracks = "Side A - Track 1,Side A - Track 2,Side A - Track 3,Side B - Track 1,Side B - Track 2,Side B - Track 3,Side C - Track 1,Side C - Track 2" | split: ',' -%}
+                             {%- for track_name in demo_tracks -%}
+                               <li 
+                                  class="group flex justify-between items-center py-3 border-b border-gray-200 transition-all"
+                                  data-track-index="{{ forloop.index0 }}"
+                               >
+                                   <div class="flex items-center gap-4">
+                                       <span class="font-mono text-xs text-gray-400 w-6 flex justify-center">{{ forloop.index }}</span>
+                                       <span class="font-sans text-sm text-gray-500">{{ track_name }}</span>
+                                   </div>
+                                   <span class="font-mono text-xs text-gray-300">--:--</span>
+                               </li>
+                             {%- endfor -%}
+                           {%- endif -%}
                        </ul>
+                       
+                       {%- unless has_tracklist -%}
+                         <p class="font-mono text-[10px] text-gray-400 uppercase tracking-wide mt-4 text-center">
+                           Tracklist data not available for this product
+                         </p>
+                       {%- endunless -%}
                   </div>
 
                 {%- when 'upsell' -%}
