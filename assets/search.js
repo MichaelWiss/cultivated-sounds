@@ -42,6 +42,9 @@ class SearchModal {
   }
 
   open() {
+    this.modal.classList.remove('invisible', 'pointer-events-none');
+    // Force reflow
+    void this.modal.offsetWidth;
     this.modal.classList.add('is-open');
     this.modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('overflow-hidden');
@@ -54,6 +57,11 @@ class SearchModal {
     this.modal.classList.remove('is-open');
     this.modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('overflow-hidden');
+    
+    // Wait for transition to finish
+    setTimeout(() => {
+        this.modal.classList.add('invisible', 'pointer-events-none');
+    }, 500);
   }
 
   performSearch() {
